@@ -1,0 +1,49 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import "@angular/material/prebuilt-themes/deeppurple-amber.css";
+
+.img-header {
+  width: 40%;
+  max-width: 1366px;
+  height: 100%;
+}
+
+a {
+  font: 14px sans-serif;
+}
+p {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+h1 {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+h2 {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+h3 {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.title-login{
+  background-color: blueviolet;
+  text-align: center;
+  color: white;
+}
+
+.toast-success {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.toast-warning {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.toast-error {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+.toast-info {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+.mat-form-field {
+  font-size: 14px;
+}

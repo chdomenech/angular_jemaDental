@@ -1,0 +1,87 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span>Editar Cita Medica</span>
+  </mat-toolbar-row>
+</mat-toolbar>
+<br>
+<br>
+<div class="form-container" style="text-align: center">
+  <form [formGroup]="CitaMform" (ngSubmit)="guardarCitaMedica(CitaMform.value)">
+    <input type="hidden" formControlName="id">
+    <mat-form-field class="select">
+      <input type="text" placeholder="Cedula Pacientes" formControlName="cipaciente" aria-label="Pacientes" matInput
+        [matAutocomplete]="auto" (keydown)="check($event)">
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+        <mat-option *ngFor="let paciente of filteredOptions | async" [value]="paciente">
+          {{paciente['cedula']}}
+        </mat-option>
+      </mat-autocomplete>
+    <mat-error *ngIf="CitaMform.invalid" >{{getErrorMessageP()}}</mat-error>
+    </mat-form-field>
+    <br>
+    <mat-form-field class="inputData">
+      <input matInput formControlName="namepaciente" placeholder="Nombre del Paciente" class="form-control" readonly>
+    </mat-form-field>
+    &nbsp;
+    &nbsp;
+    <mat-form-field class="inputData">
+      <input matInput formControlName="seguro" placeholder="Seguro del Paciente" class="form-control" readonly>
+    </mat-form-field>
+    <br>
+    <mat-form-field class="select">
+      <mat-select formControlName="especialidad" placeholder="especialidad" (ngModelChange)="especialidad($event)">
+        <mat-option>Seleccione Especialidad</mat-option>
+        <mat-option *ngFor="let especialidad of espeService.arrayEspe" value="{{especialidad.nombre}}">
+          {{especialidad.nombre}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="CitaMform.invalid" >{{getErrorMessageE()}}</mat-error>
+    </mat-form-field>
+    &nbsp;
+    &nbsp;
+    <mat-form-field class="select">
+      <mat-select formControlName="odontologo" placeholder="odontologo" (ngModelChange)="filterhoursbyOdonto($event)">
+        <mat-option>Seleccione el odontologo</mat-option>
+        <mat-option *ngFor="let odontologo of odontEspecialidad" [value]="odontologo">
+          {{odontologo.nombre}}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="CitaMform.invalid" >{{getErrorMessageO()}}</mat-error>
+    </mat-form-field>
+    <br>
+    <mat-form-field class="select">
+      <input matInput [matDatepicker]="picker" [min]="minDate" formControlName="fecha" placeholder="Seleccione la fecha"
+        (ngModelChange)="selectFecha($event)">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="CitaMform.invalid" >{{getErrorMessageF()}}</mat-error>
+    </mat-form-field>
+    &nbsp;
+    &nbsp;
+    <mat-form-field class="select">
+      <mat-select formControlName="hora" placeholder="Seleccione la hora">
+        <mat-option *ngFor="let hora of horariobyOdontologoList" value="{{hora}}">
+          {{hora}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="CitaMform.invalid" >{{getErrorMessageH()}}</mat-error>
+    </mat-form-field>
+    <br>
+    <mat-form-field class="select">
+      <mat-select formControlName="estado" placeholder="Seleccione el estado de la cita">
+        <mat-option>Seleccione el estado de la cita</mat-option>
+        <mat-option value="aprobada"> Agendada</mat-option>
+        <mat-option value="confirmada"> Confirmada</mat-option>
+        <mat-option value="asistió">Asistió</mat-option>
+        <mat-option value="no asistió">No asistió</mat-option>
+        <mat-option value="pendiente"> Pendiente</mat-option>
+        <mat-option value="cancelada">Cancelada</mat-option>
+      </mat-select>
+      <mat-error *ngIf="CitaMform.invalid" >{{getErrorMessageEst()}}</mat-error>
+    </mat-form-field>
+    <div mat-dialog-actions>
+      <button mat-raised-button color="primary" type="submit" [disabled]="CitaMform.invalid">Guardar</button>&nbsp;
+      <button mat-raised-button color="primary" type="button" (click)="close()">Cancelar</button>
+    </div>
+  </form>
+</div>
+

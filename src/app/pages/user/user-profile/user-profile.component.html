@@ -1,0 +1,94 @@
+
+<mat-grid-list cols=3 rowHeight="10px">
+  <mat-grid-tile colspan=1 rowspan=40>
+    <img src="{{user.imagen}}" class="img-profile">
+  </mat-grid-tile>
+  <mat-grid-tile colspan=1 rowspan=45>
+    <mat-card>
+      <div>
+        <h2>Datos Personales</h2>
+        <mat-form-field class="inputWidth">
+          <input readonly matInput placeholder="Nombres y Apellidos" value="{{user.nombre}}">
+          <br>
+        </mat-form-field>
+        <br>
+        <mat-form-field class="inputWidth">
+          <input readonly matInput placeholder="Cédula" value="{{user.cedula}}">
+        </mat-form-field>
+        <br>
+        <mat-form-field class="inputWidth">
+          <input readonly matInput placeholder="Número de teléfono" value="{{user.telefono}}">
+        </mat-form-field>
+        <br>
+        <mat-form-field class="inputWidth">
+          <input readonly matInput placeholder="Correo electrónico" value="{{user.email}}">
+        </mat-form-field>
+        <mat-card-actions>
+          <button mat-raised-button color="primary" (click)="onEdit(user)">Editar Información</button>
+        </mat-card-actions>
+      </div>
+    </mat-card>
+  </mat-grid-tile>
+  <mat-grid-tile colspan="1" rowspan="34">
+    <mat-card>
+      <form [formGroup]="emailForm">
+        <div>
+          <h3>Cambiar Correo</h3>
+          <mat-form-field class="inputWidth">
+            <input matInput placeholder="Nuevo Correo" name="email" formControlName="email">
+            <mat-error *ngIf="this.emailForm.invalid">{{msgValidateEmail()}}</mat-error>
+          </mat-form-field>
+          <br>
+          <mat-form-field class="inputWidth">
+            <input matInput placeholder="Contraseña Actual" [type]="hideE ? 'text' : 'password'" name="passActE"
+              id="passActE" name="passActE" formControlName="passActE">
+            <button mat-icon-button matSuffix (click)="hideE = !hideE" [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="hideE" type="button">
+              <mat-icon>{{hideE ? 'visibility' : 'visibility_off'}}</mat-icon>
+            </button>
+            <mat-error *ngIf="this.emailForm.invalid">{{msgValidatePassE()}}</mat-error>
+          </mat-form-field>
+          <mat-card-actions>
+            <button mat-raised-button class="btnGuardar" type="button" (click)="updateEmail()"
+            [disabled] ="this.emailForm.invalid">Cambiar
+              Correo</button>
+          </mat-card-actions>
+        </div>
+      </form>
+    </mat-card>
+  </mat-grid-tile>
+  <mat-grid-tile colspan="1" rowspan="30">
+    <mat-card>
+      <form [formGroup]="passwordForm">
+        <div>
+          <h3>Cambiar Contraseña</h3>
+          <mat-form-field class="inputWidth">
+            <input matInput placeholder="Contraseña Actual" [type]="hidePa ? 'text' : 'password'" name="passActP" id="passActP" name="passActP"
+              formControlName="passActP">
+              <button mat-icon-button matSuffix (click)="hidePa = !hidePa" [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="hidePa" type="button">
+              <mat-icon>{{hidePa ? 'visibility' : 'visibility_off'}}</mat-icon>
+            </button>
+          <mat-error *ngIf="passwordForm.invalid">{{msgValidatePass()}}</mat-error>
+          </mat-form-field>
+          <br>
+          <mat-form-field class="inputWidth">
+            <input matInput placeholder="Nueva Contraseña" [type]="hidePn ? 'text' : 'password'" name="newPass"
+              formControlName="newPass">
+            <button mat-icon-button matSuffix (click)="hidePn = !hidePn" [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="hidePn" type="button">
+              <mat-icon>{{hidePn ? 'visibility' : 'visibility_off'}}</mat-icon>
+            </button>
+            <mat-error *ngIf="passwordForm.invalid">{{msgValidateNewPass()}}</mat-error>
+          </mat-form-field>
+          <mat-card-actions>
+            <button mat-raised-button class="btnGuardar" type="button" (click)="updatePass()"
+            [disabled] ="this.passwordForm.invalid">Cambiar
+              Contraseña</button>
+          </mat-card-actions>
+        </div>
+      </form>
+    </mat-card>
+  </mat-grid-tile>
+</mat-grid-list>
+

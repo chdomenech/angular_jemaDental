@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <div class="img-inicio">
+    <img src="./assets/logo.jpeg" class="img-header">
+  </div>
+  <mat-toolbar color="primary">
+    <span>INICIAR SESION</span>
+  </mat-toolbar>
+  <br>
+  <br>
+  <mat-card class="matcarlog">
+    <div class="login-div">
+      <form ovalidate [formGroup]="inicioSesionForm" (ngSubmit)="onLogin()">
+        <br>
+        <br>
+        <mat-form-field>
+          <input formControlName="cedula" id ='cedula'type="tel" matInput placeholder="Cédula" maxlength="10"
+            (keydown)="check($event)">
+          <mat-icon matSuffix color>person</mat-icon>
+          <br>
+          <mat-error *ngIf="inicioSesionForm.invalid">{{msgValidateCedula()}}</mat-error>
+        </mat-form-field>
+        <br>
+        <br>
+        <mat-form-field>
+          <input formControlName="password" id='password' [type]="hide ? 'text' : 'password'" matInput
+            placeholder="Contraseña">
+          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide" type="button">
+            <mat-icon>{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+          </button>
+          <mat-error *ngIf="inicioSesionForm.invalid">{{msgValidatePass()}}</mat-error>
+        </mat-form-field>
+        <br>
+        <br>
+        <br>
+        <button type="submit" mat-raised-button color="primary">Iniciar Sesión</button>
+        <br>
+        <br>
+        <br>
+        <br>
+        <a routerLink="/restablecerPass">¿ Olvidaste la contraseña ? </a>
+        <br>
+      </form>
+    </div>
+  </mat-card>
+</body>
+
+</html>
+

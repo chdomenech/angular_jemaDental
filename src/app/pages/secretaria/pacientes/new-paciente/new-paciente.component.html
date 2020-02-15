@@ -1,0 +1,67 @@
+<div>
+  <mat-toolbar color="primary">
+    <mat-toolbar-row>
+      <span>Nuevo Paciente</span>
+    </mat-toolbar-row>
+  </mat-toolbar>
+</div>
+<div class="form-container" style="text-align: center">
+  <form [formGroup]="pacienteForm" (ngSubmit)="savePaciente(pacienteForm.value)">
+    <input type="hidden" formControlName="id">
+    <div class="avatar-upload">
+      <div class="avatar-preview">
+        <div id="imagePreview" [style.backgroundImage]="'url('+ imageUrl +')'">
+        </div>
+      </div>
+    </div>
+    <mat-grid-list cols="2" rowHeight="65">
+      <mat-grid-tile>
+        <mat-form-field>
+          <mat-label>Seguro</mat-label>
+          <mat-select formControlName="seguro">
+            <mat-option>--</mat-option>
+            <mat-option *ngFor="let seguro of segService.arraySeguros" value="{{seguro.nombre}}">
+              {{seguro.nombre | titlecase}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="pacienteForm.get('seguro').hasError('required')">Seleccione el seguro del paciente</mat-error>
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-form-field class="inputData">
+          <input matInput formControlName="hClinica" placeholder="N° Historia Clinica"
+            onkeyup="this.value=this.value.toUpperCase().trim()">
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-form-field class="inputData">
+          <input matInput formControlName="nombre" placeholder="Nombres y Apellidos">
+          <mat-error *ngIf="pacienteForm.invalid">{{getErrorMessageN()}}</mat-error>
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-form-field class="inputData">
+          <input matInput formControlName="cedula" placeholder="Número de cédula" maxlength="10"
+            (keydown)="check($event)">
+          <mat-error *ngIf="pacienteForm.invalid">{{getErrorMessageC()}}</mat-error>
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-form-field class="inputData">
+          <input matInput formControlName="telefono" placeholder="Teléfono" maxlength="10" (keydown)="check($event)">
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-form-field class="inputData">
+          <input matInput formControlName="email" placeholder="Email">
+          <mat-error *ngIf="pacienteForm.invalid">{{getErrorMessageE()}}</mat-error>
+        </mat-form-field>
+      </mat-grid-tile>
+    </mat-grid-list>
+    <br>
+    <div style="text-align: center;">
+      <button mat-raised-button color="primary" type="submit" [disabled]="pacienteForm.invalid">Guardar</button>&nbsp;
+      <button mat-raised-button color="primary" type="button" (click)="close()">Cancelar</button>
+    </div>
+  </form>
+</div>

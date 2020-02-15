@@ -1,0 +1,39 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span>Editar Perfil</span>
+  </mat-toolbar-row>
+</mat-toolbar>
+<br>
+<div class="form-container">
+  <form [formGroup]="editBasicInfForm" (ngSubmit)="editProfile(editBasicInfForm.value)">
+    <div class="avatar-upload">
+      <div class="avatar-edit">
+        <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" #fileInput (change)="uploadFile($event)" />
+      </div>
+      <div class="avatar-preview">
+        <div id="imagePreview" [style.backgroundImage]="'url('+ imageUrl +')'">
+        </div>
+      </div>
+    </div>
+    <button mat-raised-button color="primary" color="basic" type="button" (click)="fileInput.click()">Seleccionar
+      Imagen</button>
+    <br>
+    <br>
+    <mat-form-field class="inputWidth">
+      <input matInput placeholder="Nombres y Apellidos" formControlName="nombre" required>
+      <mat-error *ngIf="editBasicInfForm.invalid">{{msgValidateNombre()}}</mat-error>
+    </mat-form-field>
+    <mat-form-field class="inputWidth">
+      <input matInput placeholder="Cédula" formControlName="cedula" readonly>
+    </mat-form-field>
+    <mat-form-field class="inputWidth">
+      <input matInput placeholder="Número de teléfono" formControlName="telefono" maxlength="10"
+        (keydown)="check($event)">
+    </mat-form-field>
+    <div mat-dialog-actions>
+      <button mat-raised-button color="primary" [disabled]="this.editBasicInfForm.invalid"
+        type="submit">Guardar</button>
+      <button mat-raised-button color="basic" type="button" (click)="close()">Cancelar</button>
+    </div>
+  </form>
+</div>

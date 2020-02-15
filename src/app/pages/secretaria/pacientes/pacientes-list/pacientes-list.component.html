@@ -1,0 +1,69 @@
+<html>
+<body>
+  <br>
+  <button mat-raised-button color="primary" (click)="onNew()">
+    <mat-icon>note_add</mat-icon>
+    Registrar Paciente
+  </button>
+  <br>
+  <div style="text-align: center;">
+    <mat-form-field style="width: 50%;">
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Busqueda del Paciente">
+    </mat-form-field>
+    <i class="material-icons">search</i>
+  </div>
+  <br>
+  <br>
+  <div class="table-conten">
+    <div class="table-container mat-elevation-z8">
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <ng-container matColumnDef="numero">
+          <th mat-header-cell *matHeaderCellDef> No. </th>
+          <td mat-cell *matCellDef="let element; index as i"> {{i+1}} </td>
+        </ng-container>
+        <ng-container matColumnDef="hClinica">
+          <th mat-header-cell *matHeaderCellDef> Historia Clinica </th>
+          <td mat-cell *matCellDef="let element"> {{element.hClinica}} </td>
+        </ng-container>
+        <ng-container matColumnDef="cedula">
+          <th mat-header-cell *matHeaderCellDef> Cédula </th>
+          <td mat-cell *matCellDef="let element"> {{element.cedula}} </td>
+        </ng-container>
+        <ng-container matColumnDef="nombre">
+          <th mat-header-cell *matHeaderCellDef> Nombres y Apellidos </th>
+          <td mat-cell *matCellDef="let element"> {{element.nombre | titlecase}} </td>
+        </ng-container>
+        <ng-container matColumnDef="telefono">
+          <th mat-header-cell *matHeaderCellDef> Teléfono </th>
+          <td mat-cell *matCellDef="let element"> {{element.telefono}} </td>
+        </ng-container>
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef> Email </th>
+          <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+        </ng-container>
+        <ng-container matColumnDef="seguro">
+          <th mat-header-cell *matHeaderCellDef> Seguro </th>
+          <td mat-cell *matCellDef="let element"> {{element.seguro}} </td>
+        </ng-container>
+        <ng-container matColumnDef="accion">
+          <th mat-header-cell *matHeaderCellDef> Accion </th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-flat-button class="button-edit" color="primary" (click)="onEdit(element)">
+              Editar
+              <mat-icon>edit</mat-icon>
+            </button>&nbsp;
+            <button mat-flat-button class="button-delete" (click)="onDelete(element)">
+              Borrar
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+    </div>
+  </div>
+</body>
+
+</html>

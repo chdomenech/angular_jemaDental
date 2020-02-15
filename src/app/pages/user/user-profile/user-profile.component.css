@@ -1,0 +1,20 @@
+.img-profile{
+  width:200px;
+  height:200px;
+  border-radius:150px;
+}
+
+.inputWidth{
+  width: 60%;
+  text-align: center;
+}
+
+.btnGuardar.mat-raised-button{
+  background-color: #C2185B!important;
+  color: white;
+}
+
+div{
+  text-align: center;
+  width: 350px;
+}

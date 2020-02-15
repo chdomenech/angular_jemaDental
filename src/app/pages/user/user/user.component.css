@@ -1,0 +1,9 @@
+.spacer{
+  flex: 1 1 auto;
+}
+.img-inicio{
+  text-align: center;
+}
+mat-sidenav-container{
+  height: 100;
+}

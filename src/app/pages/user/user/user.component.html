@@ -1,0 +1,37 @@
+<div class="img-inicio">
+  <img src="../../../assets/logo.jpeg" class="img-header">
+</div>
+<mat-toolbar color="Primary-grey">
+  <div *ngIf="this.isAdmin == true">
+    <a mat-button routerLink="/perfil" routerLinkActive="active">
+      <mat-icon>account_circle</mat-icon>Perfil Administrador
+    </a>
+  </div>
+
+  <div *ngIf="this.isSecret == true">
+    <a mat-button routerLink="/perfil" routerLinkActive="active">
+      <mat-icon>account_circle</mat-icon>Perfil Secretaria
+    </a>
+  </div>
+
+  <div class="spacer"></div>
+
+  <div>
+    <a mat-button (click)="onLogout()">Cerrar Sesión</a>
+  </div>
+
+</mat-toolbar>
+<mat-toolbar color="primary">
+  <div *ngIf="this.isAdmin == true">
+    <a mat-button routerLink="/odontologos" routerLinkActive="active">Odontológos</a>
+    <a mat-button routerLink="/especialidades" routerLinkActive="active">Especialidades</a>
+    <a mat-button routerLink="/seguros" routerLinkActive="active">Seguros</a>
+    <a mat-button routerLink="/reportes" routerLinkActive="active">Reportes</a>
+  </div>
+  <div *ngIf="this.isSecret == true">
+    <a mat-button routerLink="/pacientes" routerLinkActive="active">Pacientes</a>
+    <a mat-button routerLink="/citas" routerLinkActive="active">Citas Medicas</a>
+    <a mat-button routerLink="/pagos" routerLinkActive="active">Pagos</a>
+    <a mat-button routerLink="/solicitudes" routerLinkActive="active">Solicitudes</a>
+  </div>
+</mat-toolbar>

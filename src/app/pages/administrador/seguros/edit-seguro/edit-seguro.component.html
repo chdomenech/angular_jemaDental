@@ -1,0 +1,22 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span>Editar Seguro</span>
+  </mat-toolbar-row>
+</mat-toolbar>
+<br>
+<div class="form-container">
+  <form [formGroup]="seguroForm" (ngSubmit)="onSaveSeguro(seguroForm.value)">
+
+    <input type="hidden" formControlName="id">
+
+    <mat-form-field class="inputWidth">
+      <input matInput formControlName="nombre" placeholder="Nombre del Seguro">
+      <mat-error *ngIf="seguroForm.invalid">{{msgValidateNombre()}}</mat-error>
+    </mat-form-field>
+
+    <div mat-dialog-actions>
+      <button mat-raised-button color="primary" type="submit" [disabled]="seguroForm.invalid">Guardar</button>&nbsp;
+      <button mat-raised-button color="primary" type="button" (click)="close()">Cancelar</button>
+    </div>
+  </form>
+</div>

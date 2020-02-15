@@ -1,0 +1,40 @@
+<app-user></app-user>
+
+<ng-container *ngIf="mostrarComponente && nombreComponent=='Seguros'">
+    <app-seguros-list></app-seguros-list>
+</ng-container>
+
+<ng-container *ngIf="mostrarComponente && nombreComponent=='Especialidades'">
+    <app-especialidades-list></app-especialidades-list>
+</ng-container>
+
+<ng-container *ngIf="mostrarComponente && nombreComponent=='Odontologos'">
+    <app-odontologos-list></app-odontologos-list>
+</ng-container>
+
+<ng-container *ngIf="mostrarComponente && nombreComponent=='Reportes'">
+    <app-reportes></app-reportes>
+</ng-container>
+
+<ng-container *ngIf="mostrarComponente && nombreComponent=='Pacientes'">
+    <app-pacientes-list></app-pacientes-list>
+</ng-container>
+
+<ng-container *ngIf="mostrarComponente && nombreComponent=='CitaMedica'">
+    <app-citas-list></app-citas-list>
+</ng-container>
+
+<ng-container *ngIf="mostrarComponente && nombreComponent=='Pagos'">
+    <app-pagos-list></app-pagos-list>
+</ng-container>
+
+<ng-container *ngIf="mostrarComponente && nombreComponent=='Solicitudes'">
+    <app-solicitudes-list></app-solicitudes-list>
+</ng-container>
+
+<ng-container *ngIf="mostrarComponente && nombreComponent=='perfil'">
+   <app-user-profile></app-user-profile>
+</ng-container>
+
+
+

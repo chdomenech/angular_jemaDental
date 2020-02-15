@@ -1,0 +1,32 @@
+table {
+  width: 100%;
+}
+
+.mat-form-field {
+  width: 80%;
+}
+
+.table-container {
+  width: 100%;
+}
+
+.button-delete {
+  background-color: #ec407a;
+  color: white;
+}
+
+.button-edit {
+  background-color: #9c27b0;
+  color: white;
+}
+
+.mat-elevation-z8 {
+  align-items: center;
+}
+
+.mat-header-cell {
+  text-align: center;
+}
+.mat-cell {
+  text-align: center;
+}

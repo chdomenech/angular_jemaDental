@@ -1,0 +1,38 @@
+table {
+  width: 100%;
+}
+
+.table-container {
+  width: 80%;
+}
+
+.table-content {
+  padding-left: 15%;
+}
+
+.button-new {
+  align-items: center;
+  padding-left: 15%;
+}
+
+.button-delete {
+  background-color: #ec407a;
+  color: white;
+}
+
+.button-edit {
+  background-color: #9c27b0;
+  color: white;
+}
+
+.mat-elevation-z8 {
+  align-items: center;
+}
+
+.mat-header-cell {
+  text-align: center;
+}
+
+.mat-cell {
+  text-align: center;
+}

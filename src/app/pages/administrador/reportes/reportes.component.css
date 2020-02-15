@@ -1,0 +1,30 @@
+
+  table {
+    width: 100%;
+  }
+
+  .table-container {
+    width: 100%;
+  }
+
+  .button-new{
+    align-items: center;
+    padding-left: 15%;
+  }
+
+
+  .button-download{
+    background-color:#EC407A;
+    color: white;
+  }
+
+.mat-elevation-z8{
+  align-items: center;
+}
+
+.mat-header-cell {
+    text-align: center;
+}
+.mat-cell {
+  text-align: center;
+}
