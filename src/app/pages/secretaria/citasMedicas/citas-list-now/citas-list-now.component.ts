@@ -1,5 +1,4 @@
 import { EspecialidadService } from './../../../../services/especialidad/especialidad.service';
-import { NewCitaComponent } from './../new-cita/new-cita.component';
 import { OdontologoService } from './../../../../services/odontologo/odontologo.service';
 import { CitaService } from './../../../../services/cita/cita.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
@@ -10,18 +9,18 @@ import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth/auth.service';
 
-@Component({
-  selector: 'app-citas-list',
-  templateUrl: './citas-list.component.html',
-  styleUrls: ['./citas-list.component.css']
-})
-export class CitasListComponent implements OnInit {
 
+@Component({
+  selector: 'app-citas-list-now',
+  templateUrl: './citas-list-now.component.html',
+  styleUrls: ['./citas-list-now.component.css']
+})
+export class CitasListNowComponent implements OnInit {
   myDate = Date.now();
 
   dentistList: any[] = [];
   fecha: any;
-  displayedColumns: string[] = ['fecha', 'hora', 'cipaciente', 'namepaciente' , 'nameodontologo', 'seguro', 'estado', 'accion'];
+  displayedColumns: string[] = ['fecha', 'hora', 'cipaciente', 'namepaciente' , 'nameodontologo',  'seguro', 'estado', 'accion'];
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
@@ -38,7 +37,7 @@ export class CitasListComponent implements OnInit {
 
   ngOnInit() {
 
-    this.citaMService.getAllCitasMedicasNotNow().subscribe(citaMedica => {
+    this.citaMService.getAllCitasMedicasNow().subscribe(citaMedica => {
       this.dataSource.data = citaMedica;
       const tam = Object.keys(this.dataSource.data).length;
       for (let i = 0; i< tam; i++){
@@ -63,31 +62,15 @@ export class CitasListComponent implements OnInit {
     });
   }
 
-  onNew() {
-    this.openDialogNew();
-  }
-
-  onEdit(element) {
+   onEdit(element) {
     this.openDialogEdit();
     if (element) {
        this.citaMService.selectCitaM = Object.assign({}, element);
      }
   }
-
-  openDialogNew(): void {
-    this.dialog.open(NewCitaComponent);
-  }
-
   openDialogEdit(): void {
     this.dialog.open(EditCitaComponent);
   }
-
-  onDelete(element) {
-    const confirmacion = confirm('¿Estas seguro de eliminar la cita medica?');
-    if (confirmacion) {
-      this.citaMService.deleteCitaM(element);
-      this.toastr.success('Cita médica eliminada exitosamente', 'MENSAJE');
-    }
-  }
-
 }
+
+

@@ -1,27 +1,27 @@
-import { EspecialidadService } from './../../../../services/especialidad/especialidad.service';
-import { NewCitaComponent } from './../new-cita/new-cita.component';
-import { OdontologoService } from './../../../../services/odontologo/odontologo.service';
-import { CitaService } from './../../../../services/cita/cita.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { TratamientoService } from './../../../../services/tratamiento/tratamiento.service';
 import { MatTableDataSource, MatPaginator, MatDialog } from '@angular/material';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { EditCitaComponent } from '../edit-cita/edit-cita.component';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { NewTratamientoComponent } from './../new-tratamiento/new-tratamiento.component';
+import { EditTratamientoComponent } from './../edit-tratamiento/edit-tratamiento.component';
+
 
 @Component({
-  selector: 'app-citas-list',
-  templateUrl: './citas-list.component.html',
-  styleUrls: ['./citas-list.component.css']
+  selector: 'app-tratamientos-list',
+  templateUrl: './tratamientos-list.component.html',
+  styleUrls: ['./tratamientos-list.component.css']
 })
-export class CitasListComponent implements OnInit {
+export class TratamientosListComponent implements OnInit {
 
   myDate = Date.now();
 
   dentistList: any[] = [];
   fecha: any;
-  displayedColumns: string[] = ['fecha', 'hora', 'cipaciente', 'namepaciente' , 'nameodontologo', 'seguro', 'estado', 'accion'];
+  displayedColumns: string[] = ['fecha', 'cipaciente', 'namepaciente' , 'seguro', 'especialidad',
+  'odontologo','tratamiento','precio','observacion', 'accion'];
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
@@ -29,38 +29,27 @@ export class CitasListComponent implements OnInit {
     public router: Router,
     public authService: AuthService,
     private toastr: ToastrService,
-    private citaMService: CitaService,
-    public odontService: OdontologoService,
-    public espeService: EspecialidadService,
+    private tratamientoMService: TratamientoService,
     private dialog: MatDialog,
     private readonly afs: AngularFirestore
   ) { }
 
   ngOnInit() {
 
-    this.citaMService.getAllCitasMedicasNotNow().subscribe(citaMedica => {
-      this.dataSource.data = citaMedica;
+    this.tratamientoMService.getAllTratamientosMedicos().subscribe(tratamientoMedico => {
+      this.dataSource.data = tratamientoMedico;
       const tam = Object.keys(this.dataSource.data).length;
       for (let i = 0; i< tam; i++){
         const element = this.dataSource.data[i];
         this.fecha = new Date(element['fecha']);
-        this.dataSource.data[i]['fecha'] = this.citaMService.formtDate(this.fecha);
+        this.dataSource.data[i]['fecha'] = this.tratamientoMService.formtDate(this.fecha);
       }
     });
     this.dataSource.paginator = this.paginator;
-    this.getDentistList();
   }
 
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
-
-  getDentistList() {
-    this.odontService.getAllOdontologos().subscribe(rest => {
-      this.dentistList = rest;
-    }, error => {
-      throw error;
-    });
   }
 
   onNew() {
@@ -70,22 +59,22 @@ export class CitasListComponent implements OnInit {
   onEdit(element) {
     this.openDialogEdit();
     if (element) {
-       this.citaMService.selectCitaM = Object.assign({}, element);
+      // this.tratamientoMService.selectCitaM = Object.assign({}, element);
      }
   }
 
   openDialogNew(): void {
-    this.dialog.open(NewCitaComponent);
+    this.dialog.open(NewTratamientoComponent);
   }
 
   openDialogEdit(): void {
-    this.dialog.open(EditCitaComponent);
+   this.dialog.open(EditTratamientoComponent);
   }
 
   onDelete(element) {
     const confirmacion = confirm('¿Estas seguro de eliminar la cita medica?');
     if (confirmacion) {
-      this.citaMService.deleteCitaM(element);
+      //this.tratamientoMService.deleteCitaM(element);
       this.toastr.success('Cita médica eliminada exitosamente', 'MENSAJE');
     }
   }

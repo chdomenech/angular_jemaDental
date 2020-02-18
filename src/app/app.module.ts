@@ -45,6 +45,10 @@ import { SolicitudesListComponent } from './pages/secretaria/solicitudes/solicit
 import { PaginatorEspañol } from './paginator-español';
 import { ValidarPerfilComponent } from './pages/inicio/validar-perfil/validar-perfil.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { CitasListNowComponent } from './pages/secretaria/citasMedicas/citas-list-now/citas-list-now.component';
+import { TratamientosListComponent } from './pages/secretaria/tratamientos/tratamientos-list/tratamientos-list.component';
+import { NewTratamientoComponent } from './pages/secretaria/tratamientos/new-tratamiento/new-tratamiento.component';
+import { EditTratamientoComponent } from './pages/secretaria/tratamientos/edit-tratamiento/edit-tratamiento.component';
 
 @NgModule({
   declarations: [
@@ -76,6 +80,10 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     NewCitaComponent,
     SolicitudesListComponent,
     ValidarPerfilComponent,
+    CitasListNowComponent,
+    TratamientosListComponent,
+    NewTratamientoComponent,
+    EditTratamientoComponent,
   ],
   imports: [
     BrowserModule,

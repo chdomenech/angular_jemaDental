@@ -24,6 +24,14 @@
     <app-citas-list></app-citas-list>
 </ng-container>
 
+<ng-container *ngIf="mostrarComponente && nombreComponent=='CitasMedicasRegistradas'">
+    <app-citas-list-now></app-citas-list-now>
+</ng-container>
+
+<ng-container *ngIf="mostrarComponente && nombreComponent=='Tratamientos'">
+    <app-tratamientos-list></app-tratamientos-list>
+</ng-container>
+
 <ng-container *ngIf="mostrarComponente && nombreComponent=='Pagos'">
     <app-pagos-list></app-pagos-list>
 </ng-container>
@@ -33,8 +41,5 @@
 </ng-container>
 
 <ng-container *ngIf="mostrarComponente && nombreComponent=='perfil'">
-   <app-user-profile></app-user-profile>
+    <app-user-profile></app-user-profile>
 </ng-container>
-
-
-

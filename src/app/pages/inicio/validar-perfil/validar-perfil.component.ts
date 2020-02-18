@@ -67,6 +67,14 @@ export class ValidarPerfilComponent implements OnInit {
   {
     nombreComponente='perfil';
   }
+  else if(rutaEntrada=='citasRegistradas')
+  {
+    nombreComponente='CitasMedicasRegistradas';
+  }
+  else if(rutaEntrada=='tratamientos')
+  {
+    nombreComponente='Tratamientos';
+  }
   else{
     this.router.navigate(['/inicioSesion']); 
   }

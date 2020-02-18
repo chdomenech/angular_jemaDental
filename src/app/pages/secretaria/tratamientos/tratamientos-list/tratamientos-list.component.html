@@ -1,0 +1,81 @@
+<html>
+
+<body>
+    <br>
+    <button mat-raised-button color="primary" (click)="onNew()">
+    <mat-icon>note_add</mat-icon>
+    Registrar Tratamientos
+  </button>
+    <br>
+    <div style="text-align: center;">
+        <h3>Historial de Tratamientos de los pacientes</h3>
+        <mat-form-field style="width: 50%;">
+            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Busqueda de los tratamientos">
+        </mat-form-field>
+        <i class="material-icons">search</i>
+    </div>
+    <br>
+    <br>
+    <div class="table-conten">
+        <div class="table-container mat-elevation-z8">
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+                <ng-container matColumnDef="fecha">
+                    <th mat-header-cell *matHeaderCellDef> Fecha </th>
+                    <td mat-cell *matCellDef="let element"> {{element.fecha}} </td>
+                </ng-container>
+                <ng-container matColumnDef="cipaciente">
+                    <th mat-header-cell *matHeaderCellDef> CI Paciente </th>
+                    <td mat-cell *matCellDef="let element"> {{element.cipaciente}} </td>
+                </ng-container>
+                <ng-container matColumnDef="namepaciente">
+                    <th mat-header-cell *matHeaderCellDef> Nombre</th>
+                    <td mat-cell *matCellDef="let element"> {{element.namepaciente}} </td>
+                </ng-container>
+                <ng-container matColumnDef="seguro">
+                    <th mat-header-cell *matHeaderCellDef> Seguro </th>
+                    <td mat-cell *matCellDef="let element"> {{element.seguro}} </td>
+                </ng-container>
+                <ng-container matColumnDef="especialidad">
+                    <th mat-header-cell *matHeaderCellDef> Especialidad </th>
+                    <td mat-cell *matCellDef="let element"> {{element.especialidad }} </td>
+                </ng-container>
+                <ng-container matColumnDef="odontologo">
+                    <th mat-header-cell *matHeaderCellDef> Odontologo </th>
+                    <td mat-cell *matCellDef="let element"> {{element.odontologo }} </td>
+                </ng-container>
+                <ng-container matColumnDef="tratamiento">
+                    <th mat-header-cell *matHeaderCellDef> Tratamiento </th>
+                    <td mat-cell *matCellDef="let element"> {{element.tratamiento}} </td>
+                </ng-container>
+                <ng-container matColumnDef="precio">
+                    <th mat-header-cell *matHeaderCellDef> Precio </th>
+                    <td mat-cell *matCellDef="let element"> {{element.precio}} </td>
+                </ng-container>
+                <ng-container matColumnDef="observacion">
+                    <th mat-header-cell *matHeaderCellDef> Observacion </th>
+                    <td mat-cell *matCellDef="let element"> {{element.observacion}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="accion">
+                    <th mat-header-cell *matHeaderCellDef> Acción </th>
+                    <td mat-cell *matCellDef="let element">
+                        <button mat-flat-button class="button-edit" color="primary" (click)="onEdit(element)">
+              Editar
+              <mat-icon>edit</mat-icon>
+            </button>&nbsp;
+                        <button mat-flat-button class="button-delete" (click)="onDelete(element)">
+              Borrar
+              <mat-icon>delete</mat-icon>
+            </button>
+                    </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+            <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+        </div>
+    </div>
+</body>
+
+</html>

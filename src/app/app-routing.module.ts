@@ -62,6 +62,14 @@ const routes: Routes = [
     component: ValidarPerfilComponent
   },
   {
+    path: 'citasRegistradas',
+    component: ValidarPerfilComponent
+  },
+  {
+    path: 'tratamientos',
+    component: ValidarPerfilComponent
+  },
+  {
     path: 'pagos',
     component: ValidarPerfilComponent
   },

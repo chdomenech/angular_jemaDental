@@ -143,6 +143,8 @@ export class AuthService {
     let vistasSecretaria = [
       { nombre: 'Pacientes' },
       { nombre: 'CitaMedica' },
+      { nombre: 'CitasMedicasRegistradas' },
+      { nombre: 'Tratamientos' },
       { nombre: 'Pagos' },
       { nombre: 'Solicitudes' },
       { nombre: 'perfil' }
