@@ -7,7 +7,8 @@ export interface TratamientoMInterface {
     seguro?: string;
     tratamiento?: string;
     especialidad?: string;
-    odontologo?: string;
+    odontologo?: any;
+    nameodontologo?: any;
     observacion?: string;
     precio?: any;
 }

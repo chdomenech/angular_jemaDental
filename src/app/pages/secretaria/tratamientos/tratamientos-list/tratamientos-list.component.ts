@@ -59,7 +59,7 @@ export class TratamientosListComponent implements OnInit {
   onEdit(element) {
     this.openDialogEdit();
     if (element) {
-      // this.tratamientoMService.selectCitaM = Object.assign({}, element);
+      this.tratamientoMService.selectTratamientoM = Object.assign({}, element);
      }
   }
 
@@ -72,10 +72,10 @@ export class TratamientosListComponent implements OnInit {
   }
 
   onDelete(element) {
-    const confirmacion = confirm('¿Estas seguro de eliminar la cita medica?');
+    const confirmacion = confirm('¿Estas seguro de eliminar el tratamiento medico?');
     if (confirmacion) {
-      //this.tratamientoMService.deleteCitaM(element);
-      this.toastr.success('Cita médica eliminada exitosamente', 'MENSAJE');
+      this.tratamientoMService.deleteTratamientoM(element);
+      this.toastr.success('Tratamiento medico eliminada exitosamente', 'MENSAJE');
     }
   }
 

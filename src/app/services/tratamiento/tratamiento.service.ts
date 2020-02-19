@@ -16,7 +16,7 @@ export class TratamientoService {
   private Tratamiento: Observable<TratamientoMInterface[]>;
   private tratamientoM: Observable<TratamientoMInterface>;
 
-  public selectTratamientosM: TratamientoMInterface = {};
+  public selectTratamientoM: TratamientoMInterface = {};
 
   TratamientosArray = [];
 
@@ -54,10 +54,22 @@ export class TratamientoService {
     }));
   }
 
-    formtDate(date: Date): string {
+  formtDate(date: Date): string {
     const day = date.getDate();
     const month = date.getMonth() + 1;
     const year = date.getFullYear();
     return `${day}/${month}/${year}`;
   } 
+
+  deleteTratamientoM(tratamiento: TratamientoMInterface) {
+    return this.TratamientoMCollection.doc(tratamiento.id).delete();
+  }
+
+  updateTratamientoM(tratamiento: TratamientoMInterface) {
+    return this.TratamientoMCollection.doc(tratamiento.id).update(tratamiento);
+  }
+
+  addTratamientoM(tratamiento: TratamientoMInterface) {
+    return this.TratamientoMCollection.add(tratamiento);
+  }
 }

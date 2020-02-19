@@ -128,7 +128,9 @@ import { EditTratamientoComponent } from './pages/secretaria/tratamientos/edit-t
     NewPagoComponent,
     EditPagoComponent,
     NewCitaComponent,
-    EditCitaComponent
+    EditCitaComponent,
+    NewTratamientoComponent,
+    EditTratamientoComponent
   ],
   providers: [{ provide: MatPaginatorIntl, useClass: PaginatorEspañol}, MatDatepickerModule],
   bootstrap: [AppComponent]

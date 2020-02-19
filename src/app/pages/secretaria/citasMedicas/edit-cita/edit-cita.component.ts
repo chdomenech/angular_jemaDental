@@ -125,6 +125,7 @@ export class EditCitaComponent implements OnInit {
       this.specialtiesSelected = val;
       this.odontService.arrayOdontologos.map((odont) => {
         if (odont.especialidad === val) {
+          console.log(odont);
           this.odontEspecialidad.push(odont);
         }
       });
@@ -277,26 +278,17 @@ export class EditCitaComponent implements OnInit {
 
   existID_pacientList(cedula: any): boolean {
 
-    console.log('Que pasa ', cedula);
-
     let exist = false;
     if (cedula) {
 
-      console.log('Viene la cedula ',cedula.cedula); 
-
       const pacientFiltered = this.pactService.arrayPacientes.find(pacientFilterbycedula => pacientFilterbycedula.cedula === cedula.cedula);
 
-      console.log('Algo paso aquyi'); 
-
       if (pacientFiltered) {
-        console.log('Existe', pacientFiltered);
         exist = true;
       } else {
-        console.log('No existe');
         exist = false;
       }
     } else {
-      console.log('cedula nula');
       exist = false;
     }
     return exist;

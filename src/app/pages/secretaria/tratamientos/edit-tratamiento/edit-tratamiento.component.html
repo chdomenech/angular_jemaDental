@@ -1,1 +1,72 @@
-<p>edit-tratamiento works!</p>
+<mat-toolbar color="primary">
+    <mat-toolbar-row>
+        <span>Editar Tratamiento Medico</span>
+    </mat-toolbar-row>
+</mat-toolbar>
+<br>
+<br>
+<div class="form-container" style="text-align: center">
+    <form [formGroup]="TratamientoMform" (ngSubmit)="guardarTratamientoMedico(TratamientoMform.value)">
+        <input type="hidden" formControlName="id">
+        <mat-form-field class="select">
+            <input matInput [matDatepicker]="picker" [min]="minDate" formControlName="fecha" placeholder="Seleccione la fecha" (ngModelChange)="selectFecha($event)">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error *ngIf="TratamientoMform.invalid">{{getErrorMessageF()}}</mat-error>
+        </mat-form-field>
+        &nbsp; &nbsp;
+        <br>
+        <mat-form-field class="select">
+            <input type="text" placeholder="Cedula Pacientes" formControlName="cipaciente" aria-label="Pacientes" matInput [matAutocomplete]="auto" (keydown)="check($event)">
+            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                <mat-option *ngFor="let paciente of filteredOptions | async" [value]="paciente">
+                    {{paciente['cedula']}}
+                </mat-option>
+            </mat-autocomplete>
+            <mat-error *ngIf="TratamientoMform.invalid">{{getErrorMessageP()}}</mat-error>
+        </mat-form-field>
+        <br>
+        <mat-form-field class="inputData">
+            <input matInput formControlName="namepaciente" placeholder="Nombre del Paciente" class="form-control" readonly>
+        </mat-form-field>
+        &nbsp; &nbsp;
+        <mat-form-field class="inputData">
+            <input matInput formControlName="seguro" placeholder="Seguro del Paciente" class="form-control" readonly>
+        </mat-form-field>
+        <br>
+        <mat-form-field class="select">
+            <mat-select formControlName="especialidad" placeholder="especialidad" (ngModelChange)="especialidad($event)">
+                <mat-option>Seleccione Especialidad</mat-option>
+                <mat-option *ngFor="let especialidad of espeService.arrayEspe" value="{{especialidad.nombre}}">
+                    {{especialidad.nombre}}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngIf="TratamientoMform.invalid">{{getErrorMessageE()}}</mat-error>
+        </mat-form-field>
+        &nbsp; &nbsp;
+        <mat-form-field class="select">
+            <mat-select formControlName="odontologo" placeholder="odontologo">
+                <mat-option>Seleccione el odontologo</mat-option>
+                <mat-option *ngFor="let odontologo of odontEspecialidad" [value]="odontologo">
+                    {{odontologo.nombre}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="TratamientoMform.invalid">{{getErrorMessageO()}}</mat-error>
+        </mat-form-field>
+        <br>
+        <mat-form-field class="inputData">
+            <mat-label>Tratamiento</mat-label>
+            <textarea matInput formControlName="tratamiento" class="form-control"></textarea>
+        </mat-form-field>
+        <mat-form-field class="inputData">
+            <input matInput formControlName="precio" placeholder="Valor" class="form-control">
+        </mat-form-field>
+        <mat-form-field class="inputData">
+            <mat-label>Observacion</mat-label>
+            <textarea matInput formControlName="observacion" class="form-control"></textarea>
+        </mat-form-field>
+        <div mat-dialog-actions>
+            <button mat-raised-button color="primary" type="submit" [disabled]="TratamientoMform.invalid">Guardar</button>&nbsp;
+            <button mat-raised-button color="primary" type="button" (click)="close()">Cancelar</button>
+        </div>
+    </form>
+</div>
