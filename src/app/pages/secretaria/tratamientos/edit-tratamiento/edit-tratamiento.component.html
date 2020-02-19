@@ -45,7 +45,7 @@
         </mat-form-field>
         &nbsp; &nbsp;
         <mat-form-field class="select">
-            <mat-select formControlName="odontologo" placeholder="odontologo">
+            <mat-select formControlName="odontologo" placeholder="odontologo" (ngModelChange)="filterhoursbyOdonto($event)">
                 <mat-option>Seleccione el odontologo</mat-option>
                 <mat-option *ngFor="let odontologo of odontEspecialidad" [value]="odontologo">
                     {{odontologo.nombre}}</mat-option>

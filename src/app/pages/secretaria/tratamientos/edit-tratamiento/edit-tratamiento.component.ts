@@ -67,10 +67,20 @@ export class EditTratamientoComponent implements OnInit {
 
   ngOnInit() {
     this.getPacientandDentistList();
+    this.actualizo = false;
     this.filteredOptions = this.TratamientoMform.get('cipaciente').valueChanges.pipe(
       startWith(''),
       map(value =>  value ? this._filter(value) : this.pactService.arrayPacientes.slice())
     );
+  }
+
+  filterhoursbyOdonto(dentistselected: any) {
+    if (this.actualizo === false) {
+      if (dentistselected) {
+        const iddentist = dentistselected.cedula;
+        this.dentistselected =  dentistselected;
+      }
+    }
   }
 
 
@@ -96,9 +106,6 @@ export class EditTratamientoComponent implements OnInit {
     this.TratamientoMform.get('fecha').setValue(newdate);
     this.TratamientoMform.get('seguro').setValue(this.tratamientoMService.selectTratamientoM.seguro);
     this.TratamientoMform.get('especialidad').setValue(this.tratamientoMService.selectTratamientoM.especialidad);
-
-
-    
 
     const dentistSelected = this.odontEspecialidad.find(search => search.cedula === this.tratamientoMService.selectTratamientoM.odontologo);
     
@@ -132,6 +139,7 @@ export class EditTratamientoComponent implements OnInit {
 
 
   especialidad(val: any) {
+    console.log("this.actualizo ",this.actualizo)
     if (this.actualizo === false) {
       this.odontEspecialidad = [];
       this.specialtiesSelected = val;
@@ -140,7 +148,7 @@ export class EditTratamientoComponent implements OnInit {
           this.odontEspecialidad.push(odont);
         }
       });
-
+      console.log("this.odontEspecialidad ",this.odontEspecialidad)
     }
   }
 
