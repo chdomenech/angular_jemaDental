@@ -1,7 +1,7 @@
 import { AuthService } from './../../../services/auth/auth.service';
 import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-user',
@@ -12,7 +12,7 @@ export class UserComponent implements OnInit {
 
   public userUid: string = null;
   public isAdmin: any = null;
-  public isSecret: any = null;
+  public isSecret: any = null; 
 
   constructor(
     private AFauth: AngularFireAuth,

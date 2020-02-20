@@ -17,7 +17,7 @@ import {FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule, MatInputModule, MatButtonModule, MatGridListModule, MatDialogModule,
   MatTableModule, MatPaginatorModule, MatPaginatorIntl, MatDatepickerModule, MatCheckboxModule,
-  MatRadioModule, MatSelectModule, MatAutocompleteModule, MatNativeDateModule} from '@angular/material';
+  MatRadioModule, MatSelectModule, MatAutocompleteModule, MatNativeDateModule, MatMenuModule} from '@angular/material';
 import { environment } from 'src/environments/environment';
 import { UserComponent } from './pages/user/user/user.component';
 import { UserProfileComponent } from './pages/user/user-profile/user-profile.component';
@@ -112,8 +112,8 @@ import { EditTratamientoComponent } from './pages/secretaria/tratamientos/edit-t
     MatDatepickerModule,
     MatAutocompleteModule,
     MatNativeDateModule,
-    MatProgressSpinnerModule
-
+    MatMenuModule,
+    MatProgressSpinnerModule,
   ],
   entryComponents: [
     EditProfileComponent,

@@ -29,9 +29,12 @@
         <a mat-button routerLink="/reportes" routerLinkActive="active">Reportes</a>
     </div>
     <div *ngIf="this.isSecret == true">
+
         <a mat-button routerLink="/pacientes" routerLinkActive="active">Pacientes</a>
-        <a mat-button routerLink="/citas" routerLinkActive="active">Citas Medicas</a>
-        <a mat-button routerLink="/citasRegistradas" routerLinkActive="active">Citas Registradas</a>
+        <button mat-button [matMenuTriggerFor]="belowMenu" routerLink="/citasRegistradas">Citas</button>
+        <mat-menu #belowMenu="matMenu" yPosition="below">
+            <button mat-button routerLink="/citas">Citas Registradas</a>
+        </mat-menu>
         <a mat-button routerLink="/tratamientos" routerLinkActive="active">Tratamientos</a>
         <a mat-button routerLink="/pagos" routerLinkActive="active">Pagos</a>
         <a mat-button routerLink="/solicitudes" routerLinkActive="active">Solicitudes</a>
