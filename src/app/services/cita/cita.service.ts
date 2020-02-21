@@ -90,8 +90,7 @@ export class CitaService {
 
     this.CitaMCollection = this.afs.collection(
       'CitasMedicas', 
-      ref => ref.where('fecha', '==', fechaParse)
-      .where('estado', 'in' ,['pendiente','confirmada']));
+      ref => ref.where('fecha', '==', fechaParse));
 
     this.CitasMedicas = this.CitaMCollection.snapshotChanges()
     .pipe(map( changes => {

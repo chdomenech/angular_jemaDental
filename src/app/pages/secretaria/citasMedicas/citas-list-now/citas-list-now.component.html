@@ -49,6 +49,9 @@
                         <button mat-raised-button *ngIf="element.estado === 'confirmada'" style="background: green;color: white;">
                             {{element.estado}} 
                         </button>
+                        <button mat-raised-button *ngIf="element.estado !== 'confirmada' && element.estado !== 'pendiente'" color="primary">
+                            {{element.estado}} 
+                        </button>
                     </td>
                 </ng-container>
 
