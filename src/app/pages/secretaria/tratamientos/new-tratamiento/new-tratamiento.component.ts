@@ -32,6 +32,7 @@ export class NewTratamientoComponent implements OnInit {
     tratamiento: new FormControl('',  Validators.required),
     precio: new FormControl(''),
     //noaplica_seguro: new FormControl(''),
+    sseguro: new FormControl(null),
     observacion: new FormControl(''),
   });
 
@@ -42,6 +43,7 @@ export class NewTratamientoComponent implements OnInit {
   pacient: PacienteInterface = {};
   odontEspecialidad: any[] = [];
   allHours = [];
+  valorseguro : string;
   dateSelected: Date;
   dentistselected: any;
   registeredMedicalTratamientos: TratamientoMInterface[] = [];
@@ -88,7 +90,13 @@ export class NewTratamientoComponent implements OnInit {
 
   setpacientvalue(value: any) {
     this.TratamientoMform.get('namepaciente').setValue(value.nombre);
-    this.TratamientoMform.get('seguro').setValue(value.seguro);
+    this.valorseguro = value.seguro;
+    if(!this.TratamientoMform.get('sseguro').value){
+      this.TratamientoMform.get('seguro').setValue(this.valorseguro);
+    }else{
+      this.TratamientoMform.get('seguro').setValue("Sin seguro");
+    }
+    
   }
 
   selectedMedico(dentistselected: any) {
@@ -110,6 +118,14 @@ export class NewTratamientoComponent implements OnInit {
 
   selectFecha(date: any) {
     this.dateSelected = date;
+  }
+
+  sinseguro(seguro:any){
+    if(!this.TratamientoMform.get('sseguro').value){
+      this.TratamientoMform.get('seguro').setValue(this.valorseguro);
+    }else{
+      this.TratamientoMform.get('seguro').setValue("Sin seguro");
+    }
   }
 
   guardarTratamientoMedico(data: TratamientoMInterface) {

@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { SeguroService } from 'src/app/services/seguro/seguro.service';
 import { MatDialogRef } from '@angular/material';
 import { SeguroInteface } from 'src/app/models/seguro-model';
+import { EspecialidadService } from './../../../../services/especialidad/especialidad.service';
 
 @Component({
   selector: 'app-new-seguro',
@@ -15,9 +16,16 @@ export class NewSeguroComponent implements OnInit {
   seguroForm = new FormGroup({
     id: new FormControl(null),
     nombre: new FormControl('', Validators.required),
+    direccion:new FormControl(''),
+    telefono:new FormControl(''),
+    email:new FormControl('', Validators.required),
+    especialidades:new FormControl('', Validators.required),
   });
 
+  specialtiesSelected:  string[];
+
   constructor(
+    public espeService: EspecialidadService,
     private toastr: ToastrService,
     public seguroService: SeguroService,
     private dialogRef: MatDialogRef<NewSeguroComponent>
@@ -29,7 +37,11 @@ export class NewSeguroComponent implements OnInit {
   }
 
   onSaveSeguro(data: SeguroInteface) {
+
+    console.log(this.specialtiesSelected);
+
     data.nombre = data.nombre.toLowerCase();
+    data.especialidades = this.specialtiesSelected;
     if (this.existSeguro(data.nombre) === true) {
       this.toastr.warning('El seguro ya se encuentra registrado', 'MENSAJE');
     } else {
@@ -38,7 +50,10 @@ export class NewSeguroComponent implements OnInit {
       this.close();
     }
   }
-
+  especialidad(val: any) {
+    console.log(val);
+    this.specialtiesSelected = val;
+  }
   existSeguro(nombre: any): boolean {
     let exist = false;
     if (nombre) {

@@ -21,17 +21,7 @@ export class EditCitaComponent implements OnInit {
   actualizo: boolean;
   allowedChars = new Set('0123456789'.split('').map(c => c.charCodeAt(0)));
 
-  CitaMform = new FormGroup({
-    id: new FormControl(null),
-    seguro: new FormControl(''),
-    namepaciente: new FormControl(''),
-    especialidad: new FormControl('', Validators.required),
-    cipaciente: new FormControl('',  Validators.required),
-    odontologo: new FormControl('',  Validators.required),
-    hora: new FormControl('',  Validators.required),
-    fecha: new FormControl('',  Validators.required),
-    estado: new FormControl('',  Validators.required),
-  });
+  CitaMform: FormGroup;
 
   filteredOptions: Observable<string[]>;
   minDate: Date = new Date();
@@ -66,13 +56,38 @@ export class EditCitaComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    this.CitaMform = new FormGroup({
+      id: new FormControl(null),
+      seguro: new FormControl(''),
+      namepaciente: new FormControl(''),
+      especialidad: new FormControl('', Validators.required),
+      cipaciente: new FormControl('',  Validators.required),
+      odontologo: new FormControl('',  Validators.required),
+      hora: new FormControl('',  Validators.required),
+      fecha: new FormControl('',  Validators.required),
+      estado: new FormControl('',  Validators.required),
+    });
+
     this.getPacientandDentistList();
     this.actualizo = false;
     this.filteredOptions = this.CitaMform.get('cipaciente').valueChanges.pipe(
       startWith(''),
       map(value =>  value ? this._filter(value) : this.pactService.arrayPacientes.slice())
     );
+   
   }
+
+  findInvalidControls() {
+    const controls = this.CitaMform.controls;
+    for (const name in controls) {
+        if (controls[name].invalid) {
+          console.log("InValido ",name,controls[name].status);
+        }else{
+         // console.log("Valido ",name,controls[name].status);
+        }
+    }
+}
 
   displayFn(subject) {
     return subject ? subject.cedula : undefined;
@@ -97,24 +112,28 @@ export class EditCitaComponent implements OnInit {
     });
   }
 
+  hey(hola:any){
+    this.findInvalidControls();
+  }
+
   setDataCitaM() {
     const pacientfiltered = this.pacientList.find(search => search.cedula === this.citaMService.selectCitaM.cipaciente);
-    this.CitaMform.get('id').setValue(this.citaMService.selectCitaM.id);
-    this.CitaMform.get('cipaciente').setValue(pacientfiltered);
+    this.CitaMform.get('id').patchValue(this.citaMService.selectCitaM.id);
+    this.CitaMform.get('cipaciente').patchValue(pacientfiltered);
     const parts = this.citaMService.selectCitaM.fecha.split('/');
     const newdate = new Date(parts[2], (parts[1] - 1), parts[0]);
-    this.CitaMform.get('fecha').setValue(newdate);
-    this.CitaMform.get('seguro').setValue(this.citaMService.selectCitaM.seguro);
-    this.CitaMform.get('especialidad').setValue(this.citaMService.selectCitaM.especialidad);
+    this.CitaMform.get('fecha').patchValue(newdate);
+    this.CitaMform.get('seguro').patchValue(this.citaMService.selectCitaM.seguro);
+    this.CitaMform.get('especialidad').patchValue(this.citaMService.selectCitaM.especialidad,{});
     const dentistSelected = this.odontEspecialidad.find(search => search.cedula === this.citaMService.selectCitaM.odontologo);
-    this.CitaMform.get('odontologo').setValue(dentistSelected);
-    this.CitaMform.get('hora').setValue(this.citaMService.selectCitaM.hora);
-    this.CitaMform.get('estado').setValue(this.citaMService.selectCitaM.estado);
+    this.CitaMform.get('odontologo').patchValue(dentistSelected);
+    this.CitaMform.get('hora').patchValue(this.citaMService.selectCitaM.hora);
+    this.CitaMform.get('estado').patchValue(this.citaMService.selectCitaM.estado);
   }
 
   setpacientvalue(value: any) {
-    this.CitaMform.get('namepaciente').setValue(value.nombre);
-    this.CitaMform.get('seguro').setValue(value.seguro);
+    this.CitaMform.get('namepaciente').patchValue(value.nombre);
+    this.CitaMform.get('seguro').patchValue(value.seguro);
   }
 
   especialidad(val: any) {

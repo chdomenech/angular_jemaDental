@@ -62,7 +62,7 @@
         </mat-form-field>
         <br>
         <mat-form-field class="select">
-            <mat-select formControlName="estado" placeholder="Seleccione el estado de la cita">
+            <mat-select formControlName="estado" placeholder="Seleccione el estado de la cita" (ngModelChange)="hey($event)">
                 <mat-option>Seleccione el estado de la cita</mat-option>
                 <mat-option value="aprobada"> Agendada</mat-option>
                 <mat-option value="confirmada"> Confirmada</mat-option>
@@ -74,7 +74,7 @@
             <mat-error *ngIf="CitaMform.invalid">{{getErrorMessageEst()}}</mat-error>
         </mat-form-field>
         <div mat-dialog-actions>
-            <button mat-raised-button color="primary" type="submit">Guardar</button>&nbsp;
+            <button mat-raised-button color="primary" type="submit" [disabled]="CitaMform.invalid">Guardar</button>&nbsp;
             <button mat-raised-button color="primary" type="button" (click)="close()">Cancelar</button>
         </div>
     </form>

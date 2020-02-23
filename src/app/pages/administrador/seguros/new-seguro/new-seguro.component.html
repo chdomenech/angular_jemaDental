@@ -1,22 +1,45 @@
 <mat-toolbar color="primary">
-  <mat-toolbar-row>
-    <span>Nuevo Seguro</span>
-  </mat-toolbar-row>
+    <mat-toolbar-row>
+        <span>Nuevo Seguro</span>
+    </mat-toolbar-row>
 </mat-toolbar>
 <br>
-<div class="form-container">
-  <form [formGroup]="seguroForm" (ngSubmit)="onSaveSeguro(seguroForm.value)">
+<div class="form-container" style="text-align: center">
+    <form [formGroup]="seguroForm" (ngSubmit)="onSaveSeguro(seguroForm.value)">
 
-    <input type="hidden" formControlName="id">
+        <input type="hidden" formControlName="id">
 
-    <mat-form-field class="inputWidth">
-      <input matInput formControlName="nombre" placeholder="Nombre del Seguro">
-      <mat-error *ngIf="seguroForm.invalid">{{msgValidateNombre()}}</mat-error>
-    </mat-form-field>
+        <mat-form-field class="inputWidth">
+            <input matInput formControlName="nombre" placeholder="Nombre del Seguro">
+            <mat-error *ngIf="seguroForm.invalid">{{msgValidateNombre()}}</mat-error>
+        </mat-form-field>
+        &nbsp; &nbsp;
+        <mat-form-field class="inputWidth">
+            <input matInput formControlName="telefono" placeholder="Telefono">
+            <mat-error *ngIf="seguroForm.invalid">{{msgValidateNombre()}}</mat-error>
+        </mat-form-field>
 
-    <div mat-dialog-actions>
-      <button mat-raised-button color="primary" type="submit" [disabled]="seguroForm.invalid">Guardar</button>&nbsp;
-      <button mat-raised-button color="primary" type="button" (click)="close()">Cancelar</button>
-    </div>
-  </form>
+        <mat-form-field class="inputData">
+            <mat-label>Direccion</mat-label>
+            <textarea matInput formControlName="direccion" class="form-control"></textarea>
+        </mat-form-field>&nbsp; &nbsp;
+        <mat-form-field class="inputWidth">
+            <input matInput formControlName="email" placeholder="Correo electronico">
+            <mat-error *ngIf="seguroForm.invalid">{{msgValidateNombre()}}</mat-error>
+        </mat-form-field>
+        <br>
+        <mat-form-field class="select">
+            <mat-select formControlName="especialidades" placeholder="Especialidades" (ngModelChange)="especialidad($event)" multiple>
+                <mat-option *ngFor="let especialidad of espeService.arrayEspe" value="{{especialidad.nombre}}">
+                    {{especialidad.nombre}}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngIf="seguroForm.invalid">{{msgValidateNombre()}}</mat-error>
+        </mat-form-field>
+        &nbsp; &nbsp;
+        <div mat-dialog-actions>
+            <button mat-raised-button color="primary" type="submit" [disabled]="seguroForm.invalid">Guardar</button>&nbsp;
+            <button mat-raised-button color="primary" type="button" (click)="close()">Cancelar</button>
+        </div>
+    </form>
 </div>

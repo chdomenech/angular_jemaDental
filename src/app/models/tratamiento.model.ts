@@ -11,6 +11,7 @@ export interface TratamientoMInterface {
     nameodontologo?: any;
     observacion?: string;
     precio?: any;
+    sseguro?:any;
 }
 
   

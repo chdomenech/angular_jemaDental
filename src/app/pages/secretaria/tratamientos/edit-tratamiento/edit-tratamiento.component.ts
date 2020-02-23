@@ -31,10 +31,11 @@ export class EditTratamientoComponent implements OnInit {
     fecha: new FormControl('',  Validators.required),
     tratamiento: new FormControl('',  Validators.required),
     precio: new FormControl(''),
-    //noaplica_seguro: new FormControl(''),
-    observacion: new FormControl(''),
+    sseguro: new FormControl(null),
+      observacion: new FormControl(''),
   });
 
+  valorseguro: string;
   filteredOptions: Observable<string[]>;
   minDate: Date = new Date();
   specialtiesSelected: string;
@@ -106,14 +107,12 @@ export class EditTratamientoComponent implements OnInit {
     this.TratamientoMform.get('fecha').setValue(newdate);
     this.TratamientoMform.get('seguro').setValue(this.tratamientoMService.selectTratamientoM.seguro);
     this.TratamientoMform.get('especialidad').setValue(this.tratamientoMService.selectTratamientoM.especialidad);
-
     const dentistSelected = this.odontEspecialidad.find(search => search.cedula === this.tratamientoMService.selectTratamientoM.odontologo);
-    
-    console.log("medico",dentistSelected);
     this.TratamientoMform.get('odontologo').setValue(dentistSelected);
     this.TratamientoMform.get('tratamiento').setValue(this.tratamientoMService.selectTratamientoM.tratamiento);
     this.TratamientoMform.get('observacion').setValue(this.tratamientoMService.selectTratamientoM.observacion);
     this.TratamientoMform.get('precio').setValue(this.tratamientoMService.selectTratamientoM.precio);
+    this.TratamientoMform.get('sseguro').setValue(this.tratamientoMService.selectTratamientoM.sseguro);
   }
 
   displayFn(subject) {
@@ -128,7 +127,20 @@ export class EditTratamientoComponent implements OnInit {
 
   setpacientvalue(value: any) {
     this.TratamientoMform.get('namepaciente').setValue(value.nombre);
-    this.TratamientoMform.get('seguro').setValue(value.seguro);
+    this.valorseguro = value.seguro;
+    if(!this.TratamientoMform.get('sseguro').value){
+      this.TratamientoMform.get('seguro').setValue(this.valorseguro);
+    }else{
+      this.TratamientoMform.get('seguro').setValue("Sin seguro");
+    }
+  }
+
+  sinseguro(seguro:any){
+    if(!this.TratamientoMform.get('sseguro').value){
+      this.TratamientoMform.get('seguro').setValue(this.valorseguro);
+    }else{
+      this.TratamientoMform.get('seguro').setValue("Sin seguro");
+    }
   }
 
   selectedMedico(dentistselected: any) {
