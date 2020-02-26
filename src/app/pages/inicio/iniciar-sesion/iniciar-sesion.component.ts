@@ -50,8 +50,8 @@ export class IniciarSesionComponent implements OnInit {
 
       this.authService.login(this.email, this.password)
       .then((res) => {
-        //this.router.navigate(['inicio']);
-        this.router.navigate(['citasRegistradas']);
+        this.router.navigate(['inicio']);
+        //this.router.navigate(['citasRegistradas']);
         this.subscription.unsubscribe();
       }).catch((err) => {
         this.toastr.error('Cédula y/o contraseña incorrectas');

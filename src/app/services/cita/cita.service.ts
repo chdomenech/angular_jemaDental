@@ -50,33 +50,6 @@ export class CitaService {
       });
     }));
   }
-
-  getAllCitasMedicasNotNow() {
-
-    let date = new Date();
-    date.setSeconds(0);
-    date.setMinutes(0);
-    date.setHours(0);
-    
-    let fech = date + "";
-
-    const fechaParse = Date.parse(fech);
-
-    this.CitaMCollection = this.afs.collection(
-      'CitasMedicas', 
-      ref => ref.where('fecha', '<', fechaParse));
-
-    this.CitasMedicas = this.CitaMCollection.snapshotChanges()
-    .pipe(map( changes => {
-      return changes.map(action => {
-        const data = action.payload.doc.data() as CitaMInterface;
-        data.id = action.payload.doc.id;
-        return data;
-      });
-    }));
-    return this.CitasMedicas;
-  }
-
   getAllCitasMedicasNow() {
 
     let date = new Date();
@@ -90,7 +63,8 @@ export class CitaService {
 
     this.CitaMCollection = this.afs.collection(
       'CitasMedicas', 
-      ref => ref.where('fecha', '==', fechaParse));
+      ref => ref.where('fecha', '==', fechaParse)
+      .where('estado', 'in', ['pendiente','agendada','confirmada']));
 
     this.CitasMedicas = this.CitaMCollection.snapshotChanges()
     .pipe(map( changes => {

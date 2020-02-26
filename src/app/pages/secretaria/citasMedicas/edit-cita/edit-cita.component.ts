@@ -269,16 +269,8 @@ export class EditCitaComponent implements OnInit {
     data.fecha = fecha;
     let newdata: CitaMInterface;
     newdata = data;
-    
-    console.log('Data new Data ',newdata);
-
     if (newdata.cipaciente ) {
-
-      console.log('newdata.cipaciente ',newdata.cipaciente);      
-
       if (this.existID_pacientList(newdata.cipaciente) === true) {
-
-        console.log('Entre');
 
         newdata.cipaciente =  newdata.cipaciente.cedula;
         newdata.odontologo =  newdata.odontologo.cedula;

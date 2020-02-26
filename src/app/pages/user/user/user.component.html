@@ -31,7 +31,7 @@
     <div *ngIf="this.isSecret == true">
 
         <a mat-button routerLink="/pacientes" routerLinkActive="active">Pacientes</a>
-        <button mat-button [matMenuTriggerFor]="belowMenu" routerLink="/citasRegistradas">Citas</button>
+        <button mat-button [matMenuTriggerFor]="belowMenu" routerLink="/citasRegistradas">Citas Medicas</button>
         <mat-menu #belowMenu="matMenu" yPosition="below">
             <button mat-button routerLink="/citas">Citas Registradas</button>
         </mat-menu>

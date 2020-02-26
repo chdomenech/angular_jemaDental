@@ -37,8 +37,10 @@ export class CitasListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    
+    console.log("ESTO ES ","getAllCitasMedicas()");
 
-    this.citaMService.getAllCitasMedicasNotNow().subscribe(citaMedica => {
+    this.citaMService.getAllCitasMedicas().subscribe(citaMedica => {
       this.dataSource.data = citaMedica;
       const tam = Object.keys(this.dataSource.data).length;
       for (let i = 0; i< tam; i++){
