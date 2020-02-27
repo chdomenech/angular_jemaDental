@@ -21,6 +21,8 @@ export class ViewSeguroComponent implements OnInit {
     telefono:new FormControl(''),    
   });
 
+  especialidades:any;
+
   constructor(
     private toastr: ToastrService,
     public espeService: EspecialidadService,
@@ -36,7 +38,7 @@ export class ViewSeguroComponent implements OnInit {
     this.seguroForm.get('id').setValue(this.seguroService.seguroSelected.id);
     this.seguroForm.get('nombre').setValue(this.seguroService.seguroSelected.nombre);
     this.seguroForm.get('direccion').setValue(this.seguroService.seguroSelected.direccion);
-    //this.seguroForm.get('especialidades').setValue(this.seguroService.seguroSelected.especialidades);
+    this.especialidades= this.seguroService.seguroSelected.especialidades;
     this.seguroForm.get('telefono').setValue(this.seguroService.seguroSelected.telefono);
     this.seguroForm.get('email').setValue(this.seguroService.seguroSelected.email);
   }

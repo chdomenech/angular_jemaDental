@@ -43,6 +43,21 @@ export class SeguroService {
     }));
   }
 
+  getSegurosByNameAndEspecialidad(nombre: string, especialidad: string) {
+    this.SeguroCollection = this.afs.collection(
+      'Seguros', ref => ref.where('nombre', '==', nombre).where('especialidades', 'in', [especialidad]));
+    this.Seguro = this.SeguroCollection.snapshotChanges().pipe(map(
+      actions => {
+        return actions.map(a => {
+          const data = a.payload.doc.data();
+          const id = a.payload.doc.id;
+          return {id, ...data};
+        });
+      }
+    ));
+    return this.Seguro;
+  }
+
   updateSeguro(seguro: SeguroInteface) {
     return this.SeguroCollection.doc(seguro.id).update(seguro);
   }

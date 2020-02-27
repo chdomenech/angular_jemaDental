@@ -1,6 +1,7 @@
 import {TratamientoService } from './../../../../services/tratamiento/tratamiento.service';
 import { OdontologoService } from './../../../../services/odontologo/odontologo.service';
 import { PacienteService } from './../../../../services/paciente/paciente.service';
+import { SeguroService } from './../../../../services/seguro/seguro.service';
 import { EspecialidadService } from './../../../../services/especialidad/especialidad.service';
 import { TratamientoMInterface } from './../../../../models/tratamiento.model';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -52,6 +53,7 @@ export class NewTratamientoComponent implements OnInit {
     private toastr: ToastrService,
     public espeService: EspecialidadService,
     public pactService: PacienteService,
+    public seguroService: SeguroService,
     private dateAdapter: DateAdapter<Date>,
     private tratamientoMService: TratamientoService,
     public odontService: OdontologoService,
@@ -140,10 +142,22 @@ export class NewTratamientoComponent implements OnInit {
       if (this.existID_pacientList(newdata.cipaciente) === true) {
         newdata.cipaciente =  newdata.cipaciente.cedula;
         newdata.odontologo =  newdata.odontologo.cedula;
-        newdata.nameodontologo = this.dentistselected.nombre;
-        this.tratamientoMService.addTratamientoM(newdata);
-        this.toastr.success('Registro guardado exitosamente', 'MENSAJE');
-        this.close();
+        newdata.nameodontologo = this.dentistselected.nombre;        
+        
+        console.log("newdata ->",newdata);
+        console.log("this.TratamientoMform.get('sseguro').value ->",this.TratamientoMform.get('sseguro').value);
+      
+        this.seguroService.getSegurosByNameAndEspecialidad(newdata.seguro,newdata.especialidad).subscribe(res => {
+          console.log(res);
+          if (Object.keys(res).length === 0 && !this.TratamientoMform.get('sseguro').value) {
+            this.toastr.error('El seguro del paciente no cubre esta especialidad medica', 'MENSAJE');
+          }else{
+            this.tratamientoMService.addTratamientoM(newdata);
+            this.toastr.success('Registro guardado exitosamente', 'MENSAJE');
+            this.close();
+          }
+        });
+        
       } else {
         this.toastr.error('El paciente  no se encuentra registrado', 'MENSAJE');
       }
