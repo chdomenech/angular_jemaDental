@@ -92,7 +92,7 @@ export class NewCitaComponent implements OnInit {
   }
 
   getRegisteredMedicalAppointments() {
-    this.citaMService.getAllCitasMedicas().subscribe(rest => {
+    this.citaMService.getAllCitas().subscribe(rest => {
       this.registeredMedicalAppointments = rest;
     }, error => {
       throw error;

@@ -18,7 +18,7 @@ export class NewSeguroComponent implements OnInit {
     nombre: new FormControl('', Validators.required),
     direccion:new FormControl(''),
     telefono:new FormControl(''),
-    email:new FormControl('', Validators.required),
+    email:new FormControl('', [Validators.required, Validators.email]),
     especialidades:new FormControl('', Validators.required),
   });
 
@@ -38,8 +38,6 @@ export class NewSeguroComponent implements OnInit {
 
   onSaveSeguro(data: SeguroInteface) {
 
-    console.log(this.specialtiesSelected);
-
     data.nombre = data.nombre.toLowerCase();
     data.especialidades = this.specialtiesSelected;
     if (this.existSeguro(data.nombre) === true) {
@@ -50,6 +48,7 @@ export class NewSeguroComponent implements OnInit {
       this.close();
     }
   }
+
   especialidad(val: any) {
     console.log(val);
     this.specialtiesSelected = val;
@@ -75,6 +74,14 @@ export class NewSeguroComponent implements OnInit {
 
   msgValidateNombre() {
     return  this.seguroForm.get('nombre').hasError('required') ? 'Campo obligatorio' : '';
+  }
+
+  msgValidateEspecialidad() {
+    return  this.seguroForm.get('especialidades').hasError('required') ? 'Campo obligatorio' : '';
+  }
+
+  msgValidateEmail() {
+    return  this.seguroForm.get('email').hasError('required') ? 'Campo obligatorio' : '';
   }
 
 }

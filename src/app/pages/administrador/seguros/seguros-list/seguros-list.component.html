@@ -19,7 +19,7 @@
                     <td mat-cell *matCellDef="let element; index as i"> {{i+1}} </td>
                 </ng-container>
                 <ng-container matColumnDef="nombre">
-                    <th mat-header-cell *matHeaderCellDef> Nombre del Seguro </th>
+                    <th mat-header-cell *matHeaderCellDef> Nombre Seguro </th>
                     <td mat-cell *matCellDef="let element"> {{element.nombre | titlecase}} </td>
                 </ng-container>
                 <ng-container matColumnDef="telefono">
@@ -31,24 +31,26 @@
                     <td mat-cell *matCellDef="let element"> {{element.direccion | titlecase}} </td>
                 </ng-container>
                 <ng-container matColumnDef="email">
-                    <th mat-header-cell *matHeaderCellDef> Correo electronico </th>
+                    <th mat-header-cell *matHeaderCellDef> Email </th>
                     <td mat-cell *matCellDef="let element"> {{element.email | titlecase}} </td>
-                </ng-container>
-                <ng-container matColumnDef="especialidades">
-                    <th mat-header-cell *matHeaderCellDef> Especialidades medicas que cubre el seguro </th>
-                    <td mat-cell *matCellDef="let element"> {{element.especialidades}} </td>
                 </ng-container>
                 <ng-container matColumnDef="accion">
                     <th mat-header-cell *matHeaderCellDef> Accion </th>
                     <td mat-cell *matCellDef="let element">
+                        <button mat-flat-button color="primary" (click)="onView(element)">
+                            Ver
+                            <mat-icon>new</mat-icon>
+                        </button>&nbsp;
+
                         <button mat-flat-button class="button-edit" color="primary" (click)="onEdit(element)">
-              Editar
-              <mat-icon>edit</mat-icon>
-            </button>&nbsp;
+                            Editar
+                            <mat-icon>edit</mat-icon>
+                        </button>&nbsp;
+
                         <button mat-flat-button class="button-delete" (click)="onDelete(element)">
-              Borrar
-              <mat-icon>delete</mat-icon>
-            </button>
+                            Borrar
+                            <mat-icon>delete</mat-icon>
+                        </button>
                     </td>
                 </ng-container>
 

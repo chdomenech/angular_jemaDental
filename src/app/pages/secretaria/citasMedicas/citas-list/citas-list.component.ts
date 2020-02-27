@@ -22,39 +22,48 @@ export class CitasListComponent implements OnInit {
   dentistList: any[] = [];
   fecha: any;
   displayedColumns: string[] = ['fecha', 'hora', 'cipaciente', 'namepaciente' , 'nameodontologo', 'seguro', 'estado', 'accion'];
-  dataSource = new MatTableDataSource();
-  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  dataSourceCitas = new MatTableDataSource();
+  @ViewChild(MatPaginator, {static: true}) paginatorCitas: MatPaginator;
 
   constructor(
     public router: Router,
     public authService: AuthService,
     private toastr: ToastrService,
-    private citaMService: CitaService,
+    private citaMService1: CitaService,
     public odontService: OdontologoService,
     public espeService: EspecialidadService,
     private dialog: MatDialog,
     private readonly afs: AngularFirestore
-  ) { }
+  ) { 
+
+    
+  }
 
   ngOnInit() {
-    
-    console.log("ESTO ES ","getAllCitasMedicas()");
 
-    this.citaMService.getAllCitasMedicas().subscribe(citaMedica => {
-      this.dataSource.data = citaMedica;
-      const tam = Object.keys(this.dataSource.data).length;
+    
+     /*this.citaMService1.getAllCitas().subscribe(citaMedica1 => {
+      this.dataSourceCitas.data = citaMedica1;
+
+      console.log("Citas medicas",this.dataSourceCitas.data);
+
+      const tam = Object.keys(this.dataSourceCitas.data).length;
       for (let i = 0; i< tam; i++){
-        const element = this.dataSource.data[i];
+        const element = this.dataSourceCitas.data[i];
         this.fecha = new Date(element['fecha']);
-        this.dataSource.data[i]['fecha'] = this.citaMService.formtDate(this.fecha);
+        this.dataSourceCitas.data[i]['fecha'] = this.citaMService1.formtDate(this.fecha);
       }
     });
-    this.dataSource.paginator = this.paginator;
-    this.getDentistList();
+
+    this.dataSourceCitas.paginator = this.paginatorCitas;
+    this.getDentistList();*/
+
+    this.citaMService1.getAllCitas().subscribe(seguros => this.dataSourceCitas.data = seguros);
+    this.dataSourceCitas.paginator = this.paginatorCitas;
   }
 
   applyFilter(filterValue: string) {
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.dataSourceCitas.filter = filterValue.trim().toLowerCase();1
   }
 
   getDentistList() {
@@ -72,7 +81,7 @@ export class CitasListComponent implements OnInit {
   onEdit(element) {
     this.openDialogEdit();
     if (element) {
-       this.citaMService.selectCitaM = Object.assign({}, element);
+       this.citaMService1.selectCitaM = Object.assign({}, element);
      }
   }
 
@@ -87,7 +96,7 @@ export class CitasListComponent implements OnInit {
   onDelete(element) {
     const confirmacion = confirm('¿Estas seguro de eliminar la cita medica?');
     if (confirmacion) {
-      this.citaMService.deleteCitaM(element);
+      this.citaMService1.deleteCitaM(element);
       this.toastr.success('Cita médica eliminada exitosamente', 'MENSAJE');
     }
   }

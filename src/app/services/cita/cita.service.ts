@@ -34,7 +34,7 @@ export class CitaService {
           namepaciente: item.namepaciente,
           odontologo: item.odontologo,
           seguro: item.seguro,
-          estado: item.estado
+          estado: item.estado,
         };
       });
     });
@@ -50,6 +50,20 @@ export class CitaService {
       });
     }));
   }
+
+
+
+  getAllCitas() {
+    return this.CitasMedicas = this.CitaMCollection.snapshotChanges()
+    .pipe(map( changes => {
+      return changes.map(action => {
+        const data = action.payload.doc.data() as CitaMInterface;
+        data.id = action.payload.doc.id;
+        return data;
+      });
+    }));
+  }
+
   getAllCitasMedicasNow() {
 
     let date = new Date();

@@ -49,6 +49,8 @@ import { CitasListNowComponent } from './pages/secretaria/citasMedicas/citas-lis
 import { TratamientosListComponent } from './pages/secretaria/tratamientos/tratamientos-list/tratamientos-list.component';
 import { NewTratamientoComponent } from './pages/secretaria/tratamientos/new-tratamiento/new-tratamiento.component';
 import { EditTratamientoComponent } from './pages/secretaria/tratamientos/edit-tratamiento/edit-tratamiento.component';
+import { StringbeautyPipe } from './pipes/pipes/stringbeauty.pipe';
+import { ViewSeguroComponent } from './pages/administrador/seguros/view-seguro/view-seguro.component';
 
 @NgModule({
   declarations: [
@@ -84,6 +86,8 @@ import { EditTratamientoComponent } from './pages/secretaria/tratamientos/edit-t
     TratamientosListComponent,
     NewTratamientoComponent,
     EditTratamientoComponent,
+    StringbeautyPipe,
+    ViewSeguroComponent,
   ],
   imports: [
     BrowserModule,
@@ -130,7 +134,8 @@ import { EditTratamientoComponent } from './pages/secretaria/tratamientos/edit-t
     NewCitaComponent,
     EditCitaComponent,
     NewTratamientoComponent,
-    EditTratamientoComponent
+    EditTratamientoComponent,
+    ViewSeguroComponent
   ],
   providers: [{ provide: MatPaginatorIntl, useClass: PaginatorEspañol}, MatDatepickerModule],
   bootstrap: [AppComponent]
