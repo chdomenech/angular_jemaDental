@@ -16,7 +16,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 })
 export class PagosListComponent implements OnInit {
 
-  displayedColumns: string[] = ['numero', 'fechaPago', 'cedulaPaciente', 'nombrePaciente', 'asuntoPago', 'valorPago', 'accion'];
+  displayedColumns: string[] = ['numero', 'fechaPago', 'cedulaPaciente', 'nombrePaciente', 'seguro','tratamiento', 'valorPago', 'accion'];
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
