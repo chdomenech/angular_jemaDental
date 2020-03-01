@@ -24,9 +24,14 @@ export class NewPagoComponent implements OnInit {
       id: new FormControl(''),
       fechaPago: new FormControl('', Validators.required),
       cedulaPaciente: new FormControl('', Validators.required),
+      seguro: new FormControl(''),
+      tratamiento: new FormControl(''),
       nombrePaciente: new FormControl(''),
-      asuntoPago: new FormControl('', Validators.required),
-      valorPago: new FormControl('', [Validators.required, Validators.pattern(this.valorPatern)]),
+      valorPagar: new FormControl('', [Validators.required, Validators.pattern(this.valorPatern)]),
+      ultimoValorCancelado: new FormControl(''),
+      valorPago: new FormControl(''),
+      valorPendiente: new FormControl(''),
+      
     });
 
   filteredOptions: Observable<string[]>;

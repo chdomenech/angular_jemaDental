@@ -36,17 +36,16 @@ export class CitasListComponent implements OnInit {
     private readonly afs: AngularFirestore
   ) { 
 
-    
   }
 
   ngOnInit() {
+    this.getCitas();
+  }
 
-    
-     /*this.citaMService1.getAllCitas().subscribe(citaMedica1 => {
+  getCitas(){
+    this.citaMService1.getAllCitas().subscribe(citaMedica1 => {
+
       this.dataSourceCitas.data = citaMedica1;
-
-      console.log("Citas medicas",this.dataSourceCitas.data);
-
       const tam = Object.keys(this.dataSourceCitas.data).length;
       for (let i = 0; i< tam; i++){
         const element = this.dataSourceCitas.data[i];
@@ -56,10 +55,8 @@ export class CitasListComponent implements OnInit {
     });
 
     this.dataSourceCitas.paginator = this.paginatorCitas;
-    this.getDentistList();*/
+    this.getDentistList();
 
-    this.citaMService1.getAllCitas().subscribe(seguros => this.dataSourceCitas.data = seguros);
-    this.dataSourceCitas.paginator = this.paginatorCitas;
   }
 
   applyFilter(filterValue: string) {

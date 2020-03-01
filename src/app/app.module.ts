@@ -33,7 +33,6 @@ import { NewOdontologoComponent } from './pages/administrador/odontologos/new-od
 import { EditOdontologoComponent } from './pages/administrador/odontologos/edit-odontologo/edit-odontologo.component';
 import { ReportesComponent } from './pages/administrador/reportes/reportes.component';
 import { PagosListComponent } from './pages/secretaria/pagos/pagos-list/pagos-list.component';
-import { EditPagoComponent } from './pages/secretaria/pagos/edit-pago/edit-pago.component';
 import { NewPagoComponent } from './pages/secretaria/pagos/new-pago/new-pago.component';
 import { PacientesListComponent } from './pages/secretaria/pacientes/pacientes-list/pacientes-list.component';
 import { EditPacienteComponent } from './pages/secretaria/pacientes/edit-paciente/edit-paciente.component';
@@ -51,6 +50,7 @@ import { NewTratamientoComponent } from './pages/secretaria/tratamientos/new-tra
 import { EditTratamientoComponent } from './pages/secretaria/tratamientos/edit-tratamiento/edit-tratamiento.component';
 import { StringbeautyPipe } from './pipes/pipes/stringbeauty.pipe';
 import { ViewSeguroComponent } from './pages/administrador/seguros/view-seguro/view-seguro.component';
+import { ViewTratamientoComponent } from './pages/secretaria/tratamientos/view-tratamiento/view-tratamiento.component';
 
 @NgModule({
   declarations: [
@@ -72,7 +72,6 @@ import { ViewSeguroComponent } from './pages/administrador/seguros/view-seguro/v
     EditOdontologoComponent,
     ReportesComponent,
     PagosListComponent,
-    EditPagoComponent,
     NewPagoComponent,
     PacientesListComponent,
     EditPacienteComponent,
@@ -88,6 +87,7 @@ import { ViewSeguroComponent } from './pages/administrador/seguros/view-seguro/v
     EditTratamientoComponent,
     StringbeautyPipe,
     ViewSeguroComponent,
+    ViewTratamientoComponent,
   ],
   imports: [
     BrowserModule,
@@ -130,12 +130,12 @@ import { ViewSeguroComponent } from './pages/administrador/seguros/view-seguro/v
     NewPacienteComponent,
     EditPacienteComponent,
     NewPagoComponent,
-    EditPagoComponent,
     NewCitaComponent,
     EditCitaComponent,
     NewTratamientoComponent,
     EditTratamientoComponent,
-    ViewSeguroComponent
+    ViewSeguroComponent,
+    ViewTratamientoComponent,
   ],
   providers: [{ provide: MatPaginatorIntl, useClass: PaginatorEspañol}, MatDatepickerModule],
   bootstrap: [AppComponent]

@@ -22,22 +22,7 @@ export class CitaService {
     private readonly afs: AngularFirestore
   ) {
     this.CitaMCollection = afs.collection<CitaMInterface>('CitasMedicas',  ref => ref.orderBy('fecha', 'desc'));
-    this.CitasMedicas = this.CitaMCollection.valueChanges();
-    this.CitasMedicas.subscribe(list => {
-      this.citaArray = list.map(item => {
-        return {
-          id: item.id,
-          especialidad: item.especialidad,
-          horas: item.hora,
-          fecha: item.fecha,
-          cipaciente: item.cipaciente,
-          namepaciente: item.namepaciente,
-          odontologo: item.odontologo,
-          seguro: item.seguro,
-          estado: item.estado,
-        };
-      });
-    });
+    //this.getAllCitasMedicas();
   }
 
   getAllCitasMedicas() {
