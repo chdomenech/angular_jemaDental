@@ -21,6 +21,7 @@ import { startWith, map } from 'rxjs/operators';
 export class NewTratamientoComponent implements OnInit {
 
   allowedChars = new Set('0123456789'.split('').map(c => c.charCodeAt(0)));
+  valorPatern = /^\d+(?:[.,]\d+)?$/;
 
   TratamientoMform = new FormGroup({
     id: new FormControl(null),
@@ -31,8 +32,7 @@ export class NewTratamientoComponent implements OnInit {
     odontologo: new FormControl('',  Validators.required),
     fecha: new FormControl('',  Validators.required),
     tratamiento: new FormControl('',  Validators.required),
-    precio: new FormControl(''),
-    //noaplica_seguro: new FormControl(''),
+    precio: new FormControl('', [Validators.required, Validators.pattern(this.valorPatern)]),
     sseguro: new FormControl(null),
     observacion: new FormControl(''),
   });
@@ -142,13 +142,9 @@ export class NewTratamientoComponent implements OnInit {
       if (this.existID_pacientList(newdata.cipaciente) === true) {
         newdata.cipaciente =  newdata.cipaciente.cedula;
         newdata.odontologo =  newdata.odontologo.cedula;
-        newdata.nameodontologo = this.dentistselected.nombre;        
-        
-        console.log("newdata ->",newdata);
-        console.log("this.TratamientoMform.get('sseguro').value ->",this.TratamientoMform.get('sseguro').value);
-      
+        newdata.nameodontologo = this.dentistselected.nombre;
+         
         this.seguroService.getSegurosByNameAndEspecialidad(newdata.seguro,newdata.especialidad).subscribe(res => {
-          console.log(res);
           if (Object.keys(res).length === 0 && !this.TratamientoMform.get('sseguro').value) {
             this.toastr.error('El seguro del paciente no cubre esta especialidad medica', 'MENSAJE');
           }else{

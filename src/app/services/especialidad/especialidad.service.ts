@@ -57,6 +57,8 @@ export class EspecialidadService {
   }
 
   addEspecialidad(especialidad: EspecialidadInterface) {
+    const id = this.afs.createId();
+    especialidad.id= id;
     return this.EspCollection.add(especialidad);
   }
 }

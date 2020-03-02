@@ -1,27 +1,29 @@
-.form-container{
-  width: 400px;
-  margin: auto;
+.form-container {
+    width: 650px;
+    margin: auto;
+}
+
+.select {
+    width: 100%;
+    text-align: center;
+}
+
+.inputData {
+    text-align: center;
+    width: 60%;
 }
 
 span {
-  display:block;
-  text-align:center;
-  width:100%;
+    display: block;
+    text-align: center;
+    width: 800%;
 }
 
-.inputWidth{
-  width: 30%;
-  text-align: center;
+.mat-dialog-actions {
+    justify-content: center;
 }
 
-.example-right-align {
-  text-align: right;
-}
-input.example-right-align::-webkit-outer-spin-button,
-input.example-right-align::-webkit-inner-spin-button {
-  display: none;
-}
-
-input.example-right-align {
-  -moz-appearance: textfield;
+.contenedor {
+    background: transparent;
+    max-width: auto;
 }

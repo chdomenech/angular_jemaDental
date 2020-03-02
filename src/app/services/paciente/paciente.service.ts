@@ -33,6 +33,8 @@ export class PacienteService {
         };
       });
     });
+
+    console.log("Pacientes ",this.arrayPacientes);
   }
 
   getAllPacientes() {
@@ -55,6 +57,8 @@ export class PacienteService {
   }
 
   addPaciente(paciente: PacienteInterface) {
+    const id = this.afs.createId();
+    paciente.id= id;
     return this.PacientCollection.add(paciente);
   }
 

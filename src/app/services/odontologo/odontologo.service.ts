@@ -59,6 +59,8 @@ export class OdontologoService {
     if (img) {
       this.uploadImage(odontologo, img);
     } else {
+      const id = this.afs.createId();
+      odontologo.id= id;
       this.OdontCollection.add(odontologo);
     }
   }

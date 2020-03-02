@@ -12,6 +12,7 @@ export interface TratamientoMInterface {
     observacion?: string;
     precio?: any;
     sseguro?:any;
+    pagos?: any;
 }
 
   

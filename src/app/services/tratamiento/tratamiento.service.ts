@@ -38,6 +38,7 @@ export class TratamientoService {
           tratamiento: item.tratamiento,
           precio: item.precio,
           observacion: item.observacion,
+          pagos: item.pagos
         };
       });
     });

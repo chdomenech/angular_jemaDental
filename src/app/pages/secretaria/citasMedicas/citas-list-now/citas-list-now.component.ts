@@ -1,6 +1,6 @@
 import { EspecialidadService } from './../../../../services/especialidad/especialidad.service';
 import { OdontologoService } from './../../../../services/odontologo/odontologo.service';
-import { CitaService } from './../../../../services/cita/cita.service';
+import { CitaListService } from './../../../../services/cita-list/cita-list.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatDialog } from '@angular/material';
 import { AngularFirestore } from '@angular/fire/firestore';
@@ -11,7 +11,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 
 
 @Component({
-  selector: 'app-citas-list-now',
+  selector: 'app-now-list-now',
   templateUrl: './citas-list-now.component.html',
   styleUrls: ['./citas-list-now.component.css']
 })
@@ -28,7 +28,7 @@ export class CitasListNowComponent implements OnInit {
     public router: Router,
     public authService: AuthService,
     private toastr: ToastrService,
-    private citaMService: CitaService,
+    private citaMService: CitaListService,
     public odontService: OdontologoService,
     public espeService: EspecialidadService,
     private dialog: MatDialog,

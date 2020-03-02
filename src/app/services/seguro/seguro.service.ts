@@ -67,6 +67,8 @@ export class SeguroService {
   }
 
   addSeguro(seguro: SeguroInteface) {
+    const id = this.afs.createId();
+    seguro.id= id;
     return this.SeguroCollection.add(seguro);
   }
 }

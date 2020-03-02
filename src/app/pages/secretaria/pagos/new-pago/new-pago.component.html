@@ -7,16 +7,16 @@
 </div>
 <br>
 <div class="form-container" style="text-align: center">
-    <form [formGroup]="pagoForm" (ngSubmit)="savePago(pagoForm.value)">
+    <form [formGroup]="pagoForm" (ngSubmit)="savePago()">
         <input type="hidden" formControlName="id">
-        <mat-form-field style="text-align: center; width: 40%;">
-            <input matInput [matDatepicker]="picker1" placeholder="Fecha de pago" formControlName="fechaPago">
-            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-            <mat-datepicker #picker1></mat-datepicker>
+        <mat-form-field style="text-align: center; ">
+            <input matInput [matDatepicker]="picker" [min]="minDate" formControlName="fechaPago" placeholder="Seleccione la fecha" (ngModelChange)="selectFecha($event)">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
             <mat-error *ngIf="pagoForm.invalid">{{errorMessageDate()}}</mat-error>
         </mat-form-field>
         <br>
-        <mat-form-field style="width: 40%; text-align: center;">
+        <mat-form-field style="text-align: center;">
             <input (keydown)="check($event)" placeholder="Cédula del paciente" matInput formControlName="cedulaPaciente" [matAutocomplete]="auto">
             <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
                 <mat-option *ngFor="let paciente of filteredOptions | async ; let i = index" [value]="paciente">
@@ -26,36 +26,36 @@
             <mat-error *ngIf="pagoForm.invalid">{{'Campo Obligatorio'}}</mat-error>
         </mat-form-field>
         &nbsp;&nbsp;
-        <mat-form-field style="width: 50%; text-align: center;">
+        <mat-form-field style="text-align: center;">
             <input matInput formControlName="nombrePaciente" placeholder="Nombres y Apellidos" readonly>
         </mat-form-field>
         <br>
-        <mat-form-field style="width: 50%; text-align: center;">
+        <mat-form-field style=" text-align: center;">
             <input matInput formControlName="seguro" placeholder="Seguro" readonly>
         </mat-form-field>
         &nbsp;
-        <mat-form-field style="width: 50%; text-align: center;">
-            <input matInput formControlName="tratamiento" placeholder="Tratamiento" readonly>
+        <mat-form-field style=" text-align: center;">
+            <mat-select formControlName="tratamiento" placeholder="tratamiento" (ngModelChange)="tratamiento($event)">
+                <mat-option *ngFor="let tratamiento of tratamientosArraySelect" [value]="tratamiento">
+                    {{tratamiento.tratamiento}}
+                </mat-option>
+            </mat-select>
         </mat-form-field><br>
         <mat-form-field class="inputWidth">
-            <input matInput placeholder="Valor Total $" formControlName='valorPago'>
-            <span matPrefix>$&nbsp;</span>
+            <input matInput placeholder="Valor Total $" formControlName='valorPago' readonly>
         </mat-form-field>
         <br>
         <mat-form-field class="inputWidth">
-            <input matInput placeholder="Ultimo valor cancelado $" formControlName='ultimoValorCancelado'>
-            <span matPrefix>$&nbsp;</span>
+            <input matInput placeholder="Ultimo valor cancelado $" formControlName='ultimoValorCancelado' readonly>
         </mat-form-field>
         <br>
         <mat-form-field class="inputWidth">
             <input matInput placeholder="Valor a Pagar" formControlName='valorPagar'>
-            <span matPrefix>$&nbsp;</span>
             <mat-error *ngIf="pagoForm.invalid">{{errorMessageValor()}}</mat-error>
         </mat-form-field>
         <br>
         <mat-form-field class="inputWidth">
-            <input matInput placeholder="Valor pendiente" formControlName='valorPendiente'>
-            <span matPrefix>$&nbsp;</span>
+            <input matInput placeholder="Valor pendiente" formControlName='valorPendiente' readonly>
         </mat-form-field>
         <br>
         <div style="text-align: center;">
