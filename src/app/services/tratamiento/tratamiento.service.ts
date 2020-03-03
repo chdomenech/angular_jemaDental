@@ -71,6 +71,8 @@ export class TratamientoService {
   }
 
   addTratamientoM(tratamiento: TratamientoMInterface) {
+    const id = this.afs.createId();
+    tratamiento.id= id;
     return this.TratamientoMCollection.add(tratamiento);
   }
 }

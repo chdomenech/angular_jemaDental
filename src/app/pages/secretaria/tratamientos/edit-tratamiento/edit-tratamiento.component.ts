@@ -184,6 +184,7 @@ export class EditTratamientoComponent implements OnInit {
         newdata.cipaciente =  newdata.cipaciente.cedula;
         newdata.odontologo =  newdata.odontologo.cedula;
         newdata.nameodontologo = this.dentistselected.nombre;
+        newdata.precio = Number.parseFloat(newdata.precio);
         this.tratamientoMService.updateTratamientoM(newdata);
         this.actualizo = true;
         this.toastr.success('Registro actualizado con Exitoso', 'MENSAJE');

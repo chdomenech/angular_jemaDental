@@ -143,12 +143,13 @@ export class NewTratamientoComponent implements OnInit {
         newdata.cipaciente =  newdata.cipaciente.cedula;
         newdata.odontologo =  newdata.odontologo.cedula;
         newdata.nameodontologo = this.dentistselected.nombre;
+        newdata.precio = Number.parseFloat(newdata.precio);
          
         this.seguroService.getSegurosByNameAndEspecialidad(newdata.seguro,newdata.especialidad).subscribe(res => {
           if (Object.keys(res).length === 0 && !this.TratamientoMform.get('sseguro').value) {
             this.toastr.error('El seguro del paciente no cubre esta especialidad medica', 'MENSAJE');
           }else{
-            this.tratamientoMService.addTratamientoM(newdata);
+            this.tratamientoMService.addTratamientoM(newdata);           
             this.toastr.success('Registro guardado exitosamente', 'MENSAJE');
             this.close();
           }

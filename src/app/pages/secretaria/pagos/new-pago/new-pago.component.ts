@@ -28,7 +28,7 @@ export class NewPagoComponent implements OnInit {
 
 
     pagoForm = new FormGroup({
-      id: new FormControl(''),
+      id: new FormControl(null),
       fechaPago: new FormControl('', Validators.required),
       cedulaPaciente: new FormControl('', Validators.required),
       seguro: new FormControl(''),
@@ -106,13 +106,13 @@ export class NewPagoComponent implements OnInit {
       this.pagoForm.get('valorPendiente').setValue(val.precio);
 
     }else if(val.pagos.length>0){
-      const totalPagado = val.pagos.reduce((acc, pago) => acc + Number.parseFloat(pago.pago), 0);
+      const totalPagado = val.pagos.reduce((acc, pago) => acc + pago.pago, 0);
       const ultimoValorPagado = val.pagos[val.pagos.length-1];
 
-      const totalAPagar = Number.parseFloat(val.precio) - Number.parseFloat(totalPagado);
+      const totalAPagar =  Number.parseFloat(val.precio) - Number.parseFloat(totalPagado);
 
       this.pagoForm.get('ultimoValorCancelado').setValue(ultimoValorPagado.pago);
-      this.pagoForm.get('valorPendiente').setValue(totalAPagar);
+      this.pagoForm.get('valorPendiente').setValue(totalAPagar );
     }
   }
 
@@ -143,23 +143,18 @@ export class NewPagoComponent implements OnInit {
  
   savePago() {
 
-    console.log( this.tratamientoSelected);
+    console.log(this.tratamientoSelected);
 
       let newdata: TratamientoMInterface;
       newdata = this.tratamientoSelected;
-
-      if(newdata.pagos === undefined){
-        newdata.pagos= [];  
-      }
-
-      const valorPagado = this.pagoForm.get('valorPagar').value;
-
-
-      newdata.pagos.push({pago: valorPagado, fecha: this.dateSelected});
-
-      console.log(newdata);
-
       if (newdata) {
+        if(newdata.pagos === undefined){
+          newdata.pagos= [];  
+        }
+        this.tratamientoService.updateTratamientoM(newdata)
+        const valorPagado = Number.parseFloat(this.pagoForm.get('valorPagar').value);
+        newdata.pagos.push({pago: valorPagado, fecha: this.dateSelected});
+
         this.tratamientoService.updateTratamientoM(newdata);
         this.toastr.success('Registro guardado exitosamente', 'MENSAJE');
         this.close();
