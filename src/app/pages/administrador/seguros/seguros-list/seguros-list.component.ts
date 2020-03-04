@@ -15,7 +15,6 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 })
 export class SegurosListComponent implements OnInit {
 
-  //displayedColumns: string[] = ['numero', 'nombre','telefono','direccion','email','especialidades', 'accion'];
   displayedColumns: string[] = ['numero', 'nombre','telefono','direccion','email', 'accion'];
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
@@ -29,7 +28,6 @@ export class SegurosListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
     this.seguroService.getAllSeguros().subscribe(seguros => this.dataSource.data = seguros);
     this.dataSource.paginator = this.paginator;
   }

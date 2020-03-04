@@ -32,7 +32,7 @@
         <mat-form-field class="inputData">
             <input matInput formControlName="seguro" placeholder="Seguro del Paciente" class="form-control" readonly>
         </mat-form-field> &nbsp; &nbsp;
-        <mat-checkbox class="example-margin" formControlName="sseguro" (ngModelChange)="sinseguro($event)">Sin seguro &nbsp;</mat-checkbox>
+        <mat-checkbox class="example-margin" formControlName="sseguro" (ngModelChange)="sinseguro($event)">No aplica &nbsp;</mat-checkbox>
         <br>
         <mat-form-field class="select">
             <mat-select formControlName="especialidad" placeholder="especialidad" (ngModelChange)="especialidad($event)">
@@ -58,7 +58,7 @@
             <textarea matInput formControlName="tratamiento" class="form-control"></textarea>
         </mat-form-field>
         <mat-form-field class="inputData">
-            <input matInput formControlName="precio" placeholder="Valor" class="form-control">
+            <input matInput formControlName="precio" placeholder="Valor" class="form-control" maxlength="5" (keydown)="check($event)">
         </mat-form-field>
         <mat-form-field class="inputData">
             <mat-label>Observacion</mat-label>

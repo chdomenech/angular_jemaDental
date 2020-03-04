@@ -1,6 +1,6 @@
 import { EspecialidadService } from './../../../../services/especialidad/especialidad.service';
 import { OdontologoService } from './../../../../services/odontologo/odontologo.service';
-import { CitaListService } from './../../../../services/cita-list/cita-list.service';
+import { CitaService } from './../../../../services/cita/cita.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatDialog } from '@angular/material';
 import { AngularFirestore } from '@angular/fire/firestore';
@@ -28,16 +28,35 @@ export class CitasListNowComponent implements OnInit {
     public router: Router,
     public authService: AuthService,
     private toastr: ToastrService,
-    private citaMService: CitaListService,
+    private citaMService: CitaService,
     public odontService: OdontologoService,
     public espeService: EspecialidadService,
     private dialog: MatDialog,
     private readonly afs: AngularFirestore
   ) { }
+  
+  filtrarCitas(obj) {
+    let date = new Date();
+    date.setSeconds(0);
+    date.setMinutes(0);
+    date.setHours(0);
+    
+    let fech = date + "";
+    const fechaParse = Date.parse(fech);
+
+    console.log("filtrarCitas citas list now",fechaParse);
+
+    if (obj.fecha === fechaParse && (obj.estado ==="pendiente" || obj.estado==="agendada" || obj.estado==="confirmada")){
+      return true;
+    } else {     
+      return false;
+    }
+  }
 
   ngOnInit() {
 
-    this.citaMService.getAllCitasMedicasNow().subscribe(citaMedica => {
+    this.citaMService.getAllCitasMedicas().subscribe(citaMedica => {
+      citaMedica = citaMedica.filter(this.filtrarCitas);
       this.dataSource.data = citaMedica;
       const tam = Object.keys(this.dataSource.data).length;
       for (let i = 0; i< tam; i++){
@@ -49,6 +68,7 @@ export class CitasListNowComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
     this.getDentistList();
   }
+
 
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();

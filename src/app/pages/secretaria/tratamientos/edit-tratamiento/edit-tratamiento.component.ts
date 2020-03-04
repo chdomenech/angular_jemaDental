@@ -10,6 +10,7 @@ import { PacienteInterface } from 'src/app/models/paciente-model';
 import { ToastrService } from 'ngx-toastr';
 import { DateAdapter, MatDialogRef } from '@angular/material';
 import { startWith, map } from 'rxjs/operators';
+import { SeguroService } from './../../../../services/seguro/seguro.service';
 
 @Component({
   selector: 'app-edit-tratamiento',
@@ -20,7 +21,7 @@ export class EditTratamientoComponent implements OnInit {
 
   valorPatern = /^\d+(?:[.,]\d+)?$/;
   actualizo: boolean;
-  allowedChars = new Set('0123456789'.split('').map(c => c.charCodeAt(0)));
+  allowedChars = new Set('0123456789.'.split('').map(c => c.charCodeAt(0)));
 
   TratamientoMform = new FormGroup({
     id: new FormControl(null),
@@ -58,6 +59,7 @@ export class EditTratamientoComponent implements OnInit {
     public espeService: EspecialidadService,
     public pactService: PacienteService,
     private dateAdapter: DateAdapter<Date>,
+    public seguroService: SeguroService,
     private tratamientoMService: TratamientoService,
     public odontService: OdontologoService,
     private dialogRef: MatDialogRef<EditTratamientoComponent>,
@@ -132,7 +134,7 @@ export class EditTratamientoComponent implements OnInit {
     if(!this.TratamientoMform.get('sseguro').value){
       this.TratamientoMform.get('seguro').setValue(this.valorseguro);
     }else{
-      this.TratamientoMform.get('seguro').setValue("Sin seguro");
+      this.TratamientoMform.get('seguro').setValue("No aplica");
     }
   }
 
@@ -140,7 +142,7 @@ export class EditTratamientoComponent implements OnInit {
     if(!this.TratamientoMform.get('sseguro').value){
       this.TratamientoMform.get('seguro').setValue(this.valorseguro);
     }else{
-      this.TratamientoMform.get('seguro').setValue("Sin seguro");
+      this.TratamientoMform.get('seguro').setValue("No aplica");
     }
   }
 
@@ -160,9 +162,19 @@ export class EditTratamientoComponent implements OnInit {
         if (odont.especialidad === val) {
           this.odontEspecialidad.push(odont);
         }
-      });
-      console.log("this.odontEspecialidad ",this.odontEspecialidad)
+      });      
     }
+    const seguro = this.TratamientoMform.get('seguro').value;    
+    if(seguro !== "No aplica" && !this.TratamientoMform.get('sseguro').value){
+      
+      this.seguroService.getSegurosByNameAndEspecialidad(seguro,val).subscribe(res => {
+       if (Object.keys(res).length === 0) {
+          this.toastr.warning('El seguro del paciente no cubre esta especialidad medica', 'MENSAJE');
+          return  this.TratamientoMform.get('cipaciente').hasError('required');
+        }
+      });
+    } 
+
   }
 
   selectFecha(date: any) {
@@ -179,16 +191,21 @@ export class EditTratamientoComponent implements OnInit {
     newdata = data;
 
     if (newdata.cipaciente) {
-
       if (this.existID_pacientList(newdata.cipaciente) === true) {
         newdata.cipaciente =  newdata.cipaciente.cedula;
         newdata.odontologo =  newdata.odontologo.cedula;
         newdata.nameodontologo = this.dentistselected.nombre;
         newdata.precio = Number.parseFloat(newdata.precio);
-        this.tratamientoMService.updateTratamientoM(newdata);
-        this.actualizo = true;
-        this.toastr.success('Registro actualizado con Exitoso', 'MENSAJE');
-        this.close();
+        this.seguroService.getSegurosByNameAndEspecialidad(newdata.seguro,newdata.especialidad).subscribe(res => {
+          if (Object.keys(res).length === 0 && !this.TratamientoMform.get('sseguro').value) {
+            this.toastr.error('El seguro del paciente no cubre esta especialidad medica', 'MENSAJE');
+          }else{
+            this.tratamientoMService.updateTratamientoM(newdata);
+            this.actualizo = true;          
+            this.toastr.success('Registro actualizado exitosamente', 'MENSAJE');
+            this.close();
+          }
+        });
       } else {
         this.toastr.error('El paciente  no se encuentra registrado', 'MENSAJE');
       }
@@ -221,7 +238,9 @@ export class EditTratamientoComponent implements OnInit {
 
  // Funcion: permitir solo numeros
  check(event: KeyboardEvent) {
-    if (event.keyCode > 31 && !this.allowedChars.has(event.keyCode)) {
+   console.log(event);
+   var preg = /^([0-9]+\.?[0-9]{0,2})$/; 
+    if (preg.test(event.key) !== true){
       event.preventDefault();
     }
   }

@@ -22,6 +22,7 @@ export class NewSeguroComponent implements OnInit {
     especialidades:new FormControl('', Validators.required),
   });
 
+  allowedChars = new Set('0123456789'.split('').map(c => c.charCodeAt(0)));
   specialtiesSelected:  string[];
 
   constructor(
@@ -37,15 +38,22 @@ export class NewSeguroComponent implements OnInit {
   }
 
   onSaveSeguro(data: SeguroInteface) {
-
     data.nombre = data.nombre.toLowerCase();
     data.especialidades = this.specialtiesSelected;
     if (this.existSeguro(data.nombre) === true) {
       this.toastr.warning('El seguro ya se encuentra registrado', 'MENSAJE');
-    } else {
+    }else if (this.existEmail(data.email)===true){
+      this.toastr.warning('El email ya se encuentra registrado', 'MENSAJE');
+    }else {
       this.seguroService.addSeguro(data);
       this.toastr.success('Registro actualizado exitosamente', 'MENSAJE');
       this.close();
+    }
+  }
+
+  check(event: KeyboardEvent) {
+    if (event.keyCode > 31 && !this.allowedChars.has(event.keyCode)) {
+      event.preventDefault();
     }
   }
 
@@ -58,6 +66,21 @@ export class NewSeguroComponent implements OnInit {
     if (nombre) {
       const seguroFiltered = this.seguroService.arraySeguros.find(espeFilterbynombre => espeFilterbynombre.nombre === nombre);
       if (seguroFiltered) {
+        exist = true;
+      } else {
+        exist = false;
+      }
+    } else {
+      exist = false;
+    }
+    return exist;
+  }
+
+  existEmail(email: any): boolean {
+    let exist = false;
+    if (email) {
+      const emailFiltered = this.seguroService.arraySeguros.find(seguro => seguro.email.toLowerCase() === email.toLowerCase());
+      if (emailFiltered) {
         exist = true;
       } else {
         exist = false;

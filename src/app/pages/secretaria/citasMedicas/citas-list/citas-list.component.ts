@@ -9,6 +9,7 @@ import { EditCitaComponent } from '../edit-cita/edit-cita.component';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { CitaMInterface } from './../../../../models/cita-model';
 
 @Component({
   selector: 'app-citas-list',
@@ -18,6 +19,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 export class CitasListComponent implements OnInit {
 
   myDate = Date.now();
+  citasMedicasFiltradas: CitaMInterface[];
 
   dentistList: any[] = [];
   fecha: any;
@@ -42,10 +44,26 @@ export class CitasListComponent implements OnInit {
     this.getCitas();
   }
 
-  getCitas(){
-    this.citaMService1.getAllCitas().subscribe(citaMedica1 => {
+  filtrarCitas(obj) {
+    let date = new Date();
+    date.setSeconds(0);
+    date.setMinutes(0);
+    date.setHours(0);
+    
+    let fech = date + "";
+    const fechaParse = Date.parse(fech);
 
-      this.dataSourceCitas.data = citaMedica1;
+    if (obj.fecha != fechaParse || (obj.fecha === fechaParse && (obj.estado ==="no asistió" || obj.estado==="asistió"))){
+      return true;
+    } else {     
+      return false;
+    }
+  }
+
+  getCitas(){
+    this.citaMService1.getAllCitasMedicas().subscribe(citaMedica1 => {    
+    citaMedica1 = citaMedica1.filter(this.filtrarCitas);
+     this.dataSourceCitas.data = citaMedica1;
       const tam = Object.keys(this.dataSourceCitas.data).length;
       for (let i = 0; i< tam; i++){
         const element = this.dataSourceCitas.data[i];
@@ -56,7 +74,6 @@ export class CitasListComponent implements OnInit {
 
     this.dataSourceCitas.paginator = this.paginatorCitas;
     this.getDentistList();
-
   }
 
   applyFilter(filterValue: string) {

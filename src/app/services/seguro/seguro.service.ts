@@ -21,16 +21,17 @@ export class SeguroService {
     private readonly afs: AngularFirestore
     ) {
     this.SeguroCollection = afs.collection<SeguroInteface>('Seguros',  ref => ref.orderBy('nombre', 'desc'));
-    this.Seguro = this.SeguroCollection.valueChanges();
+    this.getAllSeguros();
     this.Seguro.subscribe(list => {
       this.arraySeguros = list.map(item => {
           return {
             id: item.id,
-            nombre: item.nombre
+            nombre: item.nombre,
+            email: item.email,
           };
       });
     });
-  }
+   }
 
   getAllSeguros() {
     return this.Seguro = this.SeguroCollection.snapshotChanges()
@@ -45,7 +46,7 @@ export class SeguroService {
 
   getSegurosByNameAndEspecialidad(nombre: string, especialidad: string) {
     this.SeguroCollection = this.afs.collection(
-      'Seguros', ref => ref.where('nombre', '==', nombre).where('especialidades', 'in', [especialidad]));
+      'Seguros', ref => ref.where('nombre', '==', nombre).where('especialidades', 'array-contains-any', [especialidad]));
     this.Seguro = this.SeguroCollection.snapshotChanges().pipe(map(
       actions => {
         return actions.map(a => {

@@ -78,17 +78,6 @@ export class EditCitaComponent implements OnInit {
    
   }
 
-  findInvalidControls() {
-    const controls = this.CitaMform.controls;
-    for (const name in controls) {
-        if (controls[name].invalid) {
-          console.log("InValido ",name,controls[name].status);
-        }else{
-         // console.log("Valido ",name,controls[name].status);
-        }
-    }
-}
-
   displayFn(subject) {
     return subject ? subject.cedula : undefined;
   }
@@ -110,10 +99,6 @@ export class EditCitaComponent implements OnInit {
         });
       });
     });
-  }
-
-  hey(hola:any){
-    this.findInvalidControls();
   }
 
   setDataCitaM() {
@@ -261,11 +246,8 @@ export class EditCitaComponent implements OnInit {
     }
   }
 
-
   guardarCitaMedica(data: CitaMInterface) {
-    console.log('Editar cita medica');
-    console.log('Data ',data);
-    const fecha = Date.parse(data.fecha);
+     const fecha = Date.parse(data.fecha);
     data.fecha = fecha;
     let newdata: CitaMInterface;
     newdata = data;
@@ -340,5 +322,4 @@ export class EditCitaComponent implements OnInit {
   getErrorMessageEst() {
     return  this.CitaMform.get('estado').hasError('required') ? 'Seleccione el estado de la cita' : '';
   }
-
 }

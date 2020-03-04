@@ -16,7 +16,6 @@ export class ViewSeguroComponent implements OnInit {
     id: new FormControl(null),
     nombre: new FormControl(''),
     email:new FormControl(''),
-    //especialidades:new FormControl(''),
     direccion:new FormControl(''),
     telefono:new FormControl(''),    
   });
@@ -32,8 +31,6 @@ export class ViewSeguroComponent implements OnInit {
     dialogRef.disableClose = true;
   }
   ngOnInit() {
-
-    console.log("this.seguroService.seguroSelected -> ",this.seguroService.seguroSelected);
 
     this.seguroForm.get('id').setValue(this.seguroService.seguroSelected.id);
     this.seguroForm.get('nombre').setValue(this.seguroService.seguroSelected.nombre);

@@ -15,7 +15,7 @@
         </mat-form-field>
         <br>
         <mat-form-field class="inputWidth">
-            <input matInput formControlName="telefono" placeholder="Telefono">
+            <input matInput formControlName="telefono" placeholder="Telefono" maxlength="10" (keydown)="check($event)">
         </mat-form-field>
         &nbsp;&nbsp;
         <mat-form-field class="inputWidth">

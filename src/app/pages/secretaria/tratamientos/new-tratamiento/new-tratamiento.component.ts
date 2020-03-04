@@ -20,7 +20,7 @@ import { startWith, map } from 'rxjs/operators';
 })
 export class NewTratamientoComponent implements OnInit {
 
-  allowedChars = new Set('0123456789'.split('').map(c => c.charCodeAt(0)));
+  allowedChars = new Set('0123456789.'.split('').map(c => c.charCodeAt(0)));
   valorPatern = /^\d+(?:[.,]\d+)?$/;
 
   TratamientoMform = new FormGroup({
@@ -96,7 +96,7 @@ export class NewTratamientoComponent implements OnInit {
     if(!this.TratamientoMform.get('sseguro').value){
       this.TratamientoMform.get('seguro').setValue(this.valorseguro);
     }else{
-      this.TratamientoMform.get('seguro').setValue("Sin seguro");
+      this.TratamientoMform.get('seguro').setValue("No aplica");
     }
     
   }
@@ -116,6 +116,17 @@ export class NewTratamientoComponent implements OnInit {
         this.odontEspecialidad.push(odont);
       }
     });
+
+    const seguro = this.TratamientoMform.get('seguro').value;    
+    if(seguro != "No aplica" ||  !this.TratamientoMform.get('sseguro').value){
+
+      this.seguroService.getSegurosByNameAndEspecialidad(seguro,val).subscribe(res => {
+       if (Object.keys(res).length === 0) {
+          this.toastr.error('El seguro del paciente no cubre esta especialidad medica', 'MENSAJE');
+          return  this.TratamientoMform.get('cipaciente').hasError('required');
+        }
+      });
+    }  
   }
 
   selectFecha(date: any) {
@@ -124,16 +135,16 @@ export class NewTratamientoComponent implements OnInit {
 
   sinseguro(seguro:any){
     if(!this.TratamientoMform.get('sseguro').value){
-      this.TratamientoMform.get('seguro').setValue(this.valorseguro);
+      this.TratamientoMform.get('seguro').setValue(this.valorseguro);      
     }else{
-      this.TratamientoMform.get('seguro').setValue("Sin seguro");
+      this.TratamientoMform.get('seguro').setValue("No aplica");
     }
   }
 
   guardarTratamientoMedico(data: TratamientoMInterface) {
     const fecha = Date.parse(data.fecha);
     data.fecha = fecha;
-    // objeto modificado
+ 
     let newdata: TratamientoMInterface;
     newdata = data;
 
@@ -146,8 +157,9 @@ export class NewTratamientoComponent implements OnInit {
         newdata.precio = Number.parseFloat(newdata.precio);
          
         this.seguroService.getSegurosByNameAndEspecialidad(newdata.seguro,newdata.especialidad).subscribe(res => {
+
           if (Object.keys(res).length === 0 && !this.TratamientoMform.get('sseguro').value) {
-            this.toastr.error('El seguro del paciente no cubre esta especialidad medica', 'MENSAJE');
+            this.toastr.warning('El seguro del paciente no cubre esta especialidad medica', 'MENSAJE');
           }else{
             this.tratamientoMService.addTratamientoM(newdata);           
             this.toastr.success('Registro guardado exitosamente', 'MENSAJE');
@@ -182,11 +194,14 @@ export class NewTratamientoComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  check(event: KeyboardEvent) {
-    if (event.keyCode > 31 && !this.allowedChars.has(event.keyCode)) {
-      event.preventDefault();
-    }
-  }
+ // Funcion: permitir solo numeros
+ check(event: KeyboardEvent) {
+  console.log(event);
+  var preg = /^([0-9]+\.?[0-9]{0,2})$/; 
+   if (preg.test(event.key) !== true){
+     event.preventDefault();
+   }
+ } 
 
   getErrorMessageP() {
     return  this.TratamientoMform.get('cipaciente').hasError('required') ? 'Seleccione el paciente' : '';

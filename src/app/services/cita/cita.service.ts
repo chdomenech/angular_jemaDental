@@ -57,9 +57,7 @@ export class CitaService {
   }
 
   addCitaM(cita: CitaMInterface) {
-    const id = this.afs.createId();
-    cita.id= id;
-    return this.CitaMCollection.add(cita);
+     return this.CitaMCollection.add(cita);
   }
 
   getCitasbyDate(fechaIni: number, fechaFin: number) {

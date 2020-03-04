@@ -22,6 +22,7 @@ export class EditSeguroComponent implements OnInit {
     telefono:new FormControl(''),    
   });
   specialtiesSelected:  string[];
+  allowedChars = new Set('0123456789'.split('').map(c => c.charCodeAt(0)));
 
   constructor(
     private toastr: ToastrService,
@@ -48,7 +49,9 @@ export class EditSeguroComponent implements OnInit {
     data.nombre = data.nombre.toLowerCase();
     const seguroFiltered = this.seguroService.arraySeguros.find(espeFilterbynombre => espeFilterbynombre.nombre === data.nombre);
 
-    if (((this.seguroService.seguroSelected.nombre === data.nombre) && seguroFiltered) || seguroFiltered === undefined) {
+    if (this.existEmail(data.email, data.nombre)===true){
+      this.toastr.warning('El email ya se encuentra registrado', 'MENSAJE');
+    }else if (((this.seguroService.seguroSelected.nombre === data.nombre) && seguroFiltered) || seguroFiltered === undefined) {
       this.seguroService.updateSeguro(data);
       this.toastr.success('Registro actualizado exitosamente', 'MENSAJE');
       this.close();
@@ -56,6 +59,29 @@ export class EditSeguroComponent implements OnInit {
       this.toastr.warning('El seguro ya se encuentra registrado', 'MENSAJE');
     }
 
+  }
+
+  existEmail(email: any, nombre: any): boolean {
+    let exist = false;
+    if (email) {
+      const emailFiltered = this.seguroService.
+      arraySeguros.find(seguro => seguro.email.toLowerCase() === email.toLowerCase()
+      && seguro.nombre.toLowerCase() !== nombre.toLowerCase());
+      if (emailFiltered) {
+        exist = true;
+      } else {
+        exist = false;
+      }
+    } else {
+      exist = false;
+    }
+    return exist;
+  }
+
+  check(event: KeyboardEvent) {
+    if (event.keyCode > 31 && !this.allowedChars.has(event.keyCode)) {
+      event.preventDefault();
+    }
   }
 
    especialidad(val: any) {
