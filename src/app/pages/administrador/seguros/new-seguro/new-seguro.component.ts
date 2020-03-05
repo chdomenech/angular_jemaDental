@@ -18,8 +18,7 @@ export class NewSeguroComponent implements OnInit {
     nombre: new FormControl('', Validators.required),
     direccion:new FormControl(''),
     telefono:new FormControl(''),
-    email:new FormControl('', [Validators.required, Validators.email]),
-    especialidades:new FormControl('', Validators.required),
+    email:new FormControl('', [Validators.required, Validators.email])
   });
 
   allowedChars = new Set('0123456789'.split('').map(c => c.charCodeAt(0)));
@@ -40,7 +39,10 @@ export class NewSeguroComponent implements OnInit {
   onSaveSeguro(data: SeguroInteface) {
     data.nombre = data.nombre.toLowerCase();
     data.especialidades = this.specialtiesSelected;
-    if (this.existSeguro(data.nombre) === true) {
+
+    if(this.specialtiesSelected === undefined || this.specialtiesSelected.length ==0){
+      this.toastr.warning('Debe seleccionar al menos una especialidad', 'MENSAJE');
+    }else if (this.existSeguro(data.nombre) === true) {
       this.toastr.warning('El seguro ya se encuentra registrado', 'MENSAJE');
     }else if (this.existEmail(data.email)===true){
       this.toastr.warning('El email ya se encuentra registrado', 'MENSAJE');
@@ -49,6 +51,18 @@ export class NewSeguroComponent implements OnInit {
       this.toastr.success('Registro actualizado exitosamente', 'MENSAJE');
       this.close();
     }
+  }
+
+  checkEspecialidad(val: any){
+    if(this.specialtiesSelected === undefined){
+      this.specialtiesSelected =[];
+    }
+    if(val.checked){
+      this.specialtiesSelected.push(val.source.value);
+    }else{
+      this.specialtiesSelected = this.specialtiesSelected.filter(data =>data !=val.source.value);
+    }    
+    console.log("Check especialidad", this.specialtiesSelected);
   }
 
   check(event: KeyboardEvent) {

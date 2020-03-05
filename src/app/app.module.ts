@@ -51,6 +51,8 @@ import { EditTratamientoComponent } from './pages/secretaria/tratamientos/edit-t
 import { StringbeautyPipe } from './pipes/pipes/stringbeauty.pipe';
 import { ViewSeguroComponent } from './pages/administrador/seguros/view-seguro/view-seguro.component';
 import { ViewTratamientoComponent } from './pages/secretaria/tratamientos/view-tratamiento/view-tratamiento.component';
+import { AprobarSolicitudComponent } from './pages/secretaria/solicitudes/aprobar-solicitud/aprobar-solicitud.component';
+import { NegarSolicitudComponent } from './pages/secretaria/solicitudes/negar-solicitud/negar-solicitud.component';
 
 @NgModule({
   declarations: [
@@ -88,6 +90,8 @@ import { ViewTratamientoComponent } from './pages/secretaria/tratamientos/view-t
     StringbeautyPipe,
     ViewSeguroComponent,
     ViewTratamientoComponent,
+    AprobarSolicitudComponent,
+    NegarSolicitudComponent,
   ],
   imports: [
     BrowserModule,
@@ -136,6 +140,8 @@ import { ViewTratamientoComponent } from './pages/secretaria/tratamientos/view-t
     EditTratamientoComponent,
     ViewSeguroComponent,
     ViewTratamientoComponent,
+    AprobarSolicitudComponent,
+    NegarSolicitudComponent,
   ],
   providers: [{ provide: MatPaginatorIntl, useClass: PaginatorEspañol}, MatDatepickerModule],
   bootstrap: [AppComponent]

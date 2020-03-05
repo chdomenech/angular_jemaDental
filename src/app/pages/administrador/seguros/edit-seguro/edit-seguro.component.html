@@ -27,16 +27,13 @@
             <input matInput formControlName="direccion" placeholder="Direccion" class="form-control">
         </mat-form-field>
         <br>
-        <mat-form-field class="select">
-            <mat-select formControlName="especialidades" placeholder="Especialidades" (ngModelChange)="especialidad($event)" multiple size="5">
-                <mat-option *ngFor="let especialidad of espeService.arrayEspe" value="{{especialidad.nombre}}">
-                    {{especialidad.nombre}}
-                </mat-option>
-            </mat-select>
-            <mat-error *ngIf="seguroForm.invalid">{{msgValidateEspecialidad()}}</mat-error>
-        </mat-form-field>
-        &nbsp; &nbsp;
-        <div mat-dialog-actions>
+        <ul style="margin-left:30%;clear:both;">
+            <li *ngFor="let especialidad of espeService.arrayEspe" style="display: block;">
+                <mat-checkbox *ngIf="checkear(especialidad.nombre)" style="float:left;clear:both;" class="example-margin" [checked]=true [value]="especialidad.nombre" (change)="checkEspecialidad($event)">{{especialidad.nombre}} &nbsp;</mat-checkbox>
+                <mat-checkbox *ngIf="!checkear(especialidad.nombre)" style="float:left;clear:both;" class="example-margin" [checked]=false [value]="especialidad.nombre" (change)="checkEspecialidad($event)">{{especialidad.nombre}} &nbsp;</mat-checkbox>
+            </li>
+        </ul><br> &nbsp; &nbsp;
+        <div mat-dialog-actions style="clear:both">
             <button mat-raised-button color="primary" type="submit" [disabled]="seguroForm.invalid">Guardar</button>&nbsp;
             <button mat-raised-button color="primary" type="button" (click)="close()">Cancelar</button>
         </div>

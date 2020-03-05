@@ -53,7 +53,7 @@ export class CitasListComponent implements OnInit {
     let fech = date + "";
     const fechaParse = Date.parse(fech);
 
-    if (obj.fecha != fechaParse || (obj.fecha === fechaParse && (obj.estado ==="no asistió" || obj.estado==="asistió"))){
+    if (obj.fecha != fechaParse || (obj.fecha === fechaParse && (obj.estado ==="no asistió" || obj.estado==="asistió" || obj.estado==="cancelada"))){
       return true;
     } else {     
       return false;

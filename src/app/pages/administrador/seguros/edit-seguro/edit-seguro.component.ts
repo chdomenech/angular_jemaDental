@@ -17,7 +17,6 @@ export class EditSeguroComponent implements OnInit {
     id: new FormControl(null),
     nombre: new FormControl('', Validators.required),
     email:new FormControl('', [Validators.required, Validators.email]),
-    especialidades:new FormControl('', Validators.required),
     direccion:new FormControl(''),
     telefono:new FormControl(''),    
   });
@@ -34,13 +33,10 @@ export class EditSeguroComponent implements OnInit {
   }
 
   ngOnInit() {
-
-    console.log("this.seguroService.seguroSelected -> ",this.seguroService.seguroSelected);
-
     this.seguroForm.get('id').setValue(this.seguroService.seguroSelected.id);
     this.seguroForm.get('nombre').setValue(this.seguroService.seguroSelected.nombre);
     this.seguroForm.get('direccion').setValue(this.seguroService.seguroSelected.direccion);
-    this.seguroForm.get('especialidades').setValue(this.seguroService.seguroSelected.especialidades);
+    this.specialtiesSelected = this.seguroService.seguroSelected.especialidades;
     this.seguroForm.get('telefono').setValue(this.seguroService.seguroSelected.telefono);
     this.seguroForm.get('email').setValue(this.seguroService.seguroSelected.email);
   }
@@ -48,8 +44,11 @@ export class EditSeguroComponent implements OnInit {
   onSaveSeguro(data: SeguroInteface) {
     data.nombre = data.nombre.toLowerCase();
     const seguroFiltered = this.seguroService.arraySeguros.find(espeFilterbynombre => espeFilterbynombre.nombre === data.nombre);
+    data.especialidades = this.specialtiesSelected;
 
-    if (this.existEmail(data.email, data.nombre)===true){
+    if(this.specialtiesSelected === undefined || this.specialtiesSelected.length == 0){
+      this.toastr.warning('Debe seleccionar al menos una especialidad', 'MENSAJE');
+    }else if (this.existEmail(data.email, data.nombre)===true){
       this.toastr.warning('El email ya se encuentra registrado', 'MENSAJE');
     }else if (((this.seguroService.seguroSelected.nombre === data.nombre) && seguroFiltered) || seguroFiltered === undefined) {
       this.seguroService.updateSeguro(data);
@@ -58,7 +57,25 @@ export class EditSeguroComponent implements OnInit {
     } else {
       this.toastr.warning('El seguro ya se encuentra registrado', 'MENSAJE');
     }
+  }
 
+  checkear(val: any){
+    if(this.specialtiesSelected.find(data =>data === val)){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
+  checkEspecialidad(val: any){
+    if(this.specialtiesSelected === undefined){
+      this.specialtiesSelected =[];
+    }
+    if(val.checked){
+      this.specialtiesSelected.push(val.source.value);
+    }else{
+      this.specialtiesSelected = this.specialtiesSelected.filter(data =>data !=val.source.value);
+    }
   }
 
   existEmail(email: any, nombre: any): boolean {

@@ -1,0 +1,21 @@
+<mat-toolbar color="primary">
+    <mat-toolbar-row>
+        <span>Comentario de solicitud</span>
+    </mat-toolbar-row>
+</mat-toolbar>
+<br>
+<div class="form-container" style="text-align: center;">
+    <form [formGroup]="solicitudForm" (ngSubmit)="onSaveSolicitud()">
+
+        <mat-form-field class="inputWidth" style="margin-top:50px;">
+            <input matInput formControlName="comentario" placeholder="Comentario">
+            <mat-error *ngIf="solicitudForm.invalid">{{msgValidateComentario()}}</mat-error>
+        </mat-form-field>
+
+        <div mat-dialog-actions>
+            <button mat-raised-button color="primary" type="submit" [disabled]="solicitudForm.invalid">Responder</button>&nbsp;
+            <button mat-raised-button color="primary" type="button" (click)="close()">Cancelar</button>
+        </div>
+    </form>
+
+</div>

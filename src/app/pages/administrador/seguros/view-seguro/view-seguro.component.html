@@ -25,14 +25,12 @@
             <input matInput formControlName="direccion" placeholder="Direccion" class="form-control" readonly>
         </mat-form-field>
         <br>
-
-        <ul *ngFor="let especialidad of especialidades">
-            <li>
-                <mat-checkbox class="example-margin" [checked]=true disabled>{{especialidad}} &nbsp;</mat-checkbox>
+        <ul style="margin-left:40%;clear:both;">
+            <li *ngFor="let especialidad of especialidades" style="display: block;">
+                <mat-checkbox style="float:left;clear:both;" class="example-margin" [checked]=true disabled>{{especialidad}} &nbsp;</mat-checkbox>
             </li>
-        </ul>
-        &nbsp; &nbsp;
-        <div mat-dialog-actions>
+        </ul><br> &nbsp; &nbsp;
+        <div mat-dialog-actions style="clear:both">
             <button mat-raised-button color="primary" type="button" (click)="close()">Cerrar</button>
         </div>
     </form>

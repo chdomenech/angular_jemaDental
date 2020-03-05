@@ -1,9 +1,11 @@
 import { SolicitudService } from './../../../../services/solicitud/solicitud.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatTableDataSource, MatPaginator } from '@angular/material';
+import { MatTableDataSource, MatPaginator,MatDialog } from '@angular/material';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { AprobarSolicitudComponent } from './../aprobar-solicitud/aprobar-solicitud.component';
+import { NegarSolicitudComponent } from './../negar-solicitud/negar-solicitud.component';
 
 @Component({
   selector: 'app-solicitudes-list',
@@ -19,11 +21,14 @@ export class SolicitudesListComponent implements OnInit {
 
   estadoSolicitud: string;
 
+  solicitud: any;
+
   constructor(
     public router: Router,
     public authService: AuthService,
     public solicitudService: SolicitudService,
-    public toastr: ToastrService
+    public toastr: ToastrService,
+    private dialog: MatDialog,
   ) { }
 
   ngOnInit() {
@@ -37,15 +42,24 @@ export class SolicitudesListComponent implements OnInit {
   }
 
   aprobarSol(element) {
-    element.estadoSolicitud = 'Aprobada';
+    if (element) {
+      this.solicitudService.selectSolicitud = Object.assign({}, element);
+    }
+    this.dialog.open(AprobarSolicitudComponent);
+    /*element.estadoSolicitud = 'Aprobada';
     this.solicitudService.updateSolicitud(element);
-    this.toastr.success('Solicitud aprobada exitosamente', 'MENSAJE');
+    this.toastr.success('Solicitud aprobada exitosamente', 'MENSAJE');*/
   }
 
   negarSol(element) {
-    element.estadoSolicitud = 'Rechazada';
+    if (element) {
+      this.solicitudService.selectSolicitud = Object.assign({}, element);
+    }
+    this.dialog.open(NegarSolicitudComponent);
+    
+    /*element.estadoSolicitud = 'Rechazada';
     this.solicitudService.updateSolicitud(element);
-    this.toastr.error('Solicitud rechazada', 'MENSAJE');
+    this.toastr.error('Solicitud rechazada', 'MENSAJE');*/
   }
 
 }

@@ -12,6 +12,7 @@ export class SolicitudService {
   private SolicitudCollection: AngularFirestoreCollection<SolicitudInterface>;
   private SolicitudDoc: AngularFirestoreDocument<SolicitudInterface>;
   private Solicitud: Observable<SolicitudInterface[]>;
+  public selectSolicitud: SolicitudInterface = {};
 
   constructor(
     private readonly afs: AngularFirestore
