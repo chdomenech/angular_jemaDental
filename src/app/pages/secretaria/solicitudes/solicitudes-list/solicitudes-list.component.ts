@@ -14,7 +14,7 @@ import { ResponderSolicitudComponent } from './../responder-solicitud/responder-
 export class SolicitudesListComponent implements OnInit {
 
   displayedColumns: string[] = ['numero', 'fechaSolicitud', 'nombreSolicitante',
-  'emailSolicitante', 'tipoSolicitud', 'descripcion', 'estadoSolicitud' , 'accion'];
+  'emailSolicitante', 'tipoSolicitud', 'descripcion', 'estadoSolicitud' , 'respuesta', 'accion'];
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 

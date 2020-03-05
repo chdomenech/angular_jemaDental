@@ -46,9 +46,19 @@ export class EditSeguroComponent implements OnInit {
     const seguroFiltered = this.seguroService.arraySeguros.find(espeFilterbynombre => espeFilterbynombre.nombre === data.nombre);
     data.especialidades = this.specialtiesSelected;
 
+    console.log("this.seguroService.seguroSelected", this.seguroService.seguroSelected);
+    console.log("data", data);
+    
+
     if(this.specialtiesSelected === undefined || this.specialtiesSelected.length == 0){
       this.toastr.warning('Debe seleccionar al menos una especialidad', 'MENSAJE');
-    }else if (this.existEmail(data.email, data.nombre)===true){
+    }else if (
+      this.seguroService.seguroSelected.nombre !== data.nombre &&      
+      this.existSeguro(data.nombre) === true) {
+      this.toastr.warning('El seguro ya se encuentra registrado', 'MENSAJE');
+    }else if (
+      this.seguroService.seguroSelected.email !== data.email && 
+      this.existEmail(data.email)===true){
       this.toastr.warning('El email ya se encuentra registrado', 'MENSAJE');
     }else if (((this.seguroService.seguroSelected.nombre === data.nombre) && seguroFiltered) || seguroFiltered === undefined) {
       this.seguroService.updateSeguro(data);
@@ -59,6 +69,35 @@ export class EditSeguroComponent implements OnInit {
     }
   }
 
+  existSeguro(nombre: any): boolean {
+    let exist = false;
+    if (nombre) {
+      const seguroFiltered = this.seguroService.arraySeguros.find(espeFilterbynombre => espeFilterbynombre.nombre === nombre);
+      if (seguroFiltered) {
+        exist = true;
+      } else {
+        exist = false;
+      }
+    } else {
+      exist = false;
+    }
+    return exist;
+  }
+
+  existEmail(email: any): boolean {
+    let exist = false;
+    if (email) {
+      const emailFiltered = this.seguroService.arraySeguros.find(seguro => seguro.email.toLowerCase() === email.toLowerCase());
+      if (emailFiltered) {
+        exist = true;
+      } else {
+        exist = false;
+      }
+    } else {
+      exist = false;
+    }
+    return exist;
+  }
   checkear(val: any){
     if(this.specialtiesSelected.find(data =>data === val)){
       return true;
@@ -76,23 +115,6 @@ export class EditSeguroComponent implements OnInit {
     }else{
       this.specialtiesSelected = this.specialtiesSelected.filter(data =>data !=val.source.value);
     }
-  }
-
-  existEmail(email: any, nombre: any): boolean {
-    let exist = false;
-    if (email) {
-      const emailFiltered = this.seguroService.
-      arraySeguros.find(seguro => seguro.email.toLowerCase() === email.toLowerCase()
-      && seguro.nombre.toLowerCase() !== nombre.toLowerCase());
-      if (emailFiltered) {
-        exist = true;
-      } else {
-        exist = false;
-      }
-    } else {
-      exist = false;
-    }
-    return exist;
   }
 
   check(event: KeyboardEvent) {

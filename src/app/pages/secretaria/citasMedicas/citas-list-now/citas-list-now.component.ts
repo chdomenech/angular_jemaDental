@@ -44,7 +44,7 @@ export class CitasListNowComponent implements OnInit {
     let fech = date + "";
     const fechaParse = Date.parse(fech);
 
-    if (obj.fecha === fechaParse && (obj.estado ==="pendiente" || obj.estado==="agendada" || obj.estado==="confirmada")){
+    if (obj.fecha === fechaParse && (obj.estado != "asistió" && obj.estado != "no asistió")){
       return true;
     } else {     
       return false;
