@@ -154,8 +154,7 @@ export class EditTratamientoComponent implements OnInit {
 
 
   especialidad(val: any) {
-    console.log("this.actualizo ",this.actualizo)
-    if (this.actualizo === false) {
+     if (this.actualizo === false) {
       this.odontEspecialidad = [];
       this.specialtiesSelected = val;
       this.odontService.arrayOdontologos.map((odont) => {
@@ -238,7 +237,6 @@ export class EditTratamientoComponent implements OnInit {
 
  // Funcion: permitir solo numeros
  check(event: KeyboardEvent) {
-   console.log(event);
    var preg = /^([0-9]+\.?[0-9]{0,2})$/; 
     if (preg.test(event.key) !== true){
       event.preventDefault();

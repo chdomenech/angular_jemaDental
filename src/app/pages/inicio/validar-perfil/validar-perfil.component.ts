@@ -24,8 +24,7 @@ export class ValidarPerfilComponent implements OnInit {
     let urlconCaracter = snapshot.url;
     const arraySplit = urlconCaracter.split("/");
     this.rutaEntrada=arraySplit[1];
-    console.log('arraySplit',arraySplit[1]); 
-   const nombreComponente= this.rutaEntradaANombreComponente(this.rutaEntrada);
+    const nombreComponente= this.rutaEntradaANombreComponente(this.rutaEntrada);
   this.accesoPorPerfil(nombreComponente);
   }
   rutaEntradaANombreComponente(rutaEntrada:string):string

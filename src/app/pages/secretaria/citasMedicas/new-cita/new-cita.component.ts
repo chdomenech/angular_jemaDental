@@ -179,7 +179,6 @@ export class NewCitaComponent implements OnInit {
   selectFecha(date: any) {
     this.dateSelected = date;
     const getdentisValue = this.CitaMform.get('odontologo').value;
-   // console.log('getdentisValue',getdentisValue)
     if (getdentisValue) {
       this.filterhoursbyOdonto(getdentisValue);
     }

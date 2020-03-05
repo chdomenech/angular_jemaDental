@@ -149,7 +149,6 @@ export class ViewTratamientoComponent implements OnInit {
 
 
   especialidad(val: any) {
-    console.log("this.actualizo ",this.actualizo)
     if (this.actualizo === false) {
       this.odontEspecialidad = [];
       this.specialtiesSelected = val;

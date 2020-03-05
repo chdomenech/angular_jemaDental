@@ -102,8 +102,7 @@ export class EditSeguroComponent implements OnInit {
   }
 
    especialidad(val: any) {
-    console.log(val);
-    this.specialtiesSelected = val;
+     this.specialtiesSelected = val;
   }
 
   close(): void {

@@ -194,9 +194,7 @@ export class NewTratamientoComponent implements OnInit {
     this.dialogRef.close();
   }
 
- // Funcion: permitir solo numeros
  check(event: KeyboardEvent) {
-  console.log(event);
   var preg = /^([0-9]+\.?[0-9]{0,2})$/; 
    if (preg.test(event.key) !== true){
      event.preventDefault();

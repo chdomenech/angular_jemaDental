@@ -85,8 +85,7 @@ export class NewPagoComponent implements OnInit {
       }
      });
 
-     this.tratamientosArray = tratamientosHere; 
-     console.log("this.tratamientosArray --- >",this.tratamientosArray);
+     this.tratamientosArray = tratamientosHere;      
   }
 
 
@@ -142,9 +141,6 @@ export class NewPagoComponent implements OnInit {
  
  
   savePago() {
-
-    console.log(this.tratamientoSelected);
-
       let newdata: TratamientoMInterface;
       newdata = this.tratamientoSelected;
       if (newdata) {

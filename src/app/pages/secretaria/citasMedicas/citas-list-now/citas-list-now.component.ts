@@ -44,8 +44,6 @@ export class CitasListNowComponent implements OnInit {
     let fech = date + "";
     const fechaParse = Date.parse(fech);
 
-    console.log("filtrarCitas citas list now",fechaParse);
-
     if (obj.fecha === fechaParse && (obj.estado ==="pendiente" || obj.estado==="agendada" || obj.estado==="confirmada")){
       return true;
     } else {     

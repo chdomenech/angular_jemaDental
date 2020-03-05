@@ -34,7 +34,6 @@ export class PacienteService {
       });
     });
 
-    console.log("Pacientes ",this.arrayPacientes);
   }
 
   getAllPacientes() {

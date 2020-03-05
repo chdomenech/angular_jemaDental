@@ -129,7 +129,6 @@ export class EditCitaComponent implements OnInit {
       this.specialtiesSelected = val;
       this.odontService.arrayOdontologos.map((odont) => {
         if (odont.especialidad === val) {
-          console.log(odont);
           this.odontEspecialidad.push(odont);
         }
       });

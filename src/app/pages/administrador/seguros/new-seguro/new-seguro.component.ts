@@ -62,7 +62,7 @@ export class NewSeguroComponent implements OnInit {
     }else{
       this.specialtiesSelected = this.specialtiesSelected.filter(data =>data !=val.source.value);
     }    
-    console.log("Check especialidad", this.specialtiesSelected);
+    
   }
 
   check(event: KeyboardEvent) {
@@ -72,7 +72,6 @@ export class NewSeguroComponent implements OnInit {
   }
 
   especialidad(val: any) {
-    console.log(val);
     this.specialtiesSelected = val;
   }
   existSeguro(nombre: any): boolean {

@@ -119,7 +119,6 @@ export class EditOdontologoComponent implements OnInit {
       if ((odontFilteredC === undefined) || (this.odont.cedula === this.odonService.odontologoSelected.cedula)) {
         if ((odontFilteredE === undefined) || (this.odont.email === this.odonService.odontologoSelected.email)) {
           if (this.image === this.imageUrl) {
-            console.log(this.odont);
             this.odonService.editOdontologo(this.odont);
            } else {
              this.odonService.editOdontologo(this.odont, this.image);

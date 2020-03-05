@@ -8,7 +8,8 @@
     <form [formGroup]="solicitudForm" (ngSubmit)="onSaveSolicitud()">
 
         <mat-form-field class="inputWidth" style="margin-top:50px;">
-            <input matInput formControlName="comentario" placeholder="Comentario">
+            <mat-label>Comentario</mat-label>
+            <textarea matInput formControlName="comentario" class="form-control"></textarea>
             <mat-error *ngIf="solicitudForm.invalid">{{msgValidateComentario()}}</mat-error>
         </mat-form-field>
 

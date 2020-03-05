@@ -31,8 +31,7 @@ export class NewPasswordComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log('VIENE DE UN EMAIL',this.route.snapshot.queryParams.oobCode)
-    if(!this.route.snapshot.queryParams.oobCode)
+      if(!this.route.snapshot.queryParams.oobCode)
     {
       this.router.navigate(['/inicioSesion']);
     }else{

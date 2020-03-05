@@ -4,8 +4,7 @@ import { MatTableDataSource, MatPaginator,MatDialog } from '@angular/material';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth/auth.service';
-import { AprobarSolicitudComponent } from './../aprobar-solicitud/aprobar-solicitud.component';
-import { NegarSolicitudComponent } from './../negar-solicitud/negar-solicitud.component';
+import { ResponderSolicitudComponent } from './../responder-solicitud/responder-solicitud.component';
 
 @Component({
   selector: 'app-solicitudes-list',
@@ -43,23 +42,19 @@ export class SolicitudesListComponent implements OnInit {
 
   aprobarSol(element) {
     if (element) {
+      element.estado= "Aprobada";
       this.solicitudService.selectSolicitud = Object.assign({}, element);
     }
-    this.dialog.open(AprobarSolicitudComponent);
-    /*element.estadoSolicitud = 'Aprobada';
-    this.solicitudService.updateSolicitud(element);
-    this.toastr.success('Solicitud aprobada exitosamente', 'MENSAJE');*/
+    
+    this.dialog.open(ResponderSolicitudComponent);
   }
 
   negarSol(element) {
     if (element) {
-      this.solicitudService.selectSolicitud = Object.assign({}, element);
+      element.estado= "Negada";
+      this.solicitudService.selectSolicitud = Object.assign({}, element);      
     }
-    this.dialog.open(NegarSolicitudComponent);
-    
-    /*element.estadoSolicitud = 'Rechazada';
-    this.solicitudService.updateSolicitud(element);
-    this.toastr.error('Solicitud rechazada', 'MENSAJE');*/
+    this.dialog.open(ResponderSolicitudComponent);    
   }
 
 }

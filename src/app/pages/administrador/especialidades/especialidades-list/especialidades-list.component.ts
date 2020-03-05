@@ -37,7 +37,6 @@ export class EspecialidadesListComponent implements OnInit {
   }
 
   onEdit(element) {
-    console.log(element);
     this.openDialogEdit();
     if (element) {
       this.espeService.espeSelected = Object.assign({}, element);

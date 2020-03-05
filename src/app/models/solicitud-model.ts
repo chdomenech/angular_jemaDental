@@ -1,9 +1,13 @@
 export interface SolicitudInterface {
   id?: string;
-  nombreSolicitante?: string;
-  emailSolicitante?: string;
-  fechaSolicitud?: number;
+  cedulaSolicitante?: string;
   descripcion?: string;
-  tipoSolicitud?: string;
-  EstadoSolicitud?: string;
+  emailSolicitante?: string;
+  estadoSolicitud?: string;
+  fechaSolicitud?: number;
+  nombreSolicitante?: string;  
+  tipoSolicitud?: string;  
+  respuesta?: string;
+  estado?: string;
+
 }
