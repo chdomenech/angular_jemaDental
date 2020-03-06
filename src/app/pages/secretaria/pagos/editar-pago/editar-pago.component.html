@@ -1,1 +1,65 @@
-<p>editar-pago works!</p>
+<div>
+    <mat-toolbar color="primary">
+        <mat-toolbar-row>
+            <span>Editar Pago</span>
+        </mat-toolbar-row>
+    </mat-toolbar>
+</div>
+<br>
+<div class="form-container" style="text-align: center">
+    <form [formGroup]="pagoForm" (ngSubmit)="savePago(pagoForm.value)">
+        <input type="hidden" formControlName="id">
+        <mat-form-field style="text-align: center; ">
+            <input matInput [matDatepicker]="picker" [min]="minDate" formControlName="fechaPago" placeholder="Seleccione la fecha" (ngModelChange)="selectFecha($event)">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error *ngIf="pagoForm.invalid">{{errorMessageDate()}}</mat-error>
+        </mat-form-field>
+        <br>
+        <mat-form-field style="text-align: center;">
+            <input matInput formControlName="cedulaPaciente" placeholder="Cédula del paciente" readonly>
+        </mat-form-field>
+        &nbsp;&nbsp;
+        <mat-form-field style="text-align: center;">
+            <input matInput formControlName="nombrePaciente" placeholder="Nombres y Apellidos" readonly>
+        </mat-form-field>
+        <br>
+        <mat-form-field style=" text-align: center;">
+            <mat-select formControlName="seguro" placeholder="Seguro" (ngModelChange)="seguro($event)">
+                <mat-option *ngFor="let seguro of seguroArraySelect" [value]="seguro">
+                    {{seguro.seguro}}
+                </mat-option>
+            </mat-select>
+
+        </mat-form-field>
+        &nbsp;
+        <mat-form-field style=" text-align: center;">
+            <mat-select formControlName="tratamiento" placeholder="tratamiento" (ngModelChange)="tratamiento($event)">
+                <mat-option *ngFor="let tratamiento of tratamientosArraySelect" [value]="tratamiento">
+                    {{tratamiento.tratamiento}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field><br>
+        <mat-form-field class="inputWidth">
+            <input matInput placeholder="Valor Total $" formControlName='valorPago' readonly>
+        </mat-form-field>
+        <br>
+        <mat-form-field class="inputWidth">
+            <input matInput placeholder="Ultimo valor cancelado $" formControlName='ultimoValorCancelado' readonly>
+        </mat-form-field>
+        <br>
+        <mat-form-field class="inputWidth">
+            <input matInput placeholder="Valor a Pagar" formControlName='valorPagar' maxlength="5" (keydown)="check($event)">
+            <mat-error *ngIf="pagoForm.invalid">{{errorMessageValor()}}</mat-error>
+        </mat-form-field>
+        <br>
+        <mat-form-field class="inputWidth">
+            <input matInput placeholder="Valor pendiente" formControlName='valorPendiente' readonly>
+        </mat-form-field>
+        <br>
+        <div style="text-align: center;">
+            <button mat-raised-button color="primary" type="submit" [disabled]="pagoForm.invalid">Guardar</button>&nbsp;
+            <button mat-raised-button color="primary" type="button" (click)="this.close()">Cancelar</button>
+        </div>
+    </form>
+</div>

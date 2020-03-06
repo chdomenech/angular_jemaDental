@@ -57,7 +57,6 @@ export class TratamientoService {
   }
 
   getTratamientoByParams(cedula:any,seguro:any,tratamiento:any){
-    console.log(cedula,seguro,tratamiento);
     this.TratamientoMCollection = this.afs.collection('Tratamiento', ref => ref.where('seguro', '==', seguro)
       .where ('tratamiento', '==', tratamiento)
       .where ('cipaciente', '==', cedula));

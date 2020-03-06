@@ -29,6 +29,8 @@ export class VisualizarPagoComponent implements OnInit {
     valorPendiente: new FormControl(''),    
   });
 
+  precioTratamiento: number;
+
   constructor(
     private toastr: ToastrService,
     public tratamientoService: TratamientoService,    
@@ -43,6 +45,9 @@ export class VisualizarPagoComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.obtenerValorTratamiento(
+      this.pagoMService.pagoSelected.cedulaPaciente,this.pagoMService.pagoSelected.seguro,
+      this.pagoMService.pagoSelected.tratamiento);
     this.setValues();
   }
 
@@ -68,9 +73,7 @@ export class VisualizarPagoComponent implements OnInit {
         if(pago!=null &&  pago.length>0){          
           this.pagoForm.get('ultimoValorCancelado').setValue(pago[pago.length - 1].valorPago);
           const totalPagado = pago.reduce((acc, pago) => acc + pago.valorPago, 0);
-          const totalAPagar =  this.obtenerValorTratamiento(
-            this.pagoMService.pagoSelected.cedulaPaciente,this.pagoMService.pagoSelected.seguro,
-            this.pagoMService.pagoSelected.tratamiento) - totalPagado;
+          const totalAPagar =   (this.precioTratamiento!==undefined && this.precioTratamiento!=null?this.precioTratamiento:0) - totalPagado;
           this.pagoForm.get('valorPendiente').setValue(totalAPagar);
 
         }else{
@@ -80,15 +83,12 @@ export class VisualizarPagoComponent implements OnInit {
     });
   }
 
-  obtenerValorTratamiento(cedula:any,seguro:any,tratamiento:any): number{
-    let precio = 0;
-    
-    this.tratamientoService.getTratamientoByParams(cedula,seguro,tratamiento).subscribe(tratamiento => {
-      if(tratamiento!==undefined && tratamiento!=null && tratamiento.length>0 ){
-       return tratamiento[0].precio;
-      } 
+  obtenerValorTratamiento(cedula:any,seguro:any,tratamiento:any): any{   
+    this.tratamientoService.getTratamientoByParams(cedula,seguro,tratamiento).subscribe(tratam => {
+      if(tratam!==undefined && tratam!=null && tratam.length>0 ){
+        this.precioTratamiento = tratam[0].precio;
+      }
     });
-    return precio;
   }
 
   close() {
