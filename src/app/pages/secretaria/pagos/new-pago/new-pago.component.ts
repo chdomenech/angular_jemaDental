@@ -9,6 +9,8 @@ import { SeguroService } from 'src/app/services/seguro/seguro.service';
 import { MatDialogRef } from '@angular/material';
 import { startWith, map } from 'rxjs/operators';
 import { TratamientoMInterface } from 'src/app/models/tratamiento.model';
+import { PagosInterface } from 'src/app/models/pago-model';
+import { PagoService } from './../../../../services/pago/pago.service';
 
 
 @Component({
@@ -24,22 +26,23 @@ export class NewPagoComponent implements OnInit {
   minDate: Date = new Date();
   tratamientosArray = [];
   tratamientosArraySelect = [];
+  seguroArraySelect =[];
   tratamientoSelected: TratamientoMInterface= {};
+  seguroSelected: any;
 
-
-    pagoForm = new FormGroup({
-      id: new FormControl(null),
-      fechaPago: new FormControl('', Validators.required),
-      cedulaPaciente: new FormControl('', Validators.required),
-      seguro: new FormControl(''),
-      tratamiento:  new FormControl('', Validators.required),
-      nombrePaciente:  new FormControl('', Validators.required),
-      valorPagar: new FormControl('', [Validators.required, Validators.pattern(this.valorPatern)]),
-      ultimoValorCancelado: new FormControl(''),
-      valorPago: new FormControl(''),
-      valorPendiente: new FormControl(''),
-      
-    });
+  pagoForm = new FormGroup({
+    id: new FormControl(null),
+    fechaPago: new FormControl('', Validators.required),
+    cedulaPaciente: new FormControl('', Validators.required),
+    seguro: new FormControl(''),
+    tratamiento:  new FormControl('', Validators.required),
+    nombrePaciente:  new FormControl('', Validators.required),
+    valorPagar: new FormControl('', [Validators.required, Validators.pattern(this.valorPatern)]),
+    ultimoValorCancelado: new FormControl(''),
+    valorPago: new FormControl(''),
+    valorPendiente: new FormControl(''),
+    
+  });
 
   filteredOptions: Observable<string[]>;
 
@@ -49,6 +52,7 @@ export class NewPagoComponent implements OnInit {
     public pactService: PacienteService,
     public pacienteService: PacienteService,
     public espeService: EspecialidadService,
+    private pagoMService: PagoService,
     public seguroService: SeguroService,
     private dialogRef: MatDialogRef<NewPagoComponent>,
   ) {
@@ -70,12 +74,10 @@ export class NewPagoComponent implements OnInit {
     let tratamientosHere = [];
     
     datainfo.forEach(function (data) {
-
       const cipaciente = data.cipaciente;
       const namepaciente = data.namepaciente;
       let datostratamiento : TratamientoMInterface[];
       datostratamiento = datainfo.filter(dato => dato.cipaciente === cipaciente);
-
       if(tratamientosHere.filter(info => info.cedula === cipaciente).length==0){
         tratamientosHere.push({
           cedula: cipaciente,
@@ -84,35 +86,43 @@ export class NewPagoComponent implements OnInit {
          });
       }
      });
-
-     this.tratamientosArray = tratamientosHere;      
-  }
-
+     this.tratamientosArray = tratamientosHere; 
+    }
 
   tratamiento(val: TratamientoMInterface = {}) {
-    this.tratamientoSelected = val;
-    this.pagoForm.get('seguro').setValue(val.seguro);
-    this.pagoForm.get('valorPago').setValue(val.precio);
-    this.obtenerPagos(val);
+    if(val !== undefined && val!=null){
+      this.tratamientoSelected = val;
+      this.pagoForm.get('valorPago').setValue(val.precio);
+      this.obtenerPagos(val);
+    }
+  }
+
+  seguro(val:any){
+    if(val !== undefined && val!= null){
+      this.tratamientosArraySelect = val.tratamientos;
+      this.seguroSelected = val.seguro;   
+      this.pagoForm.get('ultimoValorCancelado').setValue(null);
+      this.pagoForm.get('valorPendiente').setValue(null);
+      this.pagoForm.get('valorPago').setValue(null);      
+    }
   }
 
   obtenerPagos(val: TratamientoMInterface = {}){
-  
     this.pagoForm.get('valorPago').setValue(val.precio);
+    this.pagoMService.getAllPagosByParams(this.seguroSelected,this.tratamientoSelected.tratamiento,
+      this.tratamientoSelected.cipaciente).subscribe(pago => {
 
-    if(val.pagos === undefined || val.pagos === null || val.pagos.length == 0){
-      this.pagoForm.get('ultimoValorCancelado').setValue(0);
-      this.pagoForm.get('valorPendiente').setValue(val.precio);
+        if(pago!=null &&  pago.length>0){          
+          this.pagoForm.get('ultimoValorCancelado').setValue(pago[pago.length - 1].valorPago);
+          const totalPagado = pago.reduce((acc, pago) => acc + pago.valorPago, 0);
+          const totalAPagar =  Number.parseFloat(val.precio) - totalPagado;
+          this.pagoForm.get('valorPendiente').setValue(totalAPagar);
 
-    }else if(val.pagos.length>0){
-      const totalPagado = val.pagos.reduce((acc, pago) => acc + pago.pago, 0);
-      const ultimoValorPagado = val.pagos[val.pagos.length-1];
-
-      const totalAPagar =  Number.parseFloat(val.precio) - Number.parseFloat(totalPagado);
-
-      this.pagoForm.get('ultimoValorCancelado').setValue(ultimoValorPagado.pago);
-      this.pagoForm.get('valorPendiente').setValue(totalAPagar );
-    }
+        }else{
+          this.pagoForm.get('ultimoValorCancelado').setValue(0);
+          this.pagoForm.get('valorPendiente').setValue(val.precio);    
+        }
+    });
   }
 
   displayFn(subject) {
@@ -124,56 +134,71 @@ export class NewPagoComponent implements OnInit {
   }
 
   private _filter(value: string): string[] {
-
     const filterValue = value;
     this.setpacientvalue(value);
     return this.tratamientosArray.filter(option => option.cedula.indexOf(filterValue) === 0);
   }
 
   setpacientvalue(value: any) {
-    this.pagoForm.get('nombrePaciente').setValue(value.nombre);
-    this.tratamientosArraySelect =value.tratamientos;   
+    this.pagoForm.get('nombrePaciente').setValue(value.nombre);    
+    this.seguroArraySelect = this.generateSeguroCombo(value.tratamientos);
+    this.nulearvalores();
+  }
+
+  nulearvalores(){
     this.pagoForm.get('ultimoValorCancelado').setValue(null);
     this.pagoForm.get('valorPendiente').setValue(null);
     this.pagoForm.get('valorPago').setValue(null);
     this.pagoForm.get('seguro').setValue(null);
+    this.pagoForm.get('tratamiento').setValue(null);
+  }
+
+  generateSeguroCombo(datainfo :any[]) : string[]{ 
+    let seguros = [];
+    this.tratamientosArraySelect = [];
+    this.nulearvalores();
+    
+    if(datainfo!== undefined){
+      datainfo.forEach(function (data) {
+        if(seguros.length===0){
+          seguros.push({seguro: data.seguro, cedula:data.cipaciente, tratamientos:[data]});
+        }else if(!seguros.find( dato=>dato.seguro === data.seguro)){
+          seguros.push({seguro: data.seguro, cedula:data.cipaciente, tratamientos:[data]});
+        }else{
+          const seguro= seguros.find( dato=>dato.seguro === data.seguro);
+          seguro.tratamientos.push(data);
+        }
+      });
+    }    
+    return seguros;
   }
  
- 
-  savePago() {
-      let newdata: TratamientoMInterface;
-      newdata = this.tratamientoSelected;
-      if (newdata) {
-        if(newdata.pagos === undefined){
-          newdata.pagos= [];  
-        }
-        this.tratamientoService.updateTratamientoM(newdata)
-        const valorPagado = Number.parseFloat(this.pagoForm.get('valorPagar').value);
-        newdata.pagos.push({pago: valorPagado, fecha: this.dateSelected});
-
-        this.tratamientoService.updateTratamientoM(newdata);
+  savePago(data: any) {
+      let newdata: PagosInterface;
+      const fecha = Date.parse(data.fechaPago);
+      data.fechaPago = fecha;
+      data.cedulaPaciente = data.cedulaPaciente.cedula;
+      data.seguro =  data.seguro.seguro;
+      data.tratamiento =  data.tratamiento.tratamiento;
+      const valorPagar = Number.parseFloat(data.valorPagar);
+      const valorPendiente =  Number.parseFloat(data.valorPendiente);
+      data.valorPago  = valorPagar;
+      delete data.valorPagar;
+      delete data.ultimoValorCancelado;
+      delete data.valorPendiente;
+      newdata = data;
+      
+      if(valorPendiente==0){
+        this.toastr.warning('No hay valores pendientes para este tratamiento', 'MENSAJE');
+      }else if(valorPagar>valorPendiente){
+        this.toastr.warning('El valor a pagar supera el valor pendiente', 'MENSAJE');
+      }else if (newdata) {  
+        this.pagoMService.addPago(newdata);
         this.toastr.success('Registro guardado exitosamente', 'MENSAJE');
         this.close();
       }else{
         this.toastr.error('El paciente no se encuentra registrado', 'MENSAJE');
       }      
-  }
-
-  existID_pacientList(cedula: any): boolean {
-
-    let exist = false;
-    if (cedula) {
-      const pacientFiltered = this.pactService.arrayPacientes.find(pacientFilterbycedula => pacientFilterbycedula.cedula === cedula.cedula);
-
-      if (pacientFiltered) {
-        exist = true;
-      } else {
-        exist = false;
-      }
-    } else {
-      exist = false;
-    }
-    return exist;
   }
 
   errorMessageValor() {

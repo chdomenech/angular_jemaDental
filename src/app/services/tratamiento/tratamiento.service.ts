@@ -44,6 +44,7 @@ export class TratamientoService {
     });
   }
 
+
   getAllTratamientosMedicos() {
     return this.Tratamiento = this.TratamientoMCollection.snapshotChanges()
     .pipe(map( changes => {
@@ -54,6 +55,25 @@ export class TratamientoService {
       });
     }));
   }
+
+  getTratamientoByParams(cedula:any,seguro:any,tratamiento:any){
+    console.log(cedula,seguro,tratamiento);
+    this.TratamientoMCollection = this.afs.collection('Tratamiento', ref => ref.where('seguro', '==', seguro)
+      .where ('tratamiento', '==', tratamiento)
+      .where ('cipaciente', '==', cedula));
+    this.Tratamiento = this.TratamientoMCollection.snapshotChanges().pipe(map(
+      actions => {
+        return actions.map(a => {
+          const data = a.payload.doc.data();
+          const id = a.payload.doc.id;
+          return {id, ...data};
+        });
+      }
+    ));
+    return this.Tratamiento;
+  }
+
+    
 
   formtDate(date: Date): string {
     const day = date.getDate();

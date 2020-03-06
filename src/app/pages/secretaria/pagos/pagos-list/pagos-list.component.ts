@@ -6,8 +6,8 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth/auth.service';
-import { EditTratamientoComponent } from './../../tratamientos/edit-tratamiento/edit-tratamiento.component';
-import { ViewTratamientoComponent } from './../../tratamientos/view-tratamiento/view-tratamiento.component';
+import { EditarPagoComponent } from './../editar-pago/editar-pago.component';
+import { VisualizarPagoComponent } from './../visualizar-pago/visualizar-pago.component';
 import { NewPagoComponent } from './../new-pago/new-pago.component';
 
 @Component({
@@ -37,14 +37,13 @@ export class PagosListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
-    this.tratamientoMService.getAllTratamientosMedicos().subscribe(tratamientoMedico => {
-      this.dataSource.data = tratamientoMedico;
+    this.pagoMService.getAllPagos().subscribe(pago => {
+      this.dataSource.data = pago;
       const tam = Object.keys(this.dataSource.data).length;
       for (let i = 0; i< tam; i++){
         const element = this.dataSource.data[i];
-        this.fecha = new Date(element['fecha']);
-        this.dataSource.data[i]['fecha'] = this.tratamientoMService.formtDate(this.fecha);
+        this.fecha = new Date(element['fechaPago']);
+        this.dataSource.data[i]['fechaPago'] = this.pagoMService.formatDate(this.fecha);
       }
     });
     this.dataSource.paginator = this.paginator;
@@ -61,14 +60,14 @@ export class PagosListComponent implements OnInit {
   onEdit(element) {
     this.openDialogEdit();
     if (element) {
-      this.tratamientoMService.selectTratamientoM = Object.assign({}, element);
+      this.pagoMService.pagoSelected = Object.assign({}, element);
      }
   }
 
   onView(element) {
     this.openDialogView();
     if (element) {
-      this.tratamientoMService.selectTratamientoM = Object.assign({}, element);
+      this.pagoMService.pagoSelected = Object.assign({}, element);
      }
   }
 
@@ -77,11 +76,11 @@ export class PagosListComponent implements OnInit {
   }
 
   openDialogEdit(): void {
-   this.dialog.open(EditTratamientoComponent);
+   this.dialog.open(EditarPagoComponent);
   }
 
   openDialogView(): void {
-    this.dialog.open(ViewTratamientoComponent);
+    this.dialog.open(VisualizarPagoComponent);
   }
 
 }

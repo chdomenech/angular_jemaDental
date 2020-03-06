@@ -52,6 +52,8 @@ import { StringbeautyPipe } from './pipes/pipes/stringbeauty.pipe';
 import { ViewSeguroComponent } from './pages/administrador/seguros/view-seguro/view-seguro.component';
 import { ViewTratamientoComponent } from './pages/secretaria/tratamientos/view-tratamiento/view-tratamiento.component';
 import { ResponderSolicitudComponent } from './pages/secretaria/solicitudes/responder-solicitud/responder-solicitud.component';
+import { EditarPagoComponent } from './pages/secretaria/pagos/editar-pago/editar-pago.component';
+import { VisualizarPagoComponent } from './pages/secretaria/pagos/visualizar-pago/visualizar-pago.component';
 
 @NgModule({
   declarations: [
@@ -90,6 +92,8 @@ import { ResponderSolicitudComponent } from './pages/secretaria/solicitudes/resp
     ViewSeguroComponent,
     ViewTratamientoComponent,
     ResponderSolicitudComponent,
+    EditarPagoComponent,
+    VisualizarPagoComponent,
   ],
   imports: [
     BrowserModule,
@@ -139,6 +143,8 @@ import { ResponderSolicitudComponent } from './pages/secretaria/solicitudes/resp
     ViewSeguroComponent,
     ViewTratamientoComponent,
     ResponderSolicitudComponent,
+    EditarPagoComponent,
+    VisualizarPagoComponent,
   ],
   providers: [{ provide: MatPaginatorIntl, useClass: PaginatorEspañol}, MatDatepickerModule],
   bootstrap: [AppComponent]

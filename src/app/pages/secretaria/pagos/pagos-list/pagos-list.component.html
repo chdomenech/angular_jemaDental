@@ -26,15 +26,15 @@
                 </ng-container>
                 <ng-container matColumnDef="fechaPago">
                     <th mat-header-cell *matHeaderCellDef> Fecha </th>
-                    <td mat-cell *matCellDef="let element"> {{element.fecha }} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.fechaPago }} </td>
                 </ng-container>
                 <ng-container matColumnDef="cedulaPaciente">
                     <th mat-header-cell *matHeaderCellDef> CI. Paciente </th>
-                    <td mat-cell *matCellDef="let element"> {{element.cipaciente}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.cedulaPaciente}} </td>
                 </ng-container>
                 <ng-container matColumnDef="nombrePaciente">
                     <th mat-header-cell *matHeaderCellDef> Nombre Paciente </th>
-                    <td mat-cell *matCellDef="let element"> {{element.namepaciente | titlecase}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.nombrePaciente | titlecase}} </td>
                 </ng-container>
                 <ng-container matColumnDef="seguro">
                     <th mat-header-cell *matHeaderCellDef> Seguro </th>
@@ -46,7 +46,7 @@
                 </ng-container>
                 <ng-container matColumnDef="valorPago">
                     <th mat-header-cell *matHeaderCellDef> Valor Total </th>
-                    <td mat-cell *matCellDef="let element"> ${{element.precio}} </td>
+                    <td mat-cell *matCellDef="let element"> ${{element.valorPago}} </td>
                 </ng-container>
                 <ng-container matColumnDef="accion">
                     <th mat-header-cell *matHeaderCellDef> Accion </th>

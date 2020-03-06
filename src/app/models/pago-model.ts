@@ -1,8 +1,9 @@
 export interface PagosInterface {
   id?: string;
-  /*cedulaPaciente?: string;
-  nombrePaciente?: string;*/
   fechaPago?: any;
-  valorPago?: number;
-  //asuntoPago?: string;
+  cedulaPaciente?: string;
+  nombrePaciente?: string;
+  seguro?:string;
+  valorPago?: number;  
+  tratamiento?:string; 
 }

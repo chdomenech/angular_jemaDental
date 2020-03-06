@@ -60,4 +60,24 @@ export class PagoService {
     ));
     return this.Pago;
   }
+
+
+
+  getAllPagosByParams(seguro:any,tratamiento:any,cipaciente:any){
+    this.PagoCollection = this.afs.collection('Pagos', ref => ref.where('seguro', '==', seguro)
+      .where ('tratamiento', '==', tratamiento)
+      .where ('cedulaPaciente', '==', cipaciente));
+    this.Pago = this.PagoCollection.snapshotChanges().pipe(map(
+      actions => {
+        return actions.map(a => {
+          const data = a.payload.doc.data();
+          const id = a.payload.doc.id;
+          return {id, ...data};
+        });
+      }
+    ));
+    return this.Pago;
+  }
+  
+
 }

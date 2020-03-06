@@ -46,10 +46,6 @@ export class EditSeguroComponent implements OnInit {
     const seguroFiltered = this.seguroService.arraySeguros.find(espeFilterbynombre => espeFilterbynombre.nombre === data.nombre);
     data.especialidades = this.specialtiesSelected;
 
-    console.log("this.seguroService.seguroSelected", this.seguroService.seguroSelected);
-    console.log("data", data);
-    
-
     if(this.specialtiesSelected === undefined || this.specialtiesSelected.length == 0){
       this.toastr.warning('Debe seleccionar al menos una especialidad', 'MENSAJE');
     }else if (

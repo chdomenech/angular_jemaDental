@@ -1,0 +1,46 @@
+<div>
+    <mat-toolbar color="primary">
+        <mat-toolbar-row>
+            <span>Visualizar Pago</span>
+        </mat-toolbar-row>
+    </mat-toolbar>
+</div>
+<br>
+<div class="form-container" style="text-align: center">
+    <form [formGroup]="pagoForm">
+        <mat-form-field style="text-align: center; ">
+            <input matInput formControlName="fechaPago" placeholder="Fecha de pago" readonly>
+        </mat-form-field>
+        <br>
+        <mat-form-field style="text-align: center;">
+            <input matInput formControlName="cedulaPaciente" placeholder="Cédula del paciente" readonly>
+        </mat-form-field>
+        &nbsp;&nbsp;
+        <mat-form-field style="text-align: center;">
+            <input matInput formControlName="nombrePaciente" placeholder="Nombres y Apellidos" readonly>
+        </mat-form-field>
+        <br>
+        <mat-form-field style=" text-align: center;">
+            <input matInput formControlName="seguro" placeholder="Seguro" readonly>
+        </mat-form-field>
+        &nbsp;
+        <mat-form-field style=" text-align: center;">
+            <input matInput formControlName="tratamiento" placeholder="Tratamiento" readonly>
+        </mat-form-field><br>
+        <mat-form-field class="inputWidth">
+            <input matInput placeholder="Valor Total $" formControlName='valorPago' readonly>
+        </mat-form-field>
+        <br>
+        <mat-form-field class="inputWidth">
+            <input matInput placeholder="Ultimo valor cancelado $" formControlName='ultimoValorCancelado' readonly>
+        </mat-form-field>
+        <br>
+        <mat-form-field class="inputWidth">
+            <input matInput placeholder="Valor pendiente" formControlName='valorPendiente' readonly>
+        </mat-form-field>
+        <br>
+        <div style="text-align: center;">
+            <button mat-raised-button color="primary" type="button" (click)="this.close()">Cerrar</button>
+        </div>
+    </form>
+</div>
