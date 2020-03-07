@@ -19,17 +19,13 @@ export class PagoService {
   ) {
     this.PagoCollection = afs.collection<PagosInterface>('Pagos',  ref => ref.orderBy('fechaPago', 'desc'));
     this.Pago = this.PagoCollection.valueChanges();
+    this.getAllPagos();
+
   }
 
   public getAllPagos() {
-    return this.Pago = this.PagoCollection.snapshotChanges()
-    .pipe(map( changes => {
-      return changes.map(action => {
-        const data = action.payload.doc.data() as PagosInterface;
-        data.id = action.payload.doc.id;
-        return data;
-      });
-    }));
+    //return this.Pago = this.PagoCollection.valueChanges();
+    return this.afs.collection<PagosInterface>('Pagos',  ref => ref.orderBy('fechaPago', 'desc'));
   }
 
   addPago(pago: PagosInterface) {

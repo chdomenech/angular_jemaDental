@@ -34,10 +34,13 @@ export class PagosListComponent implements OnInit {
     private pagoMService: PagoService,
     private dialog: MatDialog,
     private readonly afs: AngularFirestore
-  ) { }
+  ) { 
+  
+    
+  }
 
   ngOnInit() {
-    this.pagoMService.getAllPagos().subscribe(pago => {
+    this.pagoMService.getAllPagos().valueChanges().subscribe(pago => {
       this.dataSource.data = pago;
       const tam = Object.keys(this.dataSource.data).length;
       for (let i = 0; i< tam; i++){
@@ -45,8 +48,9 @@ export class PagosListComponent implements OnInit {
         this.fecha = new Date(element['fechaPago']);
         this.dataSource.data[i]['fechaPago'] = this.pagoMService.formatDate(this.fecha);
       }
+      this.dataSource.paginator = this.paginator;
     });
-    this.dataSource.paginator = this.paginator;
+
   }
 
   applyFilter(filterValue: string) {

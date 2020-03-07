@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
 export class TratamientoService {
 
   
-  private TratamientoMCollection: AngularFirestoreCollection<TratamientoMInterface>;
+  TratamientoMCollection: AngularFirestoreCollection<TratamientoMInterface>;
   private TratamientoMtDoc: AngularFirestoreDocument<TratamientoMInterface>;
   private Tratamiento: Observable<TratamientoMInterface[]>;
   private tratamientoM: Observable<TratamientoMInterface>;

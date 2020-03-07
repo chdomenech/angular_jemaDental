@@ -69,24 +69,45 @@ export class NewPagoComponent implements OnInit {
   }
 
   procesarTratamientos(){
-
-    const datainfo = this.tratamientoService.TratamientosArray;
+    let TratamientosArray = [];
     let tratamientosHere = [];
+    let datainfo = [];
+
+    this.tratamientoService.TratamientoMCollection.valueChanges().subscribe(list => { 
+      TratamientosArray = list.map(item => {        
+        return {
+          id: item.id,
+          fecha: item.fecha,          
+          cipaciente: item.cipaciente,
+          namepaciente: item.namepaciente,
+          seguro: item.seguro,
+          especialidad: item.especialidad,
+          odontologo: item.odontologo,          
+          tratamiento: item.tratamiento,
+          precio: item.precio,
+          observacion: item.observacion,
+          pagos: item.pagos
+        };
+      });
+      datainfo = TratamientosArray;
+
+      datainfo.forEach(function (data) {
+        const cipaciente = data.cipaciente;
+        const namepaciente = data.namepaciente;
+        let datostratamiento : TratamientoMInterface[];
+        datostratamiento = datainfo.filter(dato => dato.cipaciente === cipaciente);
+        if(tratamientosHere.filter(info => info.cedula === cipaciente).length==0){
+          tratamientosHere.push({
+            cedula: cipaciente,
+            nombre: namepaciente,
+            tratamientos: datostratamiento
+           });
+        }
+       });
+       this.tratamientosArray = tratamientosHere; 
+    });
     
-    datainfo.forEach(function (data) {
-      const cipaciente = data.cipaciente;
-      const namepaciente = data.namepaciente;
-      let datostratamiento : TratamientoMInterface[];
-      datostratamiento = datainfo.filter(dato => dato.cipaciente === cipaciente);
-      if(tratamientosHere.filter(info => info.cedula === cipaciente).length==0){
-        tratamientosHere.push({
-          cedula: cipaciente,
-          nombre: namepaciente,
-          tratamientos: datostratamiento
-         });
-      }
-     });
-     this.tratamientosArray = tratamientosHere; 
+    
     }
 
   tratamiento(val: TratamientoMInterface = {}) {
@@ -98,13 +119,37 @@ export class NewPagoComponent implements OnInit {
   }
 
   seguro(val:any){
-    if(val !== undefined && val!= null){
-      this.tratamientosArraySelect = val.tratamientos;
-      this.seguroSelected = val.seguro;   
+    if(val !== undefined && val!= null){      
+      this.seguroSelected = val.seguro;
+      this.tratamientosArraySelect = this.verificarPagos(val.tratamientos);         
       this.pagoForm.get('ultimoValorCancelado').setValue(null);
       this.pagoForm.get('valorPendiente').setValue(null);
       this.pagoForm.get('valorPago').setValue(null);      
     }
+  }
+
+  /* Verifica que cada tratamiento del seguro
+  seleccionado no tenga todos los pagos  realizados
+  para poder mostrarlo */
+  verificarPagos(tratamientos:any){
+    let tatamientoValidos = [];
+    const seguro = this.seguroSelected;
+    const pagoservice = this.pagoMService;
+    tratamientos.forEach(function (data) {
+      pagoservice.getAllPagosByParams(seguro,data.tratamiento,data.cipaciente).subscribe(pago => {
+          if(pago!=null &&  pago.length>0){          
+             const totalPagado = pago.reduce((acc, pago) => acc + pago.valorPago, 0);
+             const totalAPagar =  data.precio - totalPagado;
+             if(totalAPagar>0){
+              tatamientoValidos.push(data);
+            }
+          }else{
+            tatamientoValidos.push(data);
+          }
+      });
+    });
+    
+    return tatamientoValidos;
   }
 
   obtenerPagos(val: TratamientoMInterface = {}){

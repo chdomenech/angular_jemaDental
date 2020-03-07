@@ -72,7 +72,7 @@ export class NewTratamientoComponent implements OnInit {
     );
   }
 
-    getRegisteredMedicalTratamientos() {
+  getRegisteredMedicalTratamientos() {
     this.tratamientoMService.getAllTratamientosMedicos().subscribe(rest => {
       this.registeredMedicalTratamientos = rest;
     }, error => {
@@ -97,8 +97,7 @@ export class NewTratamientoComponent implements OnInit {
       this.TratamientoMform.get('seguro').setValue(this.valorseguro);
     }else{
       this.TratamientoMform.get('seguro').setValue("No aplica");
-    }
-    
+    }    
   }
 
   selectedMedico(dentistselected: any) {
@@ -106,7 +105,6 @@ export class NewTratamientoComponent implements OnInit {
         this.dentistselected =  dentistselected;
     }
   }  
-
 
   especialidad(val: any) {
     this.odontEspecialidad = [];
@@ -216,6 +214,4 @@ export class NewTratamientoComponent implements OnInit {
   getErrorMessageO() {
     return  this.TratamientoMform.get('odontologo').hasError('required') ? 'Seleccione el odontologo' : '';
   }
-
-
 }

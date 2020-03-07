@@ -50,7 +50,6 @@ import { NewTratamientoComponent } from './pages/secretaria/tratamientos/new-tra
 import { EditTratamientoComponent } from './pages/secretaria/tratamientos/edit-tratamiento/edit-tratamiento.component';
 import { StringbeautyPipe } from './pipes/pipes/stringbeauty.pipe';
 import { ViewSeguroComponent } from './pages/administrador/seguros/view-seguro/view-seguro.component';
-import { ViewTratamientoComponent } from './pages/secretaria/tratamientos/view-tratamiento/view-tratamiento.component';
 import { ResponderSolicitudComponent } from './pages/secretaria/solicitudes/responder-solicitud/responder-solicitud.component';
 import { EditarPagoComponent } from './pages/secretaria/pagos/editar-pago/editar-pago.component';
 import { VisualizarPagoComponent } from './pages/secretaria/pagos/visualizar-pago/visualizar-pago.component';
@@ -90,7 +89,6 @@ import { VisualizarPagoComponent } from './pages/secretaria/pagos/visualizar-pag
     EditTratamientoComponent,
     StringbeautyPipe,
     ViewSeguroComponent,
-    ViewTratamientoComponent,
     ResponderSolicitudComponent,
     EditarPagoComponent,
     VisualizarPagoComponent,
@@ -141,7 +139,6 @@ import { VisualizarPagoComponent } from './pages/secretaria/pagos/visualizar-pag
     NewTratamientoComponent,
     EditTratamientoComponent,
     ViewSeguroComponent,
-    ViewTratamientoComponent,
     ResponderSolicitudComponent,
     EditarPagoComponent,
     VisualizarPagoComponent,
