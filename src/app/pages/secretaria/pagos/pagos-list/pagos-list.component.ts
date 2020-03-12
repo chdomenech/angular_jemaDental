@@ -40,7 +40,7 @@ export class PagosListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.pagoMService.getAllPagos().valueChanges().subscribe(pago => {
+    this.pagoMService.getAllPagos().subscribe(pago => {
       this.dataSource.data = pago;
       const tam = Object.keys(this.dataSource.data).length;
       for (let i = 0; i< tam; i++){

@@ -73,7 +73,7 @@ export class VisualizarPagoComponent implements OnInit {
         if(pago!=null &&  pago.length>0){          
           this.pagoForm.get('ultimoValorCancelado').setValue(pago[pago.length - 1].valorPago);
           const totalPagado = pago.reduce((acc, pago) => acc + pago.valorPago, 0);
-          const totalAPagar =   (this.precioTratamiento!==undefined && this.precioTratamiento!=null?this.precioTratamiento:0) - totalPagado;
+          const totalAPagar =  this.precioTratamiento - totalPagado;
           this.pagoForm.get('valorPendiente').setValue(totalAPagar);
 
         }else{
@@ -83,12 +83,11 @@ export class VisualizarPagoComponent implements OnInit {
     });
   }
 
-  obtenerValorTratamiento(cedula:any,seguro:any,tratamiento:any): any{   
-    this.tratamientoService.getTratamientoByParams(cedula,seguro,tratamiento).subscribe(tratam => {
-      if(tratam!==undefined && tratam!=null && tratam.length>0 ){
-        this.precioTratamiento = tratam[0].precio;
-      }
+  obtenerValorTratamiento(cedula:any,seguro:any,tratamiento:any): any{  
+    this.tratamientoService.getTratamientoByParams(cedula,seguro,tratamiento).subscribe(tratam => {      
+      this.precioTratamiento= tratam[0].precio;
     });
+
   }
 
   close() {

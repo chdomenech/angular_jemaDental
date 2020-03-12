@@ -10,8 +10,12 @@ import { Observable } from 'rxjs';
 export class PagoService {
 
   private PagoCollection: AngularFirestoreCollection<PagosInterface>;
+  private PagoCollectionView: AngularFirestoreCollection<PagosInterface>;
+  private PagoCollectionReport: AngularFirestoreCollection<PagosInterface>;
   private PagoDoc: AngularFirestoreDocument<PagosInterface>;
   private Pago: Observable<PagosInterface[]>;
+  private PagoView: Observable<PagosInterface[]>;
+  private PagoReport: Observable<PagosInterface[]>;
   pagoSelected: PagosInterface = {};
 
   constructor(
@@ -19,20 +23,32 @@ export class PagoService {
   ) {
     this.PagoCollection = afs.collection<PagosInterface>('Pagos',  ref => ref.orderBy('fechaPago', 'desc'));
     this.Pago = this.PagoCollection.valueChanges();
-    this.getAllPagos();
+    //this.getAllPagos();
 
   }
 
   public getAllPagos() {
-    //return this.Pago = this.PagoCollection.valueChanges();
-    return this.afs.collection<PagosInterface>('Pagos',  ref => ref.orderBy('fechaPago', 'desc'));
+    return this.Pago = this.PagoCollection.valueChanges();
+    /*return this.afs.collection<PagosInterface>('Pagos',  ref => ref.orderBy('fechaPago', 'desc'))
+    .snapshotChanges().pipe(map(
+      actions => {
+        return actions.map(a => {
+          const data = a.payload.doc.data();
+          const id = a.payload.doc.id;
+          return {id, ...data};
+        });
+      }
+    ));*/
   }
 
   addPago(pago: PagosInterface) {
-    return this.PagoCollection.add(pago);
+    return this.PagoCollection.add(pago).then(info =>{
+      this.updatePago(pago);
+      
+    })
   }
   updatePago(pago: PagosInterface) {
-      return this.PagoCollection.doc(pago.id).update(pago);
+      return this.PagoCollection.doc(pago.id).update(pago)
   }
 
   formatDate(date: Date): string {
@@ -43,9 +59,9 @@ export class PagoService {
   }
 
   getPagosToReport(fechaIni: number, fechaFin: number) {
-    this.PagoCollection = this.afs.collection(
+    this.PagoCollectionReport = this.afs.collection(
       'Pagos', ref => ref.where('fechaPago', '>=', fechaIni).where ('fechaPago', '<=', fechaFin));
-    this.Pago = this.PagoCollection.snapshotChanges().pipe(map(
+    this.PagoReport = this.PagoCollectionReport.snapshotChanges().pipe(map(
       actions => {
         return actions.map(a => {
           const data = a.payload.doc.data();
@@ -54,16 +70,34 @@ export class PagoService {
         });
       }
     ));
-    return this.Pago;
+    return this.PagoReport;
+  }
+
+  getPagosPacienteToReport(fechaIni: number, fechaFin: number,cedula:any){
+    console.log(fechaIni,fechaFin,cedula);
+    this.PagoCollectionReport = this.afs.collection(
+      'Pagos', ref => ref.where('fechaPago', '>=', fechaIni).where ('fechaPago', '<=', fechaFin)
+      .where ('cedulaPaciente', '==', cedula));
+    this.PagoReport = this.PagoCollectionReport.snapshotChanges().pipe(map(
+      actions => {
+        return actions.map(a => {
+          const data = a.payload.doc.data();
+          const id = a.payload.doc.id;
+          return {id, ...data};
+        });
+      }
+    ));
+    return this.PagoReport;
+
   }
 
 
 
   getAllPagosByParams(seguro:any,tratamiento:any,cipaciente:any){
-    this.PagoCollection = this.afs.collection('Pagos', ref => ref.where('seguro', '==', seguro)
+    this.PagoCollectionView = this.afs.collection('Pagos', ref => ref.where('seguro', '==', seguro)
       .where ('tratamiento', '==', tratamiento)
       .where ('cedulaPaciente', '==', cipaciente));
-    this.Pago = this.PagoCollection.snapshotChanges().pipe(map(
+    this.PagoView = this.PagoCollectionView.snapshotChanges().pipe(map(
       actions => {
         return actions.map(a => {
           const data = a.payload.doc.data();
@@ -72,7 +106,7 @@ export class PagoService {
         });
       }
     ));
-    return this.Pago;
+    return this.PagoView;
   }
   
 

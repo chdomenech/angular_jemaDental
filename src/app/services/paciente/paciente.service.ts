@@ -26,6 +26,7 @@ export class PacienteService {
         return {
           id: item.id,
           cedula: item.cedula,
+          telefono: item.telefono,
           nombre: item.nombre,
           seguro: item.seguro,
           hClinica: item.hClinica,
@@ -37,6 +38,19 @@ export class PacienteService {
   }
 
   getAllPacientes() {
+    return this.Paciente = this.PacientCollection.snapshotChanges()
+    .pipe(map( changes => {
+      return changes.map(action => {
+        const data = action.payload.doc.data() as PacienteInterface;
+        data.id = action.payload.doc.id;
+        return data;
+      });
+    }));
+  }
+
+  getPacientesByCedula(cedula:any) { 
+    this.PacientCollection = this.afs.collection(
+      'Paciente', ref => ref.where('cedula', '==', cedula));
     return this.Paciente = this.PacientCollection.snapshotChanges()
     .pipe(map( changes => {
       return changes.map(action => {

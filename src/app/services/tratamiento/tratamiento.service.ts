@@ -12,8 +12,10 @@ export class TratamientoService {
 
   
   TratamientoMCollection: AngularFirestoreCollection<TratamientoMInterface>;
-  private TratamientoMtDoc: AngularFirestoreDocument<TratamientoMInterface>;
+  TratamientoMCollectionView: AngularFirestoreCollection<TratamientoMInterface>;
   private Tratamiento: Observable<TratamientoMInterface[]>;
+  private TratamientoMtDoc: AngularFirestoreDocument<TratamientoMInterface>;
+  private TratamientoView: Observable<TratamientoMInterface[]>;
   private tratamientoM: Observable<TratamientoMInterface>;
 
   public selectTratamientoM: TratamientoMInterface = {};
@@ -57,10 +59,12 @@ export class TratamientoService {
   }
 
   getTratamientoByParams(cedula:any,seguro:any,tratamiento:any){
-    this.TratamientoMCollection = this.afs.collection('Tratamiento', ref => ref.where('seguro', '==', seguro)
+    
+    this.TratamientoMCollectionView = this.afs.collection('Tratamiento', ref => ref.where('seguro', '==', seguro)
       .where ('tratamiento', '==', tratamiento)
       .where ('cipaciente', '==', cedula));
-    this.Tratamiento = this.TratamientoMCollection.snapshotChanges().pipe(map(
+
+    this.TratamientoView = this.TratamientoMCollectionView.snapshotChanges().pipe(map(
       actions => {
         return actions.map(a => {
           const data = a.payload.doc.data();
@@ -69,7 +73,25 @@ export class TratamientoService {
         });
       }
     ));
-    return this.Tratamiento;
+    return this.TratamientoView;
+  }
+
+  getTratamientosPacienteToReport(fechaIni: number, fechaFin: number,cedula:any){
+    
+    this.TratamientoMCollectionView = this.afs.collection('Tratamiento',  ref => ref.where('fecha', '>=', fechaIni)
+    .where ('fecha', '<=', fechaFin)
+    .where ('cipaciente', '==', cedula));
+
+    this.TratamientoView = this.TratamientoMCollectionView.snapshotChanges().pipe(map(
+      actions => {
+        return actions.map(a => {
+          const data = a.payload.doc.data();
+          const id = a.payload.doc.id;
+          return {id, ...data};
+        });
+      }
+    ));
+    return this.TratamientoView;
   }
 
     

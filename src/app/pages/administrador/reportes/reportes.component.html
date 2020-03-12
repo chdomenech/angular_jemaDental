@@ -1,153 +1,223 @@
 <!DOCTYPE html>
 <html>
+
 <body>
-  <br>
-  <form [formGroup]="reportForm" (ngSubmit)="generarReport()">
-    <div style="text-align: center;">
-      <mat-form-field style="text-align: center; width: 20%;">
-        <mat-label>Tipo Reporte</mat-label>
-        <mat-select formControlName='tipoReporte'>
-          <mat-option>--</mat-option>
-          <mat-option *ngFor="let tipo of tipoReporte" [value]="tipo">
-            {{tipo}}
-          </mat-option>
-        </mat-select>
-        <mat-error *ngIf="reportForm.invalid">{{getErrorMsgTipo()}}</mat-error>
-      </mat-form-field>
-      <br>
-      <mat-form-field style="text-align: center; width: 20%;">
-        <input matInput [matDatepicker]="picker1" placeholder="Fecha Inicial" formControlName="fechaInicio">
-        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-        <mat-datepicker #picker1></mat-datepicker>
-        <mat-error *ngIf="reportForm.invalid">{{getErrorMsgFechaIni()}}</mat-error>
-      </mat-form-field>
-      &nbsp;&nbsp;&nbsp;
-      <mat-form-field style="text-align: center; width: 20%;">
-        <input matInput [matDatepicker]="picker2" placeholder="Fecha Final" formControlName="fechaFin">
-        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-        <mat-datepicker #picker2></mat-datepicker>
-        <mat-error *ngIf="reportForm.invalid">{{getErrorMsgFechaFin()}}</mat-error>
-      </mat-form-field>
-      <br>
-      <button mat-flat-button color="primary" type="submit">
-        GENERAR REPORTE
-      </button>
-    </div>
     <br>
-    <div style="text-align: center;" *ngIf="this.tipoRep === 'Pagos'  && this.existRegistros == false" > <h1>NO EXISTEN REGISTROS DE PAGOS</h1> </div>
-    <div class="table-conten" *ngIf="this.tipoRep === 'Pagos'  && this.existRegistros ==true">
-      <div style="text-align: center;">
-        <button mat-flat-button class="button-download" type="button" (click)='exportTablePagos()'>
+    <form [formGroup]="reportForm" (ngSubmit)="generarReport()">
+        <div style="text-align: center;">
+            <mat-form-field style="text-align: center; width: 20%;">
+                <mat-label>Tipo Reporte</mat-label>
+                <mat-select formControlName='tipoReporte' (ngModelChange)="cambiarTipoReporte($event)">
+                    <mat-option>-- Seleccione --</mat-option>
+                    <mat-option *ngFor="let tipo of tipoReporte" [value]="tipo">
+                        {{tipo}}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="reportForm.invalid">{{getErrorMsgTipo()}}</mat-error>
+            </mat-form-field>
+            <br>
+            <mat-form-field style="text-align: center; width: 20%;">
+                <input matInput [matDatepicker]="picker1" placeholder="Fecha Inicial" formControlName="fechaInicio">
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+                <mat-error *ngIf="reportForm.invalid">{{getErrorMsgFechaIni()}}</mat-error>
+            </mat-form-field>
+            &nbsp;&nbsp;&nbsp;
+            <mat-form-field style="text-align: center; width: 20%;">
+                <input matInput [matDatepicker]="picker2" placeholder="Fecha Final" formControlName="fechaFin">
+                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker>
+                <mat-error *ngIf="reportForm.invalid">{{getErrorMsgFechaFin()}}</mat-error>
+            </mat-form-field>
+            <br>
+            <div style="text-align: center;" *ngIf="this.tipoRep === 'Pagos por paciente'">
+                <mat-form-field style="text-align: center;">
+                    <input (keydown)="check($event)" placeholder="Cédula del paciente" matInput formControlName="cedulaPaciente" [matAutocomplete]="auto">
+                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                        <mat-option *ngFor="let paciente of filteredOptions | async ; let i = index" [value]="paciente">
+                            {{paciente['cedula']}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-error *ngIf="reportForm.invalid">{{'Campo Obligatorio'}}</mat-error>
+                </mat-form-field>
+                <br>
+                <mat-form-field style="text-align: center;">
+                    <input matInput formControlName="nombrePaciente" placeholder="Nombres y Apellidos" readonly>
+                </mat-form-field>
+                <br>
+            </div>
+            <br>
+            <button mat-flat-button color="primary" type="submit">
+             GENERAR REPORTE
+          </button>
+        </div>
+
+        <br>
+        <div style="text-align: center;" *ngIf="this.tipoRep === 'Pagos Generales'  && this.existRegistros == false && this.selectRegistros == false">
+            <h1>NO EXISTEN REGISTROS DE PAGOS</h1>
+        </div>
+        <div class="table-conten" *ngIf="this.tipoRep === 'Pagos Generales'  && this.existRegistros ==true">
+            <div style="text-align: center;">
+                <button mat-flat-button class="button-download" type="button" (click)='exportTablePagos()'>
+                DESCARGAR REPORTE
+                <mat-icon>save_alt</mat-icon></button>
+            </div>
+            <br>
+            <div class="table-container mat-elevation-z8">
+                <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+                    <ng-container matColumnDef="numero">
+                        <th mat-header-cell *matHeaderCellDef> No. </th>
+                        <td mat-cell *matCellDef="let element; index as i"> {{i+1}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="fechaPago">
+                        <th mat-header-cell *matHeaderCellDef> Fecha Pago </th>
+                        <td mat-cell *matCellDef="let element"> {{element.fechaPago}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="cedulaPaciente">
+                        <th mat-header-cell *matHeaderCellDef> CI. Paciente </th>
+                        <td mat-cell *matCellDef="let element"> {{element.cedulaPaciente}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="nombrePaciente">
+                        <th mat-header-cell *matHeaderCellDef> Nombre Paciente </th>
+                        <td mat-cell *matCellDef="let element"> {{element.nombrePaciente | titlecase}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="asuntoPago">
+                        <th mat-header-cell *matHeaderCellDef> Asunto </th>
+                        <td mat-cell *matCellDef="let element"> {{element.tratamiento | titlecase}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="valorPago">
+                        <th mat-header-cell *matHeaderCellDef> Valor Pago </th>
+                        <td mat-cell *matCellDef="let element"> {{element.valorPago}} </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+                <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+            </div>
+        </div>
+
+
+        <br>
+        <div style="text-align: center;" *ngIf="this.tipoRep === 'Pagos por paciente'  && this.existRegistros == false && this.selectRegistros == false">
+            <h1>NO EXISTEN REGISTROS DE PAGOS POR PACIENTES</h1>
+        </div>
+        <div class="table-conten" *ngIf="this.tipoRep === 'Pagos por paciente'  && this.existRegistros ==true">
+            <div style="text-align: center;">
+                <button mat-flat-button class="button-download" type="button" (click)='exportTablePagosPaciente()'>
+                DESCARGAR REPORTE
+                <mat-icon>save_alt</mat-icon></button>
+            </div>
+            <br>
+            <div class="table-container mat-elevation-z8">
+                <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+                    <ng-container matColumnDef="numero">
+                        <th mat-header-cell *matHeaderCellDef> No. </th>
+                        <td mat-cell *matCellDef="let element; index as i"> {{i+1}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="fecha">
+                        <th mat-header-cell *matHeaderCellDef> Fecha </th>
+                        <td mat-cell *matCellDef="let element"> {{element.fecha}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="tratamiento">
+                        <th mat-header-cell *matHeaderCellDef> Tratamiento </th>
+                        <td mat-cell *matCellDef="let element"> {{element.tratamiento}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="valorCancelado">
+                        <th mat-header-cell *matHeaderCellDef> Valor Cancelado </th>
+                        <td mat-cell *matCellDef="let element"> ${{element.valorCancelado}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="valorPendiente">
+                        <th mat-header-cell *matHeaderCellDef> Valor Pendiente </th>
+                        <td mat-cell *matCellDef="let element"> ${{element.valorPendiente}} </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+                <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+            </div>
+        </div>
+
+        <div style="text-align: center;" *ngIf="this.tipoRep === 'Pacientes atendidos'  && this.existRegistros == false && this.selectRegistros == false">
+            <h1>NO EXISTEN REGISTROS DE PACIENTES ATENDIDAS</h1>
+        </div>
+        <div class="table-conten" *ngIf="this.tipoRep === 'Pacientes atendidos' && this.existRegistros == true ">
+            <div style="text-align: center;">
+                <button mat-flat-button class="button-download" type="button" (click)='exportTablePacientes()'>
           DESCARGAR REPORTE
           <mat-icon>save_alt</mat-icon></button>
-      </div>
-      <br>
-      <div class="table-container mat-elevation-z8">
-        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-          <ng-container matColumnDef="numero">
-            <th mat-header-cell *matHeaderCellDef> No. </th>
-            <td mat-cell *matCellDef="let element; index as i"> {{i+1}} </td>
-          </ng-container>
-          <ng-container matColumnDef="fechaPago">
-            <th mat-header-cell *matHeaderCellDef> Fecha Pago </th>
-            <td mat-cell *matCellDef="let element"> {{element.fechaPago}} </td>
-          </ng-container>
-          <ng-container matColumnDef="cedulaPaciente">
-            <th mat-header-cell *matHeaderCellDef> CI. Paciente </th>
-            <td mat-cell *matCellDef="let element"> {{element.cedulaPaciente}} </td>
-          </ng-container>
-          <ng-container matColumnDef="nombrePaciente">
-            <th mat-header-cell *matHeaderCellDef> Nombre Paciente </th>
-            <td mat-cell *matCellDef="let element"> {{element.nombrePaciente | titlecase}} </td>
-          </ng-container>
-          <ng-container matColumnDef="asuntoPago">
-            <th mat-header-cell *matHeaderCellDef> Asunto </th>
-            <td mat-cell *matCellDef="let element"> {{element.asuntoPago | titlecase}} </td>
-          </ng-container>
-          <ng-container matColumnDef="valorPago">
-            <th mat-header-cell *matHeaderCellDef> Valor Pago </th>
-            <td mat-cell *matCellDef="let element"> {{element.valorPago}} </td>
-          </ng-container>
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        </table>
-        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
-      </div>
-    </div>
-    <div style="text-align: center;" *ngIf="this.tipoRep === 'Pacientes Atendidos'  && this.existRegistros == false" > <h1>NO EXISTEN REGISTROS DE CITAS ATENDIDAS</h1> </div>
-    <div class="table-conten" *ngIf="this.tipoRep === 'Pacientes Atendidos' && this.existRegistros == true">
-      <div style="text-align: center;">
-        <button mat-flat-button class="button-download"  type="button" (click)='exportTablePacientes()'>
+            </div>
+            <br>
+            <div class="table-container mat-elevation-z8">
+                <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+                    <ng-container matColumnDef="numero">
+                        <th mat-header-cell *matHeaderCellDef> No. </th>
+                        <td mat-cell *matCellDef="let element; index as i"> {{i+1}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="cedulaPaciente">
+                        <th mat-header-cell *matHeaderCellDef> CI. Paciente </th>
+                        <td mat-cell *matCellDef="let element"> {{element.cedulaPaciente}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="nombrePaciente">
+                        <th mat-header-cell *matHeaderCellDef> Nombre del Paciente </th>
+                        <td mat-cell *matCellDef="let element"> {{element.nombrePaciente | titlecase}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="seguro">
+                        <th mat-header-cell *matHeaderCellDef> Tipo de Seguro </th>
+                        <td mat-cell *matCellDef="let element"> {{element.seguro | titlecase}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="numeroCitas">
+                        <th mat-header-cell *matHeaderCellDef> Numero de Citas </th>
+                        <td mat-cell *matCellDef="let element"> {{element.numeroCitas}} </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+                <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+            </div>
+        </div>
+
+
+        <div style="text-align: center;" *ngIf="this.tipoRep === 'Citas por odontólogo'  && this.existRegistros == false && this.selectRegistros == false">
+            <h1>NO EXISTEN REGISTROS DE CITAS ATENDIDAS</h1>
+        </div>
+        <div class="table-conten" *ngIf="this.tipoRep === 'Citas por odontólogo' && this.existRegistros == true">
+            <div style="text-align: center;">
+                <button mat-flat-button class="button-download" type="button" (click)='exportTableOdontologos()'>
           DESCARGAR REPORTE
           <mat-icon>save_alt</mat-icon></button>
-      </div>
-      <br>
-      <div class="table-container mat-elevation-z8">
-        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-          <ng-container matColumnDef="numero">
-            <th mat-header-cell *matHeaderCellDef> No. </th>
-            <td mat-cell *matCellDef="let element; index as i"> {{i+1}} </td>
-          </ng-container>
-          <ng-container matColumnDef="cedulaPaciente">
-            <th mat-header-cell *matHeaderCellDef> CI. Paciente </th>
-            <td mat-cell *matCellDef="let element"> {{element.cedulaPaciente}} </td>
-          </ng-container>
-          <ng-container matColumnDef="nombrePaciente">
-            <th mat-header-cell *matHeaderCellDef> Nombre del Paciente </th>
-            <td mat-cell *matCellDef="let element"> {{element.nombrePaciente | titlecase}} </td>
-          </ng-container>
-          <ng-container matColumnDef="seguro">
-            <th mat-header-cell *matHeaderCellDef> Tipo de Seguro </th>
-            <td mat-cell *matCellDef="let element"> {{element.seguro | titlecase}} </td>
-          </ng-container>
-          <ng-container matColumnDef="numeroCitas">
-            <th mat-header-cell *matHeaderCellDef> Numero de Citas </th>
-            <td mat-cell *matCellDef="let element"> {{element.numeroCitas}} </td>
-          </ng-container>
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        </table>
-        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
-      </div>
-    </div>
-    <div style="text-align: center;" *ngIf="this.tipoRep === 'Citas por Odontólogo'  && this.existRegistros == false" > <h1>NO EXISTEN REGISTROS DE CITAS ATENDIDAS</h1> </div>
-    <div class="table-conten" *ngIf="this.tipoRep === 'Citas por Odontólogo' && this.existRegistros == true">
-      <div style="text-align: center;">
-        <button mat-flat-button class="button-download"  type="button" (click)='exportTableOdontologos()'>
-          DESCARGAR REPORTE
-          <mat-icon>save_alt</mat-icon></button>
-      </div>
-      <br>
-      <div class="table-container mat-elevation-z8">
-        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-          <ng-container matColumnDef="numero">
-            <th mat-header-cell *matHeaderCellDef> No. </th>
-            <td mat-cell *matCellDef="let element; index as i"> {{i+1}} </td>
-          </ng-container>
-          <ng-container matColumnDef="cedulaOdontologo">
-            <th mat-header-cell *matHeaderCellDef> CI. Odontólogo </th>
-            <td mat-cell *matCellDef="let element"> {{element.cedulaOdontologo}} </td>
-          </ng-container>
-          <ng-container matColumnDef="nombreOdontologo">
-            <th mat-header-cell *matHeaderCellDef> Nombre del Odontólogo </th>
-            <td mat-cell *matCellDef="let element"> {{element.nombreOdontologo | titlecase}} </td>
-          </ng-container>
-          <ng-container matColumnDef="especialidad">
-            <th mat-header-cell *matHeaderCellDef> Especialidad </th>
-            <td mat-cell *matCellDef="let element"> {{element.especialidad | titlecase}} </td>
-          </ng-container>
-          <ng-container matColumnDef="numeroCitas">
-            <th mat-header-cell *matHeaderCellDef> N° Citas Atendidas </th>
-            <td mat-cell *matCellDef="let element"> {{element.numeroCitas}} </td>
-          </ng-container>
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        </table>
-        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
-      </div>
-    </div>
-  </form>
+            </div>
+            <br>
+            <div class="table-container mat-elevation-z8">
+                <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+                    <ng-container matColumnDef="numero">
+                        <th mat-header-cell *matHeaderCellDef> No. </th>
+                        <td mat-cell *matCellDef="let element; index as i"> {{i+1}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="cedulaOdontologo">
+                        <th mat-header-cell *matHeaderCellDef> CI. Odontólogo </th>
+                        <td mat-cell *matCellDef="let element"> {{element.cedulaOdontologo}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="nombreOdontologo">
+                        <th mat-header-cell *matHeaderCellDef> Nombre del Odontólogo </th>
+                        <td mat-cell *matCellDef="let element"> {{element.nombreOdontologo | titlecase}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="especialidad">
+                        <th mat-header-cell *matHeaderCellDef> Especialidad </th>
+                        <td mat-cell *matCellDef="let element"> {{element.especialidad | titlecase}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="numeroCitas">
+                        <th mat-header-cell *matHeaderCellDef> N° Citas Atendidas </th>
+                        <td mat-cell *matCellDef="let element"> {{element.numeroCitas}} </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+                <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+            </div>
+        </div>
+
+        <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+    </form>
 </body>
 
 </html>
-

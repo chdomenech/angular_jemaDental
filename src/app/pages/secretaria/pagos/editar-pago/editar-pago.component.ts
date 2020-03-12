@@ -76,32 +76,6 @@ export class EditarPagoComponent implements OnInit {
     //this.setPagos();
   }
 
-  /*setPagos(){
-    this.pagoMService.getAllPagosByParams(this.pagoMService.pagoSelected.seguro,
-      this.pagoMService.pagoSelected.tratamiento,
-      this.pagoMService.pagoSelected.cedulaPaciente).subscribe(pago => {
-
-        if(pago!=null &&  pago.length>0){          
-          this.pagoForm.get('ultimoValorCancelado').setValue(pago[pago.length - 1].valorPago);
-          const totalPagado = pago.reduce((acc, pago) => acc + pago.valorPago, 0);
-          const totalAPagar =   (this.precioTratamiento!==undefined && this.precioTratamiento!=null?this.precioTratamiento:0) - totalPagado;
-          this.pagoForm.get('valorPendiente').setValue(totalAPagar);
-
-        }else{
-          this.pagoForm.get('ultimoValorCancelado').setValue(0);
-          this.pagoForm.get('valorPendiente').setValue(this.pagoMService.pagoSelected.valorPago);    
-        }
-    });
-  }*/
-
-  obtenerValorTratamiento(cedula:any,seguro:any,tratamiento:any): any{   
-    this.tratamientoService.getTratamientoByParams(cedula,seguro,tratamiento).subscribe(tratam => {
-      if(tratam!==undefined && tratam!=null && tratam.length>0 ){
-        this.precioTratamiento = tratam[0].precio;
-      }
-    });
-  }
-
   procesarTratamientos(){
     const datainfo = this.tratamientoService.TratamientosArray;
     let tratamientosHere = [];    
