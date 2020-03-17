@@ -19,7 +19,7 @@
         </mat-form-field>
         <br>
         <mat-form-field class="inputWidth">
-            <input matInput formControlName="email" placeholder="Email">
+            <input matInput formControlName="email" placeholder="Email" (keyup)="validateEmail()">
             <mat-error *ngIf="seguroForm.invalid">{{msgValidateEmail()}}</mat-error>
         </mat-form-field>&nbsp;&nbsp;
         <mat-form-field class="inputWidth">

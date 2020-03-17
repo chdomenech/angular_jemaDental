@@ -51,7 +51,7 @@
             </mat-grid-tile>
             <mat-grid-tile>
                 <mat-form-field class="inputData">
-                    <input matInput formControlName="email" placeholder="Email">
+                    <input matInput formControlName="email" placeholder="Email" (keyup)="validateEmail()">
                     <mat-error *ngIf="pacienteForm.invalid">{{getErrorMessageE()}}</mat-error>
                 </mat-form-field>
             </mat-grid-tile>

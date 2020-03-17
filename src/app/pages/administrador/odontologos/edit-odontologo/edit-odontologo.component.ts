@@ -6,6 +6,8 @@ import { Component, OnInit, ViewChildren, ElementRef } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { MatDialogRef } from '@angular/material';
 import { PacienteService } from './../../../../services/paciente/paciente.service';
+import { SeguroService } from 'src/app/services/seguro/seguro.service';
+
 
 @Component({
   selector: 'app-edit-odontologo',
@@ -65,6 +67,7 @@ export class EditOdontologoComponent implements OnInit {
     public espeService: EspecialidadService,
     public odonService: OdontologoService,    
     public pacientService: PacienteService,
+    public seguroService: SeguroService,
     private dialogRef: MatDialogRef<EditOdontologoComponent>,
   ) {
     dialogRef.disableClose = true;
@@ -80,7 +83,6 @@ export class EditOdontologoComponent implements OnInit {
     const existeCedOdont = this.odonService.arrayOdontologos.find(data=>data.cedula===cedula);
     const existeCedPacient =  this.pacientService.arrayPacientes.find(paciente => paciente.cedula === cedula);
     const cedulaOld = this.odonService.odontologoSelected.cedula;
-
     
     if(cedulaOld!==cedula && existeCedOdont){
       this.Odonform.get('cedula').setErrors({repeatOdonto:true})
@@ -89,6 +91,25 @@ export class EditOdontologoComponent implements OnInit {
       this.Odonform.get('cedula').setErrors({repeatCedPaciente:true})
       this.toastr.warning('La cedula escrita pertenece a un paciente', 'MENSAJE');
     }    
+  }
+
+  validateEmail(){
+    const email = this.Odonform.get('email').value;
+    const emailOld = this.odonService.odontologoSelected.email;
+    const existeEmailOdont = this.odonService.arrayOdontologos.find(data=>data.email===email);
+    const existeEmailPacient =  this.pacientService.arrayPacientes.find(paciente => paciente.email === email);
+    const existeEmailSeguro =  this.seguroService.arraySeguros.find(seguro => seguro.email === email);
+    console.log("email -> ",email);
+    if(emailOld!==email && existeEmailOdont){
+      this.Odonform.get('email').setErrors({repeatEmailOdonto:true})
+      this.toastr.warning('El email escrito pertenece a un odontologo', 'MENSAJE');
+    }else if(emailOld!==email && existeEmailPacient){
+      this.Odonform.get('email').setErrors({repeatEmailPaciente:true})
+      this.toastr.warning('El email escrito pertenece a un paciente', 'MENSAJE');
+    }else if(emailOld!==email && existeEmailSeguro){
+      this.Odonform.get('email').setErrors({repeatEmailSeguro:true})
+      this.toastr.warning('El email escrito pertenece a un seguro', 'MENSAJE');
+    }   
   }
 
   fillOdontologo() {
@@ -129,6 +150,7 @@ export class EditOdontologoComponent implements OnInit {
         this.toastr.warning('Seleccione los dias de trabajo del Odontólogo', 'MENSAJE');
     } else {
       this.validateCedula();
+      this.validateEmail();
       this.getInfoOdontologo();
       this.odont.email = this.odont.email.toLowerCase();
       const odontFilteredC = this.odonService.arrayOdontologos.find(
@@ -153,35 +175,7 @@ export class EditOdontologoComponent implements OnInit {
     }
   }
 
- /*  validateEmail(inputEmail: string) {
-    this.odont.email = this.odont.email.toLowerCase();
-    this.subscriptionE = this.odonService.searchEmailOdont(inputEmail).subscribe(email => {
-      if (Object.keys(email).length === 0) {
-        if (this.image === this.imageUrl) {
-          this.odonService.editOdontologo(this.odont);
-        } else {
-          this.odonService.editOdontologo(this.odont, this.image);
-        }
-        this.toastr.success('Registro modificado con exito', 'MENSAJE');
-        this.close();
-       } else {
-         if (this.odonService.selected.email === email[0].email) {
-           if (this.image === this.imageUrl) {
-             this.odonService.editOdontologo(this.odont);
-            } else {
-              this.odonService.editOdontologo(this.odont, this.image);
-            }
-           this.toastr.success('Registro modificado exitosamente', 'MENSAJE');
-           this.close();
-          } else {
-            this.toastr.info('El email ya se encuentra registrado', 'MENSAJE');
-          }
-       }
-      this.subscriptionE.unsubscribe();
-    });
-  } */
-
-  horario( jornada) {
+   horario( jornada) {
     const lista = [];
 
     if (jornada === 'Matutina') {
@@ -289,7 +283,6 @@ export class EditOdontologoComponent implements OnInit {
   }
 
   check(event: KeyboardEvent) {
-    // tslint:disable-next-line: deprecation
     if (event.keyCode > 31 && !this.allowedChars.has(event.keyCode)) {
       event.preventDefault();
     }
@@ -298,6 +291,9 @@ export class EditOdontologoComponent implements OnInit {
   msgValidateEmail() {
     return this.Odonform.get('email').hasError('pattern') ? 'Correo electrónico invalido' :
     this.Odonform.get('email').hasError('required') ? 'Campo Requerido' :
+    this.Odonform.get('email').hasError('repeatEmailOdonto') ? 'El email escrito pertenece a un odontologo' :
+    this.Odonform.get('email').hasError('repeatEmailPaciente') ? 'El email escrito pertenece a un paciente' :
+    this.Odonform.get('email').hasError('repeatEmailSeguro') ? 'El email escrito pertenece a un seguro' :
      '';
   }
 

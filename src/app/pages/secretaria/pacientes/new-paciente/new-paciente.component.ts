@@ -51,6 +51,24 @@ export class NewPacienteComponent implements OnInit {
 
   }
 
+  validateEmail(){
+    const email = this.pacienteForm.get('email').value;
+    const existeEmailOdont = this.odontoService.arrayOdontologos.find(data=>data.email===email);
+    const existeEmailPacient =  this.pacientService.arrayPacientes.find(paciente => paciente.email === email);
+    const existeEmailSeguro =  this.segService.arraySeguros.find(seguro => seguro.email === email);
+    console.log("email -> ",email);
+    if(existeEmailOdont){
+      this.pacienteForm.get('email').setErrors({repeatEmailOdonto:true})
+      this.toastr.warning('El email escrito pertenece a un odontologo', 'MENSAJE');
+    }else if(existeEmailPacient){
+      this.pacienteForm.get('email').setErrors({repeatEmailPaciente:true})
+      this.toastr.warning('El email escrito pertenece a un paciente', 'MENSAJE');
+    }else if(existeEmailSeguro){
+      this.pacienteForm.get('email').setErrors({repeatEmailSeguro:true})
+      this.toastr.warning('El email escrito pertenece a un seguro', 'MENSAJE');
+    }   
+  }
+
   validateCedula(){
     const cedula = this.pacienteForm.get('cedula').value;
     const existeCedOdont = this.odontoService.arrayOdontologos.find(data=>data.cedula===cedula);
@@ -77,6 +95,7 @@ export class NewPacienteComponent implements OnInit {
       pacientFilterbyHC => pacientFilterbyHC.hClinica === data.hClinica);
 
     this.validateCedula();  
+    this.validateEmail();
 
     if (pacientFilteredC === undefined) {
       if (pacientFilteredE === undefined) {
@@ -106,9 +125,12 @@ export class NewPacienteComponent implements OnInit {
   }
 
   getErrorMessageE() {
-    return this.pacienteForm.get('email').hasError('pattern') ? 'Correo electrónico invalido' :
-           this.pacienteForm.get('email').hasError('required') ? 'Campo obligatorio' :
-            '';
+     return this.pacienteForm.get('email').hasError('pattern') ? 'Correo electrónico invalido' :
+    this.pacienteForm.get('email').hasError('required') ? 'Campo Requerido' :
+    this.pacienteForm.get('email').hasError('repeatEmailOdonto') ? 'El email escrito pertenece a un odontologo' :
+    this.pacienteForm.get('email').hasError('repeatEmailPaciente') ? 'El email escrito pertenece a un paciente' :
+    this.pacienteForm.get('email').hasError('repeatEmailSeguro') ? 'El email escrito pertenece a un seguro' :
+      '';
   }
 
   getErrorMessageN() {

@@ -43,7 +43,7 @@
             </mat-grid-tile>
             <mat-grid-tile>
                 <mat-form-field class="inputWidth">
-                    <input matInput formControlName="email" placeholder="Correo electrónico">
+                    <input matInput formControlName="email" placeholder="Correo electrónico" (keyup)="validateEmail()">
                     <mat-error *ngIf="this.Odonform.invalid">{{msgValidateEmail()}}
                     </mat-error>
                 </mat-form-field>
