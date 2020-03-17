@@ -9,8 +9,8 @@
     <form [formGroup]="CitaMform" (ngSubmit)="guardarCitaMedica(CitaMform.value)">
         <input type="hidden" formControlName="id">
         <mat-form-field class="select">
-            <input type="text" placeholder="Cedula Pacientes" formControlName="cipaciente" aria-label="Pacientes" matInput [matAutocomplete]="auto" (keydown)="check($event)">
-            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+            <input type="text" placeholder="Cedula Pacientes" formControlName="cipaciente" aria-label="Pacientes" matInput [matAutocomplete]="auto" (keydown)="check($event)" readonly>
+            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" readonly>
                 <mat-option *ngFor="let paciente of filteredOptions | async" [value]="paciente">
                     {{paciente['cedula']}}
                 </mat-option>
@@ -29,8 +29,8 @@
         <mat-form-field class="select">
             <mat-select formControlName="especialidad" placeholder="especialidad" (ngModelChange)="especialidad($event)">
                 <mat-option>Seleccione Especialidad</mat-option>
-                <mat-option *ngFor="let especialidad of espeService.arrayEspe" value="{{especialidad.nombre}}">
-                    {{especialidad.nombre}}
+                <mat-option *ngFor="let especialidad of especialidadSelect" value="{{especialidad}}">
+                    {{especialidad}}
                 </mat-option>
             </mat-select>
             <mat-error *ngIf="CitaMform.invalid">{{getErrorMessageE()}}</mat-error>

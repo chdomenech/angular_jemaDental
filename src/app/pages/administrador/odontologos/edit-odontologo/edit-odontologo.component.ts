@@ -5,6 +5,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit, ViewChildren, ElementRef } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { MatDialogRef } from '@angular/material';
+import { PacienteService } from './../../../../services/paciente/paciente.service';
 
 @Component({
   selector: 'app-edit-odontologo',
@@ -62,7 +63,8 @@ export class EditOdontologoComponent implements OnInit {
   constructor(
     private toastr: ToastrService,
     public espeService: EspecialidadService,
-    public odonService: OdontologoService,
+    public odonService: OdontologoService,    
+    public pacientService: PacienteService,
     private dialogRef: MatDialogRef<EditOdontologoComponent>,
   ) {
     dialogRef.disableClose = true;
@@ -71,6 +73,22 @@ export class EditOdontologoComponent implements OnInit {
   ngOnInit() {
     this.dialogRef.updateSize('60%', '100%');
     this.fillOdontologo();
+  }
+
+  validateCedula(){
+    const cedula = this.Odonform.get('cedula').value;
+    const existeCedOdont = this.odonService.arrayOdontologos.find(data=>data.cedula===cedula);
+    const existeCedPacient =  this.pacientService.arrayPacientes.find(paciente => paciente.cedula === cedula);
+    const cedulaOld = this.odonService.odontologoSelected.cedula;
+
+    
+    if(cedulaOld!==cedula && existeCedOdont){
+      this.Odonform.get('cedula').setErrors({repeatOdonto:true})
+      this.toastr.warning('La cedula escrita pertenece a un odontologo', 'MENSAJE');
+    }else if(cedulaOld!==cedula && existeCedPacient){
+      this.Odonform.get('cedula').setErrors({repeatCedPaciente:true})
+      this.toastr.warning('La cedula escrita pertenece a un paciente', 'MENSAJE');
+    }    
   }
 
   fillOdontologo() {
@@ -110,6 +128,7 @@ export class EditOdontologoComponent implements OnInit {
        !this.Odonform.get('viernes').value && !this.Odonform.get('sábado').value) {
         this.toastr.warning('Seleccione los dias de trabajo del Odontólogo', 'MENSAJE');
     } else {
+      this.validateCedula();
       this.getInfoOdontologo();
       this.odont.email = this.odont.email.toLowerCase();
       const odontFilteredC = this.odonService.arrayOdontologos.find(
@@ -283,8 +302,10 @@ export class EditOdontologoComponent implements OnInit {
   }
 
   msgValidateCedula() {
-    return this.Odonform.get('cedula').hasError('required') ? 'Campo Requerido' :
-           this.Odonform.get('cedula').hasError('minlength') ? 'La cédula debe tener 10 digitos' :
+    return  this.Odonform.get('cedula').hasError('required') ? 'Campo obligatorio' :
+            this.Odonform.get('cedula').hasError('minlength') ? 'La cédula debe tener 10 digitos' :
+            this.Odonform.get('cedula').hasError('repeatOdonto') ? 'La cédula escrita pertenece a un odontologo' :
+            this.Odonform.get('cedula').hasError('repeatCedPaciente') ? 'La cédula escrita pertenece a un paciente' :
     '';
   }
 

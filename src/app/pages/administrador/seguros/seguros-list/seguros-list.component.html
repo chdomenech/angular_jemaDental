@@ -32,7 +32,11 @@
                 </ng-container>
                 <ng-container matColumnDef="email">
                     <th mat-header-cell *matHeaderCellDef> Email </th>
-                    <td mat-cell *matCellDef="let element"> {{element.email | titlecase}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.email | lowercase}} </td>
+                </ng-container>
+                <ng-container matColumnDef="sitioweb">
+                    <th mat-header-cell *matHeaderCellDef> Sitio web </th>
+                    <td mat-cell *matCellDef="let element"><a href="{{element.sitioweb}}" target="_blank">{{element.sitioweb}}</a> </td>
                 </ng-container>
                 <ng-container matColumnDef="accion">
                     <th mat-header-cell *matHeaderCellDef> Accion </th>

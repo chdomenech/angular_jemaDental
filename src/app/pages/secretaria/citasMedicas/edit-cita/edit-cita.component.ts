@@ -22,7 +22,7 @@ export class EditCitaComponent implements OnInit {
   allowedChars = new Set('0123456789'.split('').map(c => c.charCodeAt(0)));
 
   CitaMform: FormGroup;
-
+  especialidadSelect: any[];
   filteredOptions: Observable<string[]>;
   minDate: Date = new Date();
   specialtiesSelected: string;
@@ -69,13 +69,26 @@ export class EditCitaComponent implements OnInit {
       estado: new FormControl('',  Validators.required),
     });
 
+    this.especialidadSelect = this.getEspecialidades(); 
     this.getPacientandDentistList();
     this.actualizo = false;
     this.filteredOptions = this.CitaMform.get('cipaciente').valueChanges.pipe(
       startWith(''),
       map(value =>  value ? this._filter(value) : this.pactService.arrayPacientes.slice())
     );
-   
+  }
+
+  getEspecialidades():any[]{
+    let especiadidadesArray = [];
+    this.odontService.arrayOdontologos.map((odont) => {
+
+      if(especiadidadesArray.length ==0 ){
+        especiadidadesArray.push(odont.especialidad);
+      }else if(!especiadidadesArray.find(val=>val.trim() === odont.especialidad.trim())){
+        especiadidadesArray.push(odont.especialidad);
+      }
+    });
+    return especiadidadesArray;
   }
 
   displayFn(subject) {
@@ -109,7 +122,8 @@ export class EditCitaComponent implements OnInit {
     const newdate = new Date(parts[2], (parts[1] - 1), parts[0]);
     this.CitaMform.get('fecha').patchValue(newdate);
     this.CitaMform.get('seguro').patchValue(this.citaMService.selectCitaM.seguro);
-    this.CitaMform.get('especialidad').patchValue(this.citaMService.selectCitaM.especialidad,{});
+    console.log("this.citaMService.selectCitaM.especialidad -->",this.citaMService.selectCitaM.especialidad.trim())
+    this.CitaMform.get('especialidad').patchValue(this.citaMService.selectCitaM.especialidad.trim());
     const dentistSelected = this.odontEspecialidad.find(search => search.cedula === this.citaMService.selectCitaM.odontologo);
     this.CitaMform.get('odontologo').patchValue(dentistSelected);
     this.CitaMform.get('hora').patchValue(this.citaMService.selectCitaM.hora);
@@ -128,11 +142,10 @@ export class EditCitaComponent implements OnInit {
       this.cleanHourValue();
       this.specialtiesSelected = val;
       this.odontService.arrayOdontologos.map((odont) => {
-        if (odont.especialidad === val) {
+        if (odont.especialidad === val.trim()) {
           this.odontEspecialidad.push(odont);
         }
       });
-
     }
   }
 

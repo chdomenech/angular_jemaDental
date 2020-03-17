@@ -32,6 +32,7 @@ export class NewCitaComponent implements OnInit {
     estado: new FormControl('',  Validators.required),
   });
 
+  especialidadSelect: any[];
   filteredOptions: Observable<string[]>;
   minDate: Date = new Date();
   specialtiesSelected: string;
@@ -64,6 +65,21 @@ export class NewCitaComponent implements OnInit {
       startWith(''),
       map(value =>  value ? this._filter(value) : this.pactService.arrayPacientes.slice())
     );
+
+    this.especialidadSelect = this.getEspecialidades();
+  }
+
+  getEspecialidades():any[]{
+    let especiadidadesArray = [];
+    this.odontService.arrayOdontologos.map((odont) => {
+
+      if(especiadidadesArray.length ==0 ){
+        especiadidadesArray.push(odont.especialidad);
+      }else if(!especiadidadesArray.find(val=>val.trim() === odont.especialidad.trim())){
+        especiadidadesArray.push(odont.especialidad);
+      }
+    });
+    return especiadidadesArray;
   }
 
   displayFn(subject) {
@@ -85,7 +101,7 @@ export class NewCitaComponent implements OnInit {
     this.odontEspecialidad = [];
     this.specialtiesSelected = val;
     this.odontService.arrayOdontologos.map((odont) => {
-      if (odont.especialidad === val) {
+      if (odont.especialidad === val.trim()) {
         this.odontEspecialidad.push(odont);
       }
     });

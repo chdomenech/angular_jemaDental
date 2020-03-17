@@ -19,6 +19,7 @@ export class EditSeguroComponent implements OnInit {
     email:new FormControl('', [Validators.required, Validators.email]),
     direccion:new FormControl(''),
     telefono:new FormControl(''),    
+    sitioweb:new FormControl(''),    
   });
   specialtiesSelected:  string[];
   allowedChars = new Set('0123456789'.split('').map(c => c.charCodeAt(0)));
@@ -39,6 +40,8 @@ export class EditSeguroComponent implements OnInit {
     this.specialtiesSelected = this.seguroService.seguroSelected.especialidades;
     this.seguroForm.get('telefono').setValue(this.seguroService.seguroSelected.telefono);
     this.seguroForm.get('email').setValue(this.seguroService.seguroSelected.email);
+    this.seguroForm.get('sitioweb').setValue(this.seguroService.seguroSelected.sitioweb);
+    
   }
 
   onSaveSeguro(data: SeguroInteface) {

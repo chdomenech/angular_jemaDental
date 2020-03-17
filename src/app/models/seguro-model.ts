@@ -5,4 +5,5 @@ export interface SeguroInteface {
   direccion?:string;
   email?:string;
   especialidades?:any;
+  sitioweb?:any;
 }

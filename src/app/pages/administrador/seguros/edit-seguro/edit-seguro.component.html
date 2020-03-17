@@ -13,15 +13,18 @@
             <input matInput formControlName="nombre" placeholder="Nombre del Seguro medico">
             <mat-error *ngIf="seguroForm.invalid">{{msgValidateNombre()}}</mat-error>
         </mat-form-field>
-        <br>
+        &nbsp;&nbsp;
         <mat-form-field class="inputWidth">
             <input matInput formControlName="telefono" placeholder="Telefono" maxlength="10" (keydown)="check($event)">
         </mat-form-field>
-        &nbsp;&nbsp;
+        <br>
         <mat-form-field class="inputWidth">
             <input matInput formControlName="email" placeholder="Email">
             <mat-error *ngIf="seguroForm.invalid">{{msgValidateEmail()}}</mat-error>
-        </mat-form-field>
+        </mat-form-field>&nbsp;&nbsp;
+        <mat-form-field class="inputWidth">
+            <input matInput formControlName="sitioweb" placeholder="Pagina web">
+        </mat-form-field><br>
         <mat-form-field class="inputData">
             <mat-label>Direccion</mat-label>
             <input matInput formControlName="direccion" placeholder="Direccion" class="form-control">

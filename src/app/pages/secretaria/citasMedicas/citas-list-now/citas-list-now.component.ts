@@ -17,7 +17,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 })
 export class CitasListNowComponent implements OnInit {
   myDate = Date.now();
-
+  fechaPars :any;
   dentistList: any[] = [];
   fecha: any;
   displayedColumns: string[] = ['fecha', 'hora', 'cipaciente', 'namepaciente' , 'nameodontologo',  'seguro', 'estado', 'accion'];
@@ -52,6 +52,13 @@ export class CitasListNowComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    let dat = new Date();
+    dat.setSeconds(0);
+    dat.setMinutes(0);
+    dat.setHours(0);
+   
+    this.fechaPars =  this.citaMService.formtDate(dat);
 
     this.citaMService.getAllCitasMedicas().subscribe(citaMedica => {
       citaMedica = citaMedica.filter(this.filtrarCitas);

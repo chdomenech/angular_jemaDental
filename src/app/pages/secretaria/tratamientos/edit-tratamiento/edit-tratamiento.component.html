@@ -16,7 +16,7 @@
         </mat-form-field>
         <br>
         <mat-form-field class="select">
-            <input type="text" placeholder="Cedula Pacientes" formControlName="cipaciente" aria-label="Pacientes" matInput [matAutocomplete]="auto" (keydown)="check($event)">
+            <input type="text" placeholder="Cedula Pacientes" formControlName="cipaciente" aria-label="Pacientes" matInput [matAutocomplete]="auto" (keydown)="check($event)" readonly>
             <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
                 <mat-option *ngFor="let paciente of filteredOptions | async" [value]="paciente">
                     {{paciente['cedula']}}

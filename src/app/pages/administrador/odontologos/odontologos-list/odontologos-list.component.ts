@@ -7,6 +7,8 @@ import { ToastrService } from 'ngx-toastr';
 import { EditOdontologoComponent } from '../edit-odontologo/edit-odontologo.component';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import {OdontologoInterface} from 'src/app/models/odontologo-model';
+
 
 @Component({
   selector: 'app-odontologos-list',
@@ -15,8 +17,9 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 })
 export class OdontologosListComponent implements OnInit {
 
-  displayedColumns: string[] = ['numero', 'foto', 'nombre' , 'cedula', 'especialidad', 'email', 'telefono', 'jornadaLaboral', 'accion'];
+  displayedColumns: string[] = ['numero', 'foto', 'nombre' , 'cedula', 'especialidad', 'email', 'telefono','diasLaborales', 'jornadaLaboral', 'accion'];
   dataSource = new MatTableDataSource();
+  odontologo : OdontologoInterface;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   constructor(
@@ -30,9 +33,22 @@ export class OdontologosListComponent implements OnInit {
 
   ngOnInit() {
 
-    this.odontService.getAllOdontologos().subscribe(odontologos => this.dataSource.data = odontologos);
+    this.odontService.getAllOdontologos().subscribe(odontologos => {
+      this.dataSource.data = odontologos
+      const tam = Object.keys(this.dataSource.data).length;
+      for (let i = 0; i< tam; i++){
+        let element = odontologos[i];
+        let dias = new Array();
+        const horarios = element.horario;
+        const tam1 = Object.keys(horarios).length;
+        for (let i = 0; i<tam1; i++){
+          dias.push(horarios[i].dia);
+        }
+        this.dataSource.data[i]['diasLaborales']=dias;
+      }
+    
+    });
     this.dataSource.paginator = this.paginator;
-  
   }
 
   applyFilter(filterValue: string) {

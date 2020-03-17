@@ -18,7 +18,8 @@ export class NewSeguroComponent implements OnInit {
     nombre: new FormControl('', Validators.required),
     direccion:new FormControl(''),
     telefono:new FormControl(''),
-    email:new FormControl('', [Validators.required, Validators.email])
+    email:new FormControl('', [Validators.required, Validators.email]),
+    sitioweb:new FormControl(''), 
   });
 
   allowedChars = new Set('0123456789'.split('').map(c => c.charCodeAt(0)));

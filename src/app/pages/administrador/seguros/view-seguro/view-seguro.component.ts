@@ -17,7 +17,8 @@ export class ViewSeguroComponent implements OnInit {
     nombre: new FormControl(''),
     email:new FormControl(''),
     direccion:new FormControl(''),
-    telefono:new FormControl(''),    
+    telefono:new FormControl(''), 
+    sitioweb:new FormControl(''),       
   });
 
   especialidades:any;
@@ -38,6 +39,7 @@ export class ViewSeguroComponent implements OnInit {
     this.especialidades= this.seguroService.seguroSelected.especialidades;
     this.seguroForm.get('telefono').setValue(this.seguroService.seguroSelected.telefono);
     this.seguroForm.get('email').setValue(this.seguroService.seguroSelected.email);
+    this.seguroForm.get('sitioweb').setValue(this.seguroService.seguroSelected.sitioweb);
   }
 
   close(): void {

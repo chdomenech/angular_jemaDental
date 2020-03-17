@@ -5,6 +5,7 @@ import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { SeguroService } from 'src/app/services/seguro/seguro.service';
 import { MatDialogRef } from '@angular/material';
+import { OdontologoService } from './../../../../services/odontologo/odontologo.service';
 
 @Component({
   selector: 'app-edit-paciente',
@@ -36,7 +37,8 @@ export class EditPacienteComponent implements OnInit {
 
   constructor(
     private toastr: ToastrService,
-    public segService: SeguroService,
+    public segService: SeguroService,    
+    public odontoService: OdontologoService,
     public pacientService: PacienteService,
     private dialogRef: MatDialogRef<EditPacienteComponent>,
   ) {
@@ -45,6 +47,21 @@ export class EditPacienteComponent implements OnInit {
 
   ngOnInit() {
     this.fillPaciente();
+  }
+
+  validateCedula(){
+    const cedula = this.pacienteForm.get('cedula').value;
+    const existeCedOdont = this.odontoService.arrayOdontologos.find(data=>data.cedula===cedula);
+    const existeCedPacient =  this.pacientService.arrayPacientes.find(paciente => paciente.cedula === cedula);
+    const cedulaOld = this.pacientService.pacienteSelected.cedula;
+
+    if(cedulaOld!==cedula && existeCedOdont){
+      this.pacienteForm.get('cedula').setErrors({repeatOdonto:true})
+      this.toastr.warning('La cedula escrita pertenece a un odontologo', 'MENSAJE');
+    }else if(cedulaOld!==cedula && existeCedPacient){
+      this.pacienteForm.get('cedula').setErrors({repeatCedPaciente:true})
+      this.toastr.warning('La cedula escrita pertenece a un paciente', 'MENSAJE');
+    }    
   }
 
   fillPaciente() {
@@ -69,6 +86,8 @@ export class EditPacienteComponent implements OnInit {
       pacientFilterbyemail => pacientFilterbyemail.email === data.email);
     const pacientFilteredHC = this.pacientService.arrayPacientes.find(
       pacientFilterbyHC => pacientFilterbyHC.hClinica === data.hClinica);
+
+      this.validateCedula();
 
     if ((pacientFilteredC === undefined) || (data.cedula === this.pacientService.pacienteSelected.cedula)) {
       if ((pacientFilteredE === undefined) || (data.email === this.pacientService.pacienteSelected.email)) {
@@ -110,8 +129,10 @@ export class EditPacienteComponent implements OnInit {
   }
 
   getErrorMessageC() {
-    return this.pacienteForm.get('cedula').hasError('required') ? 'Campo Requerido' :
-           this.pacienteForm.get('cedula').hasError('minlength') ? 'La cédula debe tener 10 digitos' :
+    return  this.pacienteForm.get('cedula').hasError('required') ? 'Campo obligatorio' :
+            this.pacienteForm.get('cedula').hasError('minlength') ? 'La cédula debe tener 10 digitos' :
+            this.pacienteForm.get('cedula').hasError('repeatOdonto') ? 'La cédula escrita pertenece a un odontologo' :
+            this.pacienteForm.get('cedula').hasError('repeatCedPaciente') ? 'La cédula escrita pertenece a un paciente' :
     '';
   }
 

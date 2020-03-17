@@ -28,17 +28,14 @@ export class PagoService {
   }
 
   public getAllPagos() {
-    return this.Pago = this.PagoCollection.valueChanges();
-    /*return this.afs.collection<PagosInterface>('Pagos',  ref => ref.orderBy('fechaPago', 'desc'))
-    .snapshotChanges().pipe(map(
-      actions => {
-        return actions.map(a => {
-          const data = a.payload.doc.data();
-          const id = a.payload.doc.id;
-          return {id, ...data};
-        });
-      }
-    ));*/
+    return this.Pago = this.PagoCollection.snapshotChanges()
+    .pipe(map( changes => {
+      return changes.map(action => {
+        const data = action.payload.doc.data() as PagosInterface;
+        data.id = action.payload.doc.id;
+        return data;
+      });
+    }));
   }
 
   addPago(pago: PagosInterface) {
@@ -74,7 +71,6 @@ export class PagoService {
   }
 
   getPagosPacienteToReport(fechaIni: number, fechaFin: number,cedula:any){
-    console.log(fechaIni,fechaFin,cedula);
     this.PagoCollectionReport = this.afs.collection(
       'Pagos', ref => ref.where('fechaPago', '>=', fechaIni).where ('fechaPago', '<=', fechaFin)
       .where ('cedulaPaciente', '==', cedula));

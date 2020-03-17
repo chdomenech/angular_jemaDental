@@ -48,7 +48,6 @@ export class NewPasswordComponent implements OnInit {
     } else {
       this.toastr.success('Contraseña restablecida exitosamente', 'MENSAJE');
       const code = this.route.snapshot.queryParams.oobCode;
-      //console.log('VIENE DE UN EMAIL',code)
       this.afAuth.auth.confirmPasswordReset(code, this.newPass)
       .then(() => this.router.navigate(['/inicioSesion']));
     }

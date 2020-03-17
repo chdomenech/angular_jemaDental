@@ -82,7 +82,6 @@ export class ReportesComponent implements OnInit {
   }
 
   generateGraphBar(data,title){
-    console.log(data);
     let chart = new CanvasJS.Chart("chartContainer", {
       animationEnabled: false,
       exportEnabled: true,
@@ -196,8 +195,7 @@ export class ReportesComponent implements OnInit {
     } else {
       
       this.displayedColumns = [];
-      this.existRegistros = false;
-      this.dataSource = new MatTableDataSource();
+      this.dataSource = new MatTableDataSource();      
 
       if (this.tipoRep === 'Pagos Generales') {
         this.reportPagos();
@@ -328,15 +326,14 @@ reportPacientes() {
                   this.dataSource.data[i]['numeroCitas'] = Object.keys(resp).length;
             }
            }
-		   
-		   //REVISAR
+
 		  let data = [];
 		  for(let i = 0; i < this.dataSource.data.length; i++){
 			var nombre= `${this.dataSource.data[i]['nombrePaciente']}`
 			var citas= this.dataSource.data[i]['numeroCitas']
 			data.push({y:Number.parseInt(citas),label:nombre});
 		  }
-		  this.generateGraphBar(data,"Reporte de Pcientes atendidos");
+		  this.generateGraphBar(data,"Reporte de Pacientes atendidos");
 		   
 		   
         });

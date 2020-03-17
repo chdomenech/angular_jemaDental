@@ -1,76 +1,81 @@
 <!DOCTYPE html>
 <html>
+
 <body>
-  <br>
-  <div class="button-new">
-    <button mat-raised-button color="primary" type="button" (click)="onNew()">
+    <br>
+    <div class="button-new">
+        <button mat-raised-button color="primary" type="button" (click)="onNew()">
       <mat-icon>note_add</mat-icon>
       Registrar Odontólogo
     </button>
-  </div>
-  <br>
-  <div style="text-align: center;">
-  <mat-form-field style="width: 50%;">
-    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Busqueda del Odontologo">
-</mat-form-field>
-<i class="material-icons" >search</i>
-</div>
- <br>
-  <br>
-  <div class="table-conten">
-    <div class="table-container mat-elevation-z8">
-      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-        <ng-container matColumnDef="numero">
-          <th mat-header-cell *matHeaderCellDef> No. </th>
-          <td mat-cell *matCellDef="let element; index as i"> {{i+1}} </td>
-        </ng-container>
-        <ng-container matColumnDef="foto">
-          <th mat-header-cell *matHeaderCellDef> Foto </th>
-          <td mat-cell *matCellDef="let element"> <img src="{{element.foto}}" class="imgOdontologo"> </td>
-        </ng-container>
-        <ng-container matColumnDef="nombre">
-          <th mat-header-cell *matHeaderCellDef> Nombres y Apellidos </th>
-          <td mat-cell *matCellDef="let element"> {{element.nombre | titlecase}} </td>
-        </ng-container>
-        <ng-container matColumnDef="cedula">
-          <th mat-header-cell *matHeaderCellDef> Cédula </th>
-          <td mat-cell *matCellDef="let element"> {{element.cedula}} </td>
-        </ng-container>
-        <ng-container matColumnDef="especialidad">
-          <th mat-header-cell *matHeaderCellDef> Especialidad </th>
-          <td mat-cell *matCellDef="let element"> {{element.especialidad | titlecase}} </td>
-        </ng-container>
-        <ng-container matColumnDef="email">
-          <th mat-header-cell *matHeaderCellDef> Email </th>
-          <td mat-cell *matCellDef="let element"> {{element.email}} </td>
-        </ng-container>
-        <ng-container matColumnDef="telefono">
-          <th mat-header-cell *matHeaderCellDef> Teléfono </th>
-          <td mat-cell *matCellDef="let element"> {{element.telefono}} </td>
-        </ng-container>
-        <ng-container matColumnDef="jornadaLaboral">
-          <th mat-header-cell *matHeaderCellDef> Jornada </th>
-          <td mat-cell *matCellDef="let element">{{element.jornadaLaboral}}</td>
-        </ng-container>
-        <ng-container matColumnDef="accion">
-          <th mat-header-cell *matHeaderCellDef> Acción </th>
-          <td mat-cell *matCellDef="let element">
-            <button mat-flat-button class="button-edit" color="primary" type="button" (click)="onEdit(element)">
+    </div>
+    <br>
+    <div style="text-align: center;">
+        <mat-form-field style="width: 50%;">
+            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Busqueda del Odontologo">
+        </mat-form-field>
+        <i class="material-icons">search</i>
+    </div>
+    <br>
+    <br>
+    <div class="table-conten">
+        <div class="table-container mat-elevation-z8">
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+                <ng-container matColumnDef="numero">
+                    <th mat-header-cell *matHeaderCellDef> No. </th>
+                    <td mat-cell *matCellDef="let element; index as i"> {{i+1}} </td>
+                </ng-container>
+                <ng-container matColumnDef="foto">
+                    <th mat-header-cell *matHeaderCellDef> Foto </th>
+                    <td mat-cell *matCellDef="let element"> <img src="{{element.foto}}" class="imgOdontologo"> </td>
+                </ng-container>
+                <ng-container matColumnDef="nombre">
+                    <th mat-header-cell *matHeaderCellDef> Nombres y Apellidos </th>
+                    <td mat-cell *matCellDef="let element"> {{element.nombre | titlecase}} </td>
+                </ng-container>
+                <ng-container matColumnDef="cedula">
+                    <th mat-header-cell *matHeaderCellDef> Cédula </th>
+                    <td mat-cell *matCellDef="let element"> {{element.cedula}} </td>
+                </ng-container>
+                <ng-container matColumnDef="especialidad">
+                    <th mat-header-cell *matHeaderCellDef> Especialidad </th>
+                    <td mat-cell *matCellDef="let element"> {{element.especialidad | titlecase}} </td>
+                </ng-container>
+                <ng-container matColumnDef="email">
+                    <th mat-header-cell *matHeaderCellDef> Email </th>
+                    <td mat-cell *matCellDef="let element"> {{element.email | lowercase}} </td>
+                </ng-container>
+                <ng-container matColumnDef="telefono">
+                    <th mat-header-cell *matHeaderCellDef> Teléfono </th>
+                    <td mat-cell *matCellDef="let element"> {{element.telefono}} </td>
+                </ng-container>
+                <ng-container matColumnDef="diasLaborales">
+                    <th mat-header-cell *matHeaderCellDef> Dias laborales </th>
+                    <td mat-cell *matCellDef="let element">{{element.diasLaborales}}</td>
+                </ng-container>
+                <ng-container matColumnDef="jornadaLaboral">
+                    <th mat-header-cell *matHeaderCellDef> Jornada </th>
+                    <td mat-cell *matCellDef="let element">{{element.jornadaLaboral}}</td>
+                </ng-container>
+                <ng-container matColumnDef="accion">
+                    <th mat-header-cell *matHeaderCellDef> Acción </th>
+                    <td mat-cell *matCellDef="let element">
+                        <button mat-flat-button class="button-edit" color="primary" type="button" (click)="onEdit(element)">
               Editar
               <mat-icon>edit</mat-icon>
             </button>&nbsp;
-            <button mat-flat-button class="button-delete" type="button" (click)="onDelete(element)">
+                        <button mat-flat-button class="button-delete" type="button" (click)="onDelete(element)">
               Borrar
               <mat-icon>delete</mat-icon>
             </button>
-          </td>
-        </ng-container>
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      </table>
-      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                    </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+            <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+        </div>
     </div>
-  </div>
 </body>
 
 </html>

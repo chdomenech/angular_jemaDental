@@ -31,6 +31,7 @@ export class ReportService {
     doc.text(68, 55, title);
     doc.autoTable({
       margin: { left: 10 },
+      headStyles: { fillColor: "#EC407A" },
       head: [header],
       showHead:'firstPage',
       theme: 'grid',
@@ -39,7 +40,7 @@ export class ReportService {
     });
 	
     doc.addPage();
-    doc.addImage(imgurl, 'JPEG', 10, 50, 200, 65)
+    doc.addImage(imgurl, 'JPEG', 10, 50, 190, 65)
     doc.save(pdfFilename+".pdf");
   }
   
@@ -73,7 +74,8 @@ export class ReportService {
 
     doc.autoTable({
       margin: { left: 10 },
-      head: [header],
+      head: [header],      
+      headStyles: { fillColor: "#EC407A" },
       showHead:'firstPage',
       theme: 'grid',
       startY: 95,
@@ -81,7 +83,7 @@ export class ReportService {
     });
      
 	doc.addPage();
-    doc.addImage(imgurl, 'JPEG', 10, 50, 200, 65) 
+    doc.addImage(imgurl, 'JPEG', 10, 50, 180, 55) 
     doc.save(pdfFilename+".pdf");
   }
 
