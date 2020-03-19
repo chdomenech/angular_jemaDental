@@ -23,9 +23,25 @@ export class CitaService {
   ) {
     this.CitaMCollection = afs.collection<CitaMInterface>('CitasMedicas',  ref => ref.orderBy('fecha', 'desc'));
     this.getAllCitasMedicas();
+    this.CitaMCollection.valueChanges().subscribe(list => {
+      this.citaArray = list.map(item => {
+        return {
+          id: item.id,
+          fecha: item.fecha,
+          hora: item.hora,
+          cipaciente: item.cipaciente,
+          namepaciente: item.namepaciente,
+          odontologo: item.odontologo,
+          seguro: item.seguro,
+          estado: item.estado,
+          especialidad: item.especialidad
+        };
+      });
+    });
+
   }
 
-  getAllCitasMedicas() {
+  getAllCitasMedicas(){
     return this.CitasMedicas = this.CitaMCollection.snapshotChanges()
     .pipe(map( changes => {
       return changes.map(action => {

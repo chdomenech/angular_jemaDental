@@ -122,7 +122,6 @@ export class EditCitaComponent implements OnInit {
     const newdate = new Date(parts[2], (parts[1] - 1), parts[0]);
     this.CitaMform.get('fecha').patchValue(newdate);
     this.CitaMform.get('seguro').patchValue(this.citaMService.selectCitaM.seguro);
-    console.log("this.citaMService.selectCitaM.especialidad -->",this.citaMService.selectCitaM.especialidad.trim())
     this.CitaMform.get('especialidad').patchValue(this.citaMService.selectCitaM.especialidad.trim());
     const dentistSelected = this.odontEspecialidad.find(search => search.cedula === this.citaMService.selectCitaM.odontologo);
     this.CitaMform.get('odontologo').patchValue(dentistSelected);

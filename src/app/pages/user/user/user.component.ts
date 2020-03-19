@@ -22,9 +22,12 @@ export class UserComponent implements OnInit {
 
   ngOnInit() {
     this.authService.isAuth().subscribe(auth => {
+
       if (auth) {
         this.userUid = auth.uid;
+
         this.authService.isUserAdmin(this.userUid).subscribe(userRole => {
+
         this.isAdmin = Object.assign({}, userRole.roles);
         this.isSecret = Object.assign({}, userRole.roles);
         this.isAdmin = this.isAdmin.hasOwnProperty('administrador');
@@ -37,7 +40,6 @@ export class UserComponent implements OnInit {
   }
 
   onLogout() {
-    console.log('logout');
     this.AFauth.auth.signOut();
     this.router.navigate(['/inicioSesion']);
     

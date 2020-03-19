@@ -44,6 +44,7 @@ export class NewCitaComponent implements OnInit {
   dateSelected: Date;
   dentistselected: any;
   registeredMedicalAppointments: CitaMInterface[] = [];
+  citasMedicasArray: CitaMInterface[] = [];
 
   constructor(
     private toastr: ToastrService,
@@ -200,10 +201,31 @@ export class NewCitaComponent implements OnInit {
     }
   }
 
+  validarCitaMedicaRegistrada(){
+    this.citaMService.getAllCitas().subscribe(rest => {
+
+      const ci = this.CitaMform.get('cipaciente').value;
+      const fecha = this.CitaMform.get('fecha').value;
+      const fechaT = Date.parse(fecha);
+      const hora = this.CitaMform.get('hora').value;
+      
+      rest = rest.filter(datosCitas=>datosCitas.cipaciente === ci.cedula && datosCitas.fecha === fechaT && datosCitas.hora === hora);
+      console.log(rest);
+        if(rest.length > 0){
+          this.CitaMform.get('hora').setErrors({repeatHora:true})
+          this.toastr.warning('El paciente ya tiene una cita medica registrada a esa hora', 'MENSAJE');  
+        }
+      }, error => {
+        throw error;
+      });
+
+  }
+
   guardarCitaMedica(data: CitaMInterface) {
+    
     const fecha = Date.parse(data.fecha);
-    data.fecha = fecha;
-    // objeto modificado
+    data.fecha = fecha;   
+  
     let newdata: CitaMInterface;
     newdata = data;
 
@@ -220,7 +242,7 @@ export class NewCitaComponent implements OnInit {
         this.toastr.error('El paciente  no se encuentra registrado', 'MENSAJE');
       }
     } else {
-      console.log('el no se encuentra registrado');
+      this.toastr.warning('El paciente no se encuentra registrado', 'MENSAJE');
     }
   }
 
@@ -244,7 +266,6 @@ export class NewCitaComponent implements OnInit {
   }
 
   check(event: KeyboardEvent) {
-    // tslint:disable-next-line: deprecation
     if (event.keyCode > 31 && !this.allowedChars.has(event.keyCode)) {
       event.preventDefault();
     }
@@ -267,7 +288,9 @@ export class NewCitaComponent implements OnInit {
   }
 
   getErrorMessageH() {
-    return  this.CitaMform.get('hora').hasError('required') ? 'Seleccione la hora de la cita' : '';
+    return  this.CitaMform.get('hora').hasError('required') ? 'Seleccione la hora de la cita': 
+            this.CitaMform.get('hora').hasError('repeatHora') ? 'El paciente ya tiene una cita a esa hora' 
+    : '';
   }
   getErrorMessageEst() {
     return  this.CitaMform.get('estado').hasError('required') ? 'Seleccione el estado de la cita' : '';

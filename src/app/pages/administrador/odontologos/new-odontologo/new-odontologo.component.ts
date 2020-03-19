@@ -83,7 +83,6 @@ export class NewOdontologoComponent implements OnInit {
     const cedula = this.Odonform.get('cedula').value;
     const existeCedOdont = this.odonService.arrayOdontologos.find(data=>data.cedula===cedula);
     const existeCedPacient =  this.pacientService.arrayPacientes.find(paciente => paciente.cedula === cedula);
-    console.log("cedula -> ",cedula);
     if(existeCedOdont){
       this.Odonform.get('cedula').setErrors({repeatOdonto:true})
       this.toastr.warning('La cedula escrita pertenece a un odontologo', 'MENSAJE');
@@ -98,7 +97,6 @@ export class NewOdontologoComponent implements OnInit {
     const existeEmailOdont = this.odonService.arrayOdontologos.find(data=>data.email===email);
     const existeEmailPacient =  this.pacientService.arrayPacientes.find(paciente => paciente.email === email);
     const existeEmailSeguro =  this.seguroService.arraySeguros.find(seguro => seguro.email === email);
-    console.log("email -> ",email);
     if(existeEmailOdont){
       this.Odonform.get('email').setErrors({repeatEmailOdonto:true})
       this.toastr.warning('El email escrito pertenece a un odontologo', 'MENSAJE');

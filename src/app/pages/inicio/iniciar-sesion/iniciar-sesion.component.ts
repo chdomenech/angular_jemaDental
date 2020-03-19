@@ -44,12 +44,15 @@ export class IniciarSesionComponent implements OnInit {
 
     this.subscription = this.authService.getUserbyCedula(this.cedula).subscribe(user => {
 
+
       if (Object.keys(user).length !== 0) {
           this.email = user[0].email;
        }
 
       this.authService.login(this.email, this.password)
       .then((res) => {
+
+
         this.router.navigate(['inicio']);
         //this.router.navigate(['citasRegistradas']);
         this.subscription.unsubscribe();

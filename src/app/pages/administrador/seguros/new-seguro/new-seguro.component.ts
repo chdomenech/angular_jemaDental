@@ -67,7 +67,7 @@ export class NewSeguroComponent implements OnInit {
     const existeEmailOdont = this.odonService.arrayOdontologos.find(data=>data.email===email);
     const existeEmailPacient =  this.pacientService.arrayPacientes.find(paciente => paciente.email === email);
     const existeEmailSeguro =  this.seguroService.arraySeguros.find(seguro => seguro.email === email);
-    console.log("email -> ",email);
+
     if(existeEmailOdont){
       this.seguroForm.get('email').setErrors({repeatEmailOdonto:true})
       this.toastr.warning('El email escrito pertenece a un odontologo', 'MENSAJE');

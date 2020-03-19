@@ -82,8 +82,7 @@ export class ValidarPerfilComponent implements OnInit {
  accesoPorPerfil(nombreComponente:string)
   {
     this.authService.devolverPerfil(nombreComponente).then(resAux => {
-      //console.log('validarrrr', resAux);
-      if (resAux) {
+       if (resAux) {
         let valorAux: any = resAux;
         if (valorAux === '1') {
          //Ingreso ok
