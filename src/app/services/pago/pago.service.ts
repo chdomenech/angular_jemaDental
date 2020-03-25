@@ -38,6 +38,12 @@ export class PagoService {
     }));
   }
 
+  
+  deletePago(pago: PagosInterface) {
+    return this.PagoCollection.doc(pago.id).delete();
+  }
+
+
   addPago(pago: PagosInterface) {
     return this.PagoCollection.add(pago).then(info =>{
       this.updatePago(pago);

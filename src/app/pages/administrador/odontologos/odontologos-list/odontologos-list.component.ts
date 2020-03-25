@@ -8,7 +8,9 @@ import { EditOdontologoComponent } from '../edit-odontologo/edit-odontologo.comp
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import {OdontologoInterface} from 'src/app/models/odontologo-model';
-
+import { CitaMInterface } from './../../../../models/cita-model';
+import { CitaService } from './../../../../services/cita/cita.service';
+import { AprobarEliminarOdontologoComponent } from '../aprobar-eliminar/aprobar-eliminar.component';
 
 @Component({
   selector: 'app-odontologos-list',
@@ -28,6 +30,7 @@ export class OdontologosListComponent implements OnInit {
     private toastr: ToastrService,
     private odontService: OdontologoService,
     private espeService: EspecialidadService,
+    private citaMService: CitaService,
     private dialog: MatDialog
   ) { }
 
@@ -74,12 +77,23 @@ export class OdontologosListComponent implements OnInit {
     this.dialog.open(EditOdontologoComponent);
   }
 
-  onDelete(element) {
+  /*onDelete(element) {
     const confirmacion = confirm('¿Estas seguro de eliminar el odontólogo?');
     if (confirmacion) {
       this.odontService.deleteOdontologo(element);
       this.toastr.success('Registro eliminado exitosamente', 'MENSAJE');
     }
+  }*/
+
+  onDelete(element) {
+    this.openDialogConfirmar();
+    if (element) {
+      this.odontService.odontologoSelectedBorrar = Object.assign({}, element);
+    }
+  }
+
+  openDialogConfirmar(): void {
+    this.dialog.open(AprobarEliminarOdontologoComponent);
   }
 
 }

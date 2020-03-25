@@ -14,6 +14,7 @@ export class PacienteService {
   private Paciente: Observable<PacienteInterface[]>;
 
   public pacienteSelected: PacienteInterface = {};
+  public pacienteSelectedBorrar: PacienteInterface = {};
   arrayPacientes = [];
 
   constructor(

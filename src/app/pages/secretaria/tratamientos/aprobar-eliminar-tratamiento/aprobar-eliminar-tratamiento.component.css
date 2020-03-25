@@ -1,0 +1,21 @@
+.form-container {
+    width: 350px;
+    margin: auto;
+}
+
+.select {
+    padding-left: 50px;
+    width: 50%;
+    text-align: center;
+}
+
+.inputData {
+    width: 60%;
+    text-align: center;
+}
+
+span {
+    display: block;
+    text-align: center;
+    width: 800%;
+}

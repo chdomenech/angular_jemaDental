@@ -9,13 +9,18 @@
     <form [formGroup]="Odonform" (ngSubmit)="saveOdontologo(Odonform.value)">
         <input type="hidden" formControlName="id">
         <div class="avatar-upload">
+            <div class="avatar-edit">
+                <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" #fileInput (change)="uploadFile($event)" />
+            </div>
             <div class="avatar-preview">
                 <div id="imagePreview" [style.backgroundImage]="'url('+ imageUrl +')'">
                 </div>
             </div>
-            <br>
-            <input type='file' formControlName="foto" accept=".png, .jpg, .jpeg" (change)="uploadFile($event)" />
         </div>
+        <button mat-raised-button color="primary" color="basic" type="button" (click)="fileInput.click()">Seleccionar
+            Imagen</button>
+        <br>
+        <br>
         <mat-grid-list cols="2" rowHeight="62">
             <mat-grid-tile colspan="2">
                 <mat-form-field>

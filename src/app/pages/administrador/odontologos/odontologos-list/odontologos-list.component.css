@@ -179,3 +179,15 @@ table {
     -webkit-hyphens: auto;
     hyphens: auto
 }
+
+.mat-dialog-container {
+    width: 50% !important;
+    height: 85% !important;
+    top: 5% !important;
+}
+
+mat-dialog-container {
+    width: 50% !important;
+    height: 85% !important;
+    top: 5% !important;
+}

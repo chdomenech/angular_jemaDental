@@ -53,6 +53,9 @@ import { ViewSeguroComponent } from './pages/administrador/seguros/view-seguro/v
 import { ResponderSolicitudComponent } from './pages/secretaria/solicitudes/responder-solicitud/responder-solicitud.component';
 import { EditarPagoComponent } from './pages/secretaria/pagos/editar-pago/editar-pago.component';
 import { VisualizarPagoComponent } from './pages/secretaria/pagos/visualizar-pago/visualizar-pago.component';
+import { AprobarEliminarComponent } from './pages/secretaria/pacientes/aprobar-eliminar/aprobar-eliminar.component';
+import { AprobarEliminarOdontologoComponent } from './pages/administrador/odontologos/aprobar-eliminar/aprobar-eliminar.component';
+import { AprobarEliminarTratamientoComponent } from './pages/secretaria/tratamientos/aprobar-eliminar-tratamiento/aprobar-eliminar-tratamiento.component';
 
 @NgModule({
   declarations: [
@@ -92,6 +95,9 @@ import { VisualizarPagoComponent } from './pages/secretaria/pagos/visualizar-pag
     ResponderSolicitudComponent,
     EditarPagoComponent,
     VisualizarPagoComponent,
+    AprobarEliminarComponent,
+    AprobarEliminarOdontologoComponent,
+    AprobarEliminarTratamientoComponent,
   ],
   imports: [
     BrowserModule,
@@ -142,6 +148,9 @@ import { VisualizarPagoComponent } from './pages/secretaria/pagos/visualizar-pag
     ResponderSolicitudComponent,
     EditarPagoComponent,
     VisualizarPagoComponent,
+    AprobarEliminarComponent,
+    AprobarEliminarOdontologoComponent,
+    AprobarEliminarTratamientoComponent
   ],
   providers: [{ provide: MatPaginatorIntl, useClass: PaginatorEspañol}, MatDatepickerModule],
   bootstrap: [AppComponent]

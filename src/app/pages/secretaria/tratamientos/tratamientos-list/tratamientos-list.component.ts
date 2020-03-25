@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { NewTratamientoComponent } from './../new-tratamiento/new-tratamiento.component';
 import { EditTratamientoComponent } from './../edit-tratamiento/edit-tratamiento.component';
-
+import { AprobarEliminarTratamientoComponent } from './../aprobar-eliminar-tratamiento/aprobar-eliminar-tratamiento.component';
 
 @Component({
   selector: 'app-tratamientos-list',
@@ -71,12 +71,21 @@ export class TratamientosListComponent implements OnInit {
    this.dialog.open(EditTratamientoComponent);
   }
 
-  onDelete(element) {
+  /*onDelete(element) {
     const confirmacion = confirm('¿Estas seguro de eliminar el tratamiento medico?');
     if (confirmacion) {
       this.tratamientoMService.deleteTratamientoM(element);
       this.toastr.success('Tratamiento medico eliminada exitosamente', 'MENSAJE');
     }
+  }*/
+  onDelete(element) {
+    this.openDialogConfirmar();
+    if (element) {
+      this.tratamientoMService.selectTratamientoBorrar = Object.assign({}, element);
+    }
   }
 
+  openDialogConfirmar(): void {
+    this.dialog.open(AprobarEliminarTratamientoComponent);
+  }
 }

@@ -45,6 +45,8 @@ export class NewCitaComponent implements OnInit {
   dentistselected: any;
   registeredMedicalAppointments: CitaMInterface[] = [];
   citasMedicasArray: CitaMInterface[] = [];
+  citasFiltradas: CitaMInterface[];
+  
 
   constructor(
     private toastr: ToastrService,
@@ -199,26 +201,23 @@ export class NewCitaComponent implements OnInit {
     if (getdentisValue) {
       this.filterhoursbyOdonto(getdentisValue);
     }
+
+    this.citasFiltradas = this.citaMService.citaArray;
   }
 
-  validarCitaMedicaRegistrada(){
-    this.citaMService.getAllCitas().subscribe(rest => {
+  validarCitaMedicaRegistrada(event){
 
-      const ci = this.CitaMform.get('cipaciente').value;
-      const fecha = this.CitaMform.get('fecha').value;
-      const fechaT = Date.parse(fecha);
-      const hora = this.CitaMform.get('hora').value;
-      
-      rest = rest.filter(datosCitas=>datosCitas.cipaciente === ci.cedula && datosCitas.fecha === fechaT && datosCitas.hora === hora);
-      console.log(rest);
-        if(rest.length > 0){
-          this.CitaMform.get('hora').setErrors({repeatHora:true})
-          this.toastr.warning('El paciente ya tiene una cita medica registrada a esa hora', 'MENSAJE');  
-        }
-      }, error => {
-        throw error;
-      });
+    const ci = this.CitaMform.get('cipaciente').value;
+    const fecha = this.CitaMform.get('fecha').value;
+    const fechaT = Date.parse(fecha);
+    const hora = this.CitaMform.get('hora').value;
 
+   const valores = this.citasFiltradas.find(datosCitas=>datosCitas.cipaciente === ci.cedula && datosCitas.fecha === fechaT && datosCitas.hora === hora); 
+
+   if(valores !== undefined){
+      this.CitaMform.get('hora').setErrors({repeatHora:true})
+      this.toastr.warning('El paciente ya tiene una cita medica registrada a esa hora', 'MENSAJE');  
+    }
   }
 
   guardarCitaMedica(data: CitaMInterface) {

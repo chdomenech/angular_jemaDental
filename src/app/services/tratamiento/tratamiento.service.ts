@@ -19,6 +19,7 @@ export class TratamientoService {
   private tratamientoM: Observable<TratamientoMInterface>;
 
   public selectTratamientoM: TratamientoMInterface = {};
+  public selectTratamientoBorrar: TratamientoMInterface = {};
 
   TratamientosArray = [];
 

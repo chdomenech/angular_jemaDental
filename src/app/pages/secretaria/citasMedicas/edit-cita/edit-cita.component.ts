@@ -35,6 +35,8 @@ export class EditCitaComponent implements OnInit {
   dateSelected: Date;
   dentistselected: any;
   registeredMedicalAppointments: CitaMInterface[] = [];
+  citasFiltradas: CitaMInterface[];  
+
 
   // Lista de pacientes
   pacientList: any[] = [];
@@ -255,6 +257,24 @@ export class EditCitaComponent implements OnInit {
         this.filterhoursbyOdonto(getdentisValue);
       }
     }
+    this.citasFiltradas = this.citaMService.citaArray;
+  }
+
+  validarCitaMedicaRegistrada(event){
+
+    const ci = this.CitaMform.get('cipaciente').value;
+    const fecha = this.CitaMform.get('fecha').value;
+    const fechaT = Date.parse(fecha);
+    const hora = this.CitaMform.get('hora').value;
+
+    if(hora!==this.citaMService.selectCitaM.hora){      
+      const valores = this.citasFiltradas.find(datosCitas=>datosCitas.cipaciente === ci.cedula && datosCitas.fecha === fechaT && datosCitas.hora === hora); 
+
+      if(valores !== undefined){
+          this.CitaMform.get('hora').setErrors({repeatHora:true})
+          this.toastr.warning('El paciente ya tiene una cita medica registrada a esa hora', 'MENSAJE');  
+      }
+    }   
   }
 
   guardarCitaMedica(data: CitaMInterface) {
@@ -279,6 +299,8 @@ export class EditCitaComponent implements OnInit {
       console.log('el no se encuentra registrado');
     }
   }
+
+
 
   existID_pacientList(cedula: any): boolean {
 

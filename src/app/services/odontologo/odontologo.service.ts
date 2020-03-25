@@ -21,6 +21,7 @@ export class OdontologoService {
 
 
   public odontologoSelected: OdontologoInterface;
+  public odontologoSelectedBorrar: OdontologoInterface;
 
   arrayOdontologos = [];
 
