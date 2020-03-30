@@ -15,7 +15,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 })
 export class SegurosListComponent implements OnInit {
 
-  displayedColumns: string[] = ['numero', 'nombre','telefono','direccion','email', 'sitioweb', 'accion'];
+  displayedColumns: string[] = ['numero', 'nombre','telefono','direccion','email','accion'];
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 

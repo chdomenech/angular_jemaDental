@@ -35,8 +35,8 @@
         <mat-form-field class="select">
             <mat-select formControlName="especialidad" placeholder="especialidad" (ngModelChange)="especialidad($event)">
                 <mat-option>Seleccione Especialidad</mat-option>
-                <mat-option *ngFor="let especialidad of espeService.arrayEspe" value="{{especialidad.nombre}}">
-                    {{especialidad.nombre}}
+                <mat-option *ngFor="let especialidad of especialidadSelect" value="{{especialidad}}">
+                    {{especialidad}}
                 </mat-option>
             </mat-select>
             <mat-error *ngIf="TratamientoMform.invalid">{{getErrorMessageE()}}</mat-error>

@@ -48,6 +48,7 @@ export class NewTratamientoComponent implements OnInit {
   dateSelected: Date;
   dentistselected: any;
   registeredMedicalTratamientos: TratamientoMInterface[] = [];
+  especialidadSelect: any[];
 
   constructor(
     private toastr: ToastrService,
@@ -70,6 +71,21 @@ export class NewTratamientoComponent implements OnInit {
       startWith(''),
       map(value =>  value ? this._filter(value) : this.pactService.arrayPacientes.slice())
     );
+
+    this.especialidadSelect = this.getEspecialidades();
+  }
+
+  getEspecialidades():any[]{
+    let especiadidadesArray = [];
+    this.odontService.arrayOdontologos.map((odont) => {
+
+      if(especiadidadesArray.length ==0 ){
+        especiadidadesArray.push(odont.especialidad);
+      }else if(!especiadidadesArray.find(val=>val.trim() === odont.especialidad.trim())){
+        especiadidadesArray.push(odont.especialidad);
+      }
+    });
+    return especiadidadesArray;
   }
 
   getRegisteredMedicalTratamientos() {

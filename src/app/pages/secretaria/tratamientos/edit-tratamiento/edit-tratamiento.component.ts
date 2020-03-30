@@ -18,7 +18,7 @@ import { SeguroService } from './../../../../services/seguro/seguro.service';
   styleUrls: ['./edit-tratamiento.component.css']
 })
 export class EditTratamientoComponent implements OnInit {
-
+  especialidadSelect:any; 
   valorPatern = /^\d+(?:[.,]\d+)?$/;
   actualizo: boolean;
   allowedChars = new Set('0123456789.'.split('').map(c => c.charCodeAt(0)));
@@ -76,6 +76,20 @@ export class EditTratamientoComponent implements OnInit {
       startWith(''),
       map(value =>  value ? this._filter(value) : this.pactService.arrayPacientes.slice())
     );
+    this.especialidadSelect = this.getEspecialidades();
+  }
+
+  getEspecialidades():any[]{
+    let especiadidadesArray = [];
+    this.odontService.arrayOdontologos.map((odont) => {
+
+      if(especiadidadesArray.length ==0 ){
+        especiadidadesArray.push(odont.especialidad);
+      }else if(!especiadidadesArray.find(val=>val.trim() === odont.especialidad.trim())){
+        especiadidadesArray.push(odont.especialidad);
+      }
+    });
+    return especiadidadesArray;
   }
 
   filterhoursbyOdonto(dentistselected: any) {

@@ -15,7 +15,7 @@ import { MatDialogRef } from '@angular/material';
 export class AprobarEliminarTratamientoComponent implements OnInit {
 
   pagoFiltrados: PagosInterface[];
-
+  mensajeTrata:any;
 constructor(
   public router: Router,
   public authService: AuthService,
@@ -32,7 +32,7 @@ constructor(
       const tratamiento = this.tratamientoService.selectTratamientoBorrar.tratamiento;
       this.pagoFiltrados = rest.filter(datosPagos=>datosPagos.cedulaPaciente === cedula && datosPagos.tratamiento === tratamiento); 
       if(this.pagoFiltrados.length>0){    
-        this.toastmsg.warning('El Tratamiento tiene pagos registrados en el sistema\r\nsi elimina el tratamiento se eliminarán los pagos también', 'MENSAJE');
+        this.mensajeTrata= 'El Tratamiento tiene pagos registrados en el sistema \nsi elimina el tratamiento se eliminarán los pagos también';
       }
     }, error => {
       throw error;

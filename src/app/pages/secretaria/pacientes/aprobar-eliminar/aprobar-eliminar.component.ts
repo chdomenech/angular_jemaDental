@@ -15,6 +15,7 @@ import { MatDialogRef } from '@angular/material';
 export class AprobarEliminarComponent implements OnInit {
 
   citasFiltradas: CitaMInterface[];
+  mensajePaciente:any;
 
   constructor(
     public router: Router,
@@ -31,7 +32,9 @@ export class AprobarEliminarComponent implements OnInit {
       const cedula = this.pacienteService.pacienteSelectedBorrar.cedula;
       this.citasFiltradas = rest.filter(datosCitas=>datosCitas.cipaciente === cedula ); 
       if(this.citasFiltradas.length>0){    
-        this.toastmsg.warning('El paciente tiene citas medicas registradas en el sistema\r\nsi elimina al paciente se eliminaran sus citas medicas también', 'MENSAJE');
+        this.mensajePaciente ='El paciente tiene citas medicas registradas en el sistema \nsi elimina al paciente se eliminaran sus citas medicas también';
+      }else{
+        this.mensajePaciente= "";
       }
     }, error => {
       throw error;

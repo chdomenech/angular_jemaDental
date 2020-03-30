@@ -15,7 +15,8 @@ import { OdontologoService } from './../../../../services/odontologo/odontologo.
 export class AprobarEliminarOdontologoComponent implements OnInit {
 
   citasFiltradas: CitaMInterface[];
-
+  mensajeOdont:any;
+  
   constructor(
     public router: Router,
     public authService: AuthService,
@@ -31,7 +32,7 @@ export class AprobarEliminarOdontologoComponent implements OnInit {
         const cedula = this.odontService.odontologoSelectedBorrar.cedula;
         this.citasFiltradas = rest.filter(datosCitas=>datosCitas.odontologo === cedula ); 
         if(this.citasFiltradas.length>0){    
-          this.toastmsg.warning('El Odontologo tiene citas medicas registradas en el sistema\r\nsi elimina al odontologo se eliminarán sus citas medicas también', 'MENSAJE');
+          this.mensajeOdont = 'El Odontologo tiene citas medicas registradas en el sistema \nsi elimina al odontologo se eliminarán sus citas medicas también';
         }
       }, error => {
         throw error;

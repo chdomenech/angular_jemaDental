@@ -5,6 +5,7 @@
         </mat-toolbar-row>
     </mat-toolbar>
 </div>
+<div *ngIf="mensajeTrata" style="padding:4px">{{mensajeTrata}}</div>
 <div class="form-container" style="text-align: center;padding-top:20px;">
     <div style="text-align: center;">
         <button mat-raised-button color="primary" type="button" (click)="borrarTratamiento()">Aceptar</button>&nbsp;
